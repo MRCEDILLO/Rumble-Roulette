@@ -2,6 +2,7 @@ import { parseCsv } from './csv';
 import science from './questions/science.csv?raw';
 import math from './questions/math.csv?raw';
 import geography from './questions/geography.csv?raw';
+import movies from './questions/movies.csv?raw';
 
 export interface Question {
   /** Stable id made from the question text, so used questions are remembered across visits. */
@@ -63,6 +64,7 @@ export const TRIVIA_CATEGORIES: TriviaCategory[] = [
   { id: 'science', name: 'Science', icon: '🔬', color: '#5fd3a0', questions: parseQuestions(science) },
   { id: 'math', name: 'Math', icon: '➗', color: '#ffb84f', questions: parseQuestions(math) },
   { id: 'geography', name: 'Geography', icon: '🌍', color: '#5fb4ff', questions: parseQuestions(geography) },
+  { id: 'movies', name: 'Movie', icon: '🎬', color: '#ff7a8a', questions: parseQuestions(movies) },
 ];
 
 const byId = new Map(TRIVIA_CATEGORIES.map((c) => [c.id, new Map(c.questions.map((q) => [q.id, q]))]));
