@@ -29,6 +29,12 @@ export const ACCESSORIES = [
   { id: 'headphones', name: 'Headphones' },
   { id: 'bow', name: 'Bow' },
   { id: 'chef', name: 'Chef hat' },
+  { id: 'halo', name: 'Halo' },
+  { id: 'tophat', name: 'Top hat' },
+  { id: 'fedora', name: 'Fedora' },
+  { id: 'shades', name: 'Shades' },
+  { id: 'sombrero', name: 'Sombrero' },
+  { id: 'banana', name: 'Banana peel' },
 ] as const;
 
 export const colorById = (id: string): ColorOption => COLORS.find((c) => c.id === id) ?? COLORS[0];
