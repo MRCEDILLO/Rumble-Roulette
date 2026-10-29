@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Character, type Pose } from '../characters/Character';
 import { allowedActions } from '../engine/engine';
 import type { Look, PublicState, RefAction, SeatId } from '../engine/types';
@@ -116,4 +117,28 @@ export function peopleOf(pub: PublicState): DuelPeople | null {
     return s ? { name: s.name, color: s.color, accessory: s.accessory } : { name: '?', color: 'white', accessory: 'none' };
   };
   return { a: look(d.a), b: look(d.b), ref: d.ref ? look(d.ref) : null };
+}
+
+/** Toggles the whole page in and out of fullscreen (for the host's TV or laptop). */
+export function FullscreenButton() {
+  const [full, setFull] = useState(!!document.fullscreenElement);
+  useEffect(() => {
+    const onChange = () => setFull(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', onChange);
+    return () => document.removeEventListener('fullscreenchange', onChange);
+  }, []);
+  if (!document.fullscreenEnabled) return null;
+  return (
+    <button
+      className="btn btn-small"
+      aria-label={full ? 'Exit fullscreen' : 'Fullscreen'}
+      title={full ? 'Exit fullscreen' : 'Fullscreen'}
+      onClick={() => {
+        if (full) void document.exitFullscreen().catch(() => {});
+        else void document.documentElement.requestFullscreen().catch(() => {});
+      }}
+    >
+      {full ? '🗗 Exit fullscreen' : '⛶ Fullscreen'}
+    </button>
+  );
 }

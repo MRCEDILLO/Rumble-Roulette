@@ -205,6 +205,27 @@ export function setConnected(state: EngineState, uid: SeatId, connected: boolean
   return s;
 }
 
+/** A seated player changes colour or accessory from their phone (lobby only). */
+export function changeLook(
+  state: EngineState,
+  uid: SeatId,
+  look: Pick<Look, 'color' | 'accessory'>,
+  now: number,
+): EngineState {
+  const seat = state.seats[uid];
+  if (!seat || state.phase !== 'lobby') return state;
+  if (seat.color === look.color && seat.accessory === look.accessory) return state;
+  const s = clone(state);
+  if (Object.values(s.seats).some((other) => other.id !== uid && other.color === look.color)) {
+    reject(s, uid, 'Someone already has that colour. Pick another one.', now);
+    return s;
+  }
+  s.seats[uid].color = look.color;
+  s.seats[uid].accessory = look.accessory;
+  delete s.rejects[uid];
+  return s;
+}
+
 export function removeSeat(state: EngineState, uid: SeatId, now: number, rng: Rng): EngineState {
   let s = clone(state);
   if (!s.seats[uid]) return s;

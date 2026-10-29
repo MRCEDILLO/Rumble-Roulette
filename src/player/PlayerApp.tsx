@@ -197,11 +197,36 @@ function CreateProfile({
         Name
         <input value={name} maxLength={14} onChange={(e) => setName(e.target.value)} placeholder="Your name" autoFocus />
       </label>
+      <LookPicker takenColors={pub.takenColors} color={color} accessory={accessory} onColor={setColor} onAccessory={setAccessory} />
+      {reject && <p className="error">{reject}</p>}
+      <button className="btn btn-primary btn-huge" disabled={!valid || waiting} onClick={() => onCreate({ name: name.trim(), color, accessory })}>
+        {waiting ? 'Joining…' : 'Join game'}
+      </button>
+    </div>
+  );
+}
+
+/** Colour swatches and accessory buttons, shared by the new-profile and edit-look screens. */
+function LookPicker({
+  takenColors,
+  color,
+  accessory,
+  onColor,
+  onAccessory,
+}: {
+  takenColors: string[];
+  color: string;
+  accessory: string;
+  onColor: (id: string) => void;
+  onAccessory: (id: string) => void;
+}) {
+  return (
+    <>
       <div className="field">
         Colour
         <div className="swatches">
           {COLORS.map((c) => {
-            const taken = pub.takenColors.includes(c.id);
+            const taken = takenColors.includes(c.id);
             return (
               <button
                 key={c.id}
@@ -209,7 +234,7 @@ function CreateProfile({
                 style={{ background: c.main }}
                 disabled={taken}
                 aria-label={`${c.name}${taken ? ' (taken)' : ''}`}
-                onClick={() => setColor(c.id)}
+                onClick={() => onColor(c.id)}
               >
                 {taken ? '✕' : ''}
               </button>
@@ -221,17 +246,102 @@ function CreateProfile({
         Accessory
         <div className="accessories">
           {ACCESSORIES.map((a) => (
-            <button key={a.id} className={`accessory${accessory === a.id ? ' on' : ''}`} onClick={() => setAccessory(a.id)}>
+            <button key={a.id} className={`accessory${accessory === a.id ? ' on' : ''}`} onClick={() => onAccessory(a.id)}>
               <Character color={color} accessory={a.id} size={40} pose="still" />
               <small>{a.name}</small>
             </button>
           ))}
         </div>
       </div>
-      {reject && <p className="error">{reject}</p>}
-      <button className="btn btn-primary btn-huge" disabled={!valid || waiting} onClick={() => onCreate({ name: name.trim(), color, accessory })}>
-        {waiting ? 'Joining…' : 'Join game'}
+    </>
+  );
+}
+
+// ---------------------------------------------------------------- waiting in the lobby
+
+function LobbyWait({ pub, uid, send }: { pub: PublicState; uid: string; send: (m: PhoneMessage) => void }) {
+  const me = pub.seats[uid];
+  const [editing, setEditing] = useState(false);
+  const [color, setColor] = useState(me.color);
+  const [accessory, setAccessory] = useState(me.accessory);
+  const reject = pub.rejects[uid];
+  const profile = pub.profiles.find((p) => p.id === me.profileId);
+
+  if (editing) {
+    // Your own colour shows as free; everyone else's is crossed out.
+    const takenColors = pub.takenColors.filter((c) => c !== me.color);
+    return (
+      <div className="edit-look">
+        <h2>Change your look</h2>
+        <div className="creator-preview">
+          <Character color={color} accessory={accessory} size={130} />
+        </div>
+        <LookPicker takenColors={takenColors} color={color} accessory={accessory} onColor={setColor} onAccessory={setAccessory} />
+        <div className="row-buttons">
+          <button className="btn" onClick={() => setEditing(false)}>
+            Cancel
+          </button>
+          <button
+            className="btn btn-primary"
+            disabled={takenColors.includes(color)}
+            onClick={() => {
+              send({ t: 'look', color, accessory });
+              setEditing(false);
+            }}
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="phone-center">
+      <Character color={me.color} accessory={me.accessory} size={150} />
+      <div className="phone-big">You’re in!</div>
+      <p>Waiting for the host to start the game.</p>
+      {reject && <p className="error">{reject.msg}</p>}
+      <button
+        className="btn btn-small"
+        onClick={() => {
+          setColor(me.color);
+          setAccessory(me.accessory);
+          setEditing(true);
+        }}
+      >
+        ✏️ Change look
       </button>
+      {profile && <AllTimeStats p={profile} />}
+    </div>
+  );
+}
+
+function AllTimeStats({ p }: { p: Profile }) {
+  const s = p.stats;
+  const duels = s.duelWins + s.duelLosses;
+  const bets = s.betsWon + s.betsLost;
+  const pct = (n: number, of: number) => (of ? `${Math.round((100 * n) / of)}%` : '–');
+  const rows: [string, string][] = [
+    ['Games played', String(s.gamesPlayed)],
+    ['Games won 🏆', String(s.gamesWon)],
+    ['Duels won', `${s.duelWins} of ${duels} (${pct(s.duelWins, duels)})`],
+    ['Bets won', `${s.betsWon} of ${bets} (${pct(s.betsWon, bets)})`],
+    ['Coins from bets', signed(s.betNet)],
+    ['Others bet on you', `${s.betsOn}×`],
+    ['Others bet against you', `${s.betsAgainst}×`],
+  ];
+  return (
+    <div className="my-stats card">
+      <h3>Your all-time stats</h3>
+      <dl>
+        {rows.map(([k, v]) => (
+          <div key={k}>
+            <dt>{k}</dt>
+            <dd>{v}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }
@@ -291,13 +401,7 @@ function PhaseView({ pub, uid, role, send, now }: PhaseProps) {
 
   switch (pub.phase) {
     case 'lobby':
-      return (
-        <div className="phone-center">
-          <Character color={me.color} accessory={me.accessory} size={150} />
-          <div className="phone-big">You’re in!</div>
-          <p>Waiting for the host to start the game.</p>
-        </div>
-      );
+      return <LobbyWait pub={pub} uid={uid} send={send} />;
     case 'paused':
       return <div className="phone-center phone-big">Waiting for more players…</div>;
     case 'freeMenu':

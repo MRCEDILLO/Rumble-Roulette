@@ -3,6 +3,7 @@ import { Character } from '../characters/Character';
 import type { Mode, Profile } from '../engine/types';
 import { ALL_GAME_IDS, gameInfo } from '../games/logic';
 import type { HostUser } from '../net/types';
+import { FullscreenButton } from '../ui/common';
 import { Logo } from '../ui/Logo';
 
 export interface SetupChoice {
@@ -44,7 +45,6 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
   const [custom, setCustom] = useState(15);
   const [games, setGames] = useState<string[]>(loadEnabled);
   const [busy, setBusy] = useState(false);
-  const [showProfiles, setShowProfiles] = useState(false);
 
   const rounds = length === 'custom' ? custom : LENGTHS.find((l) => l.id === length)!.rounds;
   const toggleGame = (id: string) => {
@@ -60,6 +60,7 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
         <div className="setup-user">
           {user.photo && <img src={user.photo} alt="" />}
           <span>{user.name}</span>
+          <FullscreenButton />
           <button className="btn btn-quiet btn-small" onClick={onSignOut}>
             Sign out
           </button>
@@ -148,11 +149,8 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
 
         <section className="card">
           <h2>Profiles ({profiles.length})</h2>
-          <p className="muted">Players pick or create these on their phone when they join.</p>
+          <p className="muted">Players pick or create these on their phone when they join, and see their own all-time stats there.</p>
           {profiles.length === 0 && <p>No profiles yet.</p>}
-          <button className="btn btn-quiet btn-small" onClick={() => setShowProfiles(!showProfiles)}>
-            {showProfiles ? 'Hide' : 'Show'} all-time stats
-          </button>
           <ul className="profile-list">
             {[...profiles]
               .sort((a, b) => a.name.localeCompare(b.name))
@@ -160,7 +158,6 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
                 <li key={p.id}>
                   <Character color={p.color} accessory={p.accessory} size={40} pose="still" />
                   <span className="profile-name">{p.name}</span>
-                  {showProfiles && <StatLine p={p} />}
                   <button
                     className="btn btn-quiet btn-small"
                     onClick={() => confirm(`Delete ${p.name} and their stats?`) && onDeleteProfile(p.id)}
@@ -173,16 +170,5 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
         </section>
       </div>
     </div>
-  );
-}
-
-export function StatLine({ p }: { p: Profile }) {
-  const s = p.stats;
-  const duels = s.duelWins + s.duelLosses;
-  return (
-    <span className="stat-line">
-      {s.gamesWon}🏆 · duels {s.duelWins}-{s.duelLosses}
-      {duels ? ` (${Math.round((100 * s.duelWins) / duels)}%)` : ''} · bet on {s.betsOn} · against {s.betsAgainst}
-    </span>
   );
 }

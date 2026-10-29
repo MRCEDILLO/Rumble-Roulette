@@ -1,13 +1,11 @@
 /**
- * Host-screen sound, synthesised with Web Audio so there are no audio files to host.
+ * Host-screen sound effects (no background music), synthesised with Web Audio so there are no audio files to host.
  * Phones never call this.
  */
 type Sfx = 'tick' | 'reveal' | 'coin' | 'lose' | 'fanfare' | 'pop' | 'whoosh' | 'drum';
 
 let ctx: AudioContext | null = null;
 let master: GainNode | null = null;
-let musicGain: GainNode | null = null;
-let musicTimer: number | null = null;
 
 const settings = {
   muted: readSetting('rr-muted', false),
@@ -121,53 +119,4 @@ export function play(sfx: Sfx) {
   } catch {
     // Audio not available (e.g. blocked autoplay); the game carries on silently.
   }
-}
-
-/** A quiet looping bassline + arpeggio. */
-export function startMusic() {
-  if (musicTimer !== null) return;
-  try {
-    const { ctx, master } = audio();
-    musicGain = ctx.createGain();
-    musicGain.gain.value = 0.35;
-    musicGain.connect(master);
-  } catch {
-    return;
-  }
-  const chords = [
-    [220, 261.6, 329.6],
-    [174.6, 220, 261.6],
-    [196, 246.9, 293.7],
-    [164.8, 207.7, 246.9],
-  ];
-  let bar = 0;
-  const playBar = () => {
-    if (!ctx || !musicGain) return;
-    const chord = chords[bar % chords.length];
-    const t0 = ctx.currentTime;
-    for (let step = 0; step < 8; step++) {
-      const at = t0 + step * 0.25;
-      const osc = ctx.createOscillator();
-      const g = ctx.createGain();
-      osc.type = step % 2 ? 'triangle' : 'sine';
-      osc.frequency.value = step === 0 || step === 4 ? chord[0] / 2 : chord[step % 3] * 2;
-      g.gain.setValueAtTime(0.0001, at);
-      g.gain.exponentialRampToValueAtTime(step === 0 || step === 4 ? 0.12 : 0.04, at + 0.01);
-      g.gain.exponentialRampToValueAtTime(0.0001, at + 0.22);
-      osc.connect(g);
-      g.connect(musicGain);
-      osc.start(at);
-      osc.stop(at + 0.25);
-    }
-    bar += 1;
-  };
-  playBar();
-  musicTimer = window.setInterval(playBar, 2000);
-}
-
-export function stopMusic() {
-  if (musicTimer !== null) window.clearInterval(musicTimer);
-  musicTimer = null;
-  musicGain?.disconnect();
-  musicGain = null;
 }

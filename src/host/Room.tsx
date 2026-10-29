@@ -20,8 +20,8 @@ import { ALL_GAME_IDS, gameInfo } from '../games/logic';
 import { GAME_VIEWS } from '../games/views';
 import type { DuelPeople } from '../games/types';
 import type { HostBackend } from '../net/types';
-import { getSoundSettings, play, setMuted, setVolume, startMusic, stopMusic } from '../sound';
-import { Countdown, PlayerTag, RefControls, duelTitle, peopleOf, signed } from '../ui/common';
+import { getSoundSettings, play, setMuted, setVolume } from '../sound';
+import { Countdown, FullscreenButton, PlayerTag, RefControls, duelTitle, peopleOf, signed } from '../ui/common';
 import { useOnChange, useTicker } from '../ui/hooks';
 import { Logo } from '../ui/Logo';
 import { Wheel } from '../ui/Wheel';
@@ -86,6 +86,7 @@ export function Room({ backend, initial, profiles: initialProfiles, onClose }: P
           <span className="room-code-small">
             Join: <b>{state.code}</b>
           </span>
+          <FullscreenButton />
           <SoundButton />
           <button className="btn btn-small" onClick={() => setMenu(true)}>
             ☰ Menu
@@ -609,8 +610,6 @@ function SoundButton() {
       onClick={() => {
         setMuted(!muted);
         setM(!muted);
-        if (muted) startMusic();
-        else stopMusic();
       }}
     >
       {muted ? '🔇' : '🔊'}
