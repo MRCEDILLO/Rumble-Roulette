@@ -5,7 +5,7 @@ export type Role = 'a' | 'b' | 'ref';
 export type Outcome = 'a' | 'b' | 'draw';
 
 /** Which group a game belongs to. The host turns whole categories on or off in setup. */
-export type GameCategory = 'trivia' | 'word' | 'chance' | 'physical' | 'misc';
+export type GameCategory = 'trivia' | 'word' | 'chance' | 'puzzle' | 'card' | 'physical' | 'misc';
 
 export interface GameInfo {
   id: string;

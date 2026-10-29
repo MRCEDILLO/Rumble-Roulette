@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Character } from '../characters/Character';
 import type { Mode, Profile } from '../engine/types';
 import { ALL_CATEGORY_IDS, CATEGORIES } from '../games/categories';
+import { CategoryIcon } from '../games/CategoryIcon';
 import { ALL_GAME_IDS, gameInfo } from '../games/logic';
 import type { GameCategory } from '../games/types';
 import type { HostUser } from '../net/types';
@@ -27,6 +28,9 @@ const CATEGORIES_KEY = 'rr-enabled-categories';
 const KNOWN_KEY = 'rr-known-games';
 /** The games that existed before KNOWN_KEY was added. */
 const FIRST_GAMES = ['rps', 'timer'];
+/** Same for categories, so categories added later start on. */
+const KNOWN_CATEGORIES_KEY = 'rr-known-categories';
+const FIRST_CATEGORIES: GameCategory[] = ['trivia', 'word', 'chance', 'physical', 'misc'];
 
 function loadEnabled(): string[] {
   try {
@@ -43,8 +47,11 @@ function loadEnabled(): string[] {
 function loadCategories(): GameCategory[] {
   try {
     const saved = JSON.parse(localStorage.getItem(CATEGORIES_KEY) ?? 'null') as GameCategory[] | null;
+    const known =
+      (JSON.parse(localStorage.getItem(KNOWN_CATEGORIES_KEY) ?? 'null') as GameCategory[] | null) ?? FIRST_CATEGORIES;
+    const added = ALL_CATEGORY_IDS.filter((id) => !known.includes(id));
     // An empty saved list is kept: the host turned every category off on purpose.
-    return saved ? saved.filter((id) => ALL_CATEGORY_IDS.includes(id)) : ALL_CATEGORY_IDS;
+    return saved ? [...saved.filter((id) => ALL_CATEGORY_IDS.includes(id) && !added.includes(id)), ...added] : ALL_CATEGORY_IDS;
   } catch {
     return ALL_CATEGORY_IDS;
   }
@@ -89,6 +96,7 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
     const next = categories.includes(id) ? categories.filter((c) => c !== id) : [...categories, id];
     setCategories(next);
     save(CATEGORIES_KEY, next);
+    save(KNOWN_CATEGORIES_KEY, ALL_CATEGORY_IDS);
   };
   const shownGames = ALL_GAME_IDS.filter((id) => categories.includes(gameInfo(id)!.category));
   // The wheel's pool: games that are ticked and whose category is on.
@@ -177,7 +185,9 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
                   aria-pressed={categories.includes(c.id)}
                   onClick={() => toggleCategory(c.id)}
                 >
-                  {c.icon} {c.name}
+                  <span className="toggle-title">
+                    <CategoryIcon id={c.id} /> {c.name}
+                  </span>
                   <small>{count === 1 ? '1 game' : `${count} games`}</small>
                 </button>
               );
