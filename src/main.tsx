@@ -4,6 +4,7 @@ import { App } from './App';
 import './styles.css';
 import './themes/cartoon.css';
 import './themes/casino.css';
+import './themes/arcade.css';
 import { applyTheme, lastTheme } from './themes/themes';
 
 applyTheme(lastTheme());
