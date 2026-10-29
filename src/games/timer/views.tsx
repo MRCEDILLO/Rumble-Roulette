@@ -9,11 +9,11 @@ const fmt = (ms: number) => `${(ms / 1000).toFixed(1)} s`;
 function Status({ view }: { view: TimerView }) {
   switch (view.status) {
     case 'ready':
-      return <>Referee, get ready to start the timer…</>;
+      return <>Host, get ready to start the timer…</>;
     case 'running':
       return <>Timing… count in your head!</>;
     case 'judging':
-      return <>Say your guesses out loud! The referee will pick the closest.</>;
+      return <>Say your guesses out loud! The Host will pick the closest.</>;
     case 'done':
       return <>The time was</>;
   }

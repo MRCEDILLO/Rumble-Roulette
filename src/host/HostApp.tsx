@@ -3,7 +3,7 @@ import { createState } from '../engine/engine';
 import type { EngineState, Mode, Profile } from '../engine/types';
 import { hostBackend, useLocal } from '../net/backend';
 import type { HostUser } from '../net/types';
-import { Logo } from '../ui/Logo';
+import { LoadingMark, Logo } from '../ui/Logo';
 import { Room } from './Room';
 import { Setup, type SetupChoice } from './Setup';
 
@@ -44,7 +44,12 @@ export function HostApp() {
     };
   }, [user, backend]);
 
-  if (user === undefined) return <div className="screen center">Loading…</div>;
+  if (user === undefined)
+    return (
+      <div className="screen center">
+        <LoadingMark size={140} />
+      </div>
+    );
 
   if (!user) {
     return (
@@ -64,7 +69,13 @@ export function HostApp() {
     );
   }
 
-  if (resuming || !profiles) return <div className="screen center">Loading your profiles…</div>;
+  if (resuming || !profiles)
+    return (
+      <div className="screen center">
+        <LoadingMark size={140} label="Loading your profiles" />
+        <p className="lead">Loading your profiles…</p>
+      </div>
+    );
 
   if (!game) {
     const create = async (choice: SetupChoice) => {

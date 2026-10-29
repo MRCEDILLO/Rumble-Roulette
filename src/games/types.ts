@@ -11,7 +11,7 @@ export interface GameInfo {
   shortName?: string;
   /** One-line rules shown on the wheel reveal and phones. */
   rules: string;
-  /** What the referee does in this game (shown on the referee's phone). */
+  /** What the round's Host does in this game (shown on the Host's phone). */
   refereeDuty: string;
   icon: string;
   color: string;

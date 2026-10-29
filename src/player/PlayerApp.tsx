@@ -10,7 +10,7 @@ import { cleanRoomCode } from '../net/roomCode';
 import type { PhoneMessage } from '../net/types';
 import { Countdown, RefControls, duelTitle, peopleOf, signed } from '../ui/common';
 import { useHostClock, useOnChange, useWakeLock, vibrate } from '../ui/hooks';
-import { Logo } from '../ui/Logo';
+import { LoadingMark, Logo } from '../ui/Logo';
 
 export function PlayerApp({ code }: { code: string | null }) {
   if (!code) return <EnterCode />;
@@ -88,7 +88,13 @@ function Connected({ code }: { code: string }) {
       </div>
     );
   }
-  if (!pub || !uid) return <div className="screen phone center">Connecting to {code}…</div>;
+  if (!pub || !uid)
+    return (
+      <div className="screen phone center">
+        <LoadingMark label={`Connecting to ${code}`} />
+        <p>Connecting to {code}…</p>
+      </div>
+    );
   if (!seated) return <ProfilePicker pub={pub} uid={uid} send={send} />;
   return <Seated pub={pub} uid={uid} send={send} />;
 }
@@ -405,7 +411,7 @@ function PhaseView({ pub, uid, role, send, now }: PhaseProps) {
     case 'paused':
       return <div className="phone-center phone-big">Waiting for more players…</div>;
     case 'freeMenu':
-      return <div className="phone-center phone-big">The host is picking a game…</div>;
+      return <div className="phone-center phone-big">Picking the next game…</div>;
     case 'end': {
       const g = me.gs;
       const won = pub.champion === uid;
@@ -445,7 +451,7 @@ function PhaseView({ pub, uid, role, send, now }: PhaseProps) {
         {role === 'a' || role === 'b' ? (
           <div className="phone-big">You’re up! ⚔️</div>
         ) : role === 'ref' ? (
-          <div className="phone-big">You’re the referee 🧑‍⚖️</div>
+          <div className="phone-big">You’re the Host 🎤</div>
         ) : (
           <div className="phone-big">
             {name(d.a)} vs {name(d.b)}
@@ -461,7 +467,7 @@ function PhaseView({ pub, uid, role, send, now }: PhaseProps) {
     return (
       <div className="phone-center">
         <div className="muted">{title}</div>
-        <div className="phone-big spin-emoji">🎡</div>
+        <LoadingMark size={110} label="Spinning for a game" />
         <p>Spinning for a game…</p>
         {role === 'ref' && <RefControls pub={pub} onAction={refAct} compact />}
       </div>
@@ -480,6 +486,27 @@ function PhaseView({ pub, uid, role, send, now }: PhaseProps) {
           <>
             <div className="phone-big">Get ready!</div>
             <p>Everyone else is betting on you or {name(role === 'a' ? d.b : d.a)}.</p>
+          </>
+        )}
+        {role === 'ref' && <RefControls pub={pub} onAction={refAct} compact />}
+      </div>
+    );
+  }
+
+  if (pub.phase === 'ready') {
+    return (
+      <div className="phone-center">
+        <GameBanner info={info} role={role} />
+        {role === 'ref' ? (
+          <>
+            <div className="phone-big">You’re the Host 🎤</div>
+            <p>Read the instructions on the big screen, then start the round.</p>
+          </>
+        ) : (
+          <>
+            <div className="phone-big">{role === 'a' || role === 'b' ? 'Get ready!' : `${name(d.a)} vs ${name(d.b)}`}</div>
+            <p className="muted">{d.ref ? `Waiting for ${name(d.ref)} to start the round…` : 'Waiting for the round to start…'}</p>
+            {role === 'bettor' && <MyBet pub={pub} uid={uid} />}
           </>
         )}
         {role === 'ref' && <RefControls pub={pub} onAction={refAct} compact />}
@@ -538,7 +565,7 @@ function PhaseView({ pub, uid, role, send, now }: PhaseProps) {
       ) : (
         <div className="phone-big">Draw!</div>
       )}
-      {role === 'ref' ? <RefControls pub={pub} onAction={refAct} compact /> : <p className="muted">Waiting for the referee…</p>}
+      {role === 'ref' ? <RefControls pub={pub} onAction={refAct} compact /> : <p className="muted">Waiting for the Host…</p>}
     </div>
   );
 }

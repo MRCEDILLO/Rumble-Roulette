@@ -46,8 +46,9 @@ function toBetting(s: EngineState, now: number, rng: () => number) {
   return s;
 }
 
-/** Play the current Timer/RPS duel to a win for side `side`. */
+/** Start the game if it's waiting on the Host, then play the Timer/RPS duel to a win for side `side`. */
 function winDuel(s: EngineState, side: 'a' | 'b', now: number, rng: () => number): EngineState {
+  if (s.phase === 'ready') s = refAction(s, 'start', now, rng);
   const d = s.duel!;
   if (d.gameId === 'timer') {
     s = applyInput(s, d.ref!, { t: 'game', payload: { action: 'start' } }, now, rng);
@@ -125,7 +126,7 @@ describe('betting', () => {
     s = applyInput(s, x, { t: 'bet', on: 'b', amount: 1 }, 1, rng); // no changing
     expect(s.bets[x]).toEqual({ on: 'a', amount: 3, auto: false });
     s = applyInput(s, y, { t: 'bet', on: 'b', amount: 2 }, 1, rng);
-    expect(s.phase).toBe('duel'); // everyone locked in, so no need to wait
+    expect(s.phase).toBe('ready'); // everyone locked in, so no need to wait
     s = winDuel(s, 'a', 2, rng);
     expect(s.seats[s.duel!.a].coins).toBe(START_COINS + 2);
     expect(s.seats[s.duel!.b].coins).toBe(START_COINS);
@@ -143,7 +144,7 @@ describe('betting', () => {
     s = applyInput(s, x, { t: 'bet', on: 'a', amount: 0 }, 1, rng);
     expect(s.bets[x]).toBeUndefined();
     s = tick(s, PICK_MS + SPIN_MS + BET_MS, rng);
-    expect(s.phase).toBe('duel');
+    expect(s.phase).toBe('ready');
     expect(s.bets[x]).toMatchObject({ amount: 1, auto: true });
   });
 
@@ -166,15 +167,34 @@ describe('betting', () => {
     s = toBetting(s, 0, rng);
     const [x] = s.order.filter((id) => id !== s.duel!.a && id !== s.duel!.b);
     s = applyInput(s, x, { t: 'bet', on: 'a', amount: 2 }, 1, rng);
+    s = refAction(s, 'start', 2, rng);
     expect(s.phase).toBe('duel');
     s = refAction(s, 'redo', 2, rng);
-    expect(s.phase).toBe('duel');
+    expect(s.phase).toBe('ready');
     expect(s.bets[x]).toBeDefined();
     const before = s.duel!.gameId;
     s = refAction(s, 'skipGame', 3, rng);
     expect(s.phase).toBe('spin');
     expect(s.duel!.gameId).not.toBe(before);
     expect(s.bets).toEqual({});
+  });
+
+  it('waits on the instructions until the round Host starts the game', () => {
+    let { s, rng } = setup(4, 10, ['rps']);
+    s = startGame(s, 0, rng);
+    s = toBetting(s, 0, rng);
+    s = tick(s, PICK_MS + SPIN_MS + BET_MS, rng);
+    expect(s.phase).toBe('ready');
+    expect(s.duel!.game).toBeNull();
+    s = tick(s, 1e9, rng);
+    expect(s.phase).toBe('ready'); // no timer: it waits for the Host
+    const d = s.duel!;
+    const bettor = s.order.find((id) => id !== d.a && id !== d.b && id !== d.ref)!;
+    for (const id of [d.a, bettor]) expect(applyInput(s, id, { t: 'ref', action: 'start' }, 1, rng)).toBe(s);
+    s = applyInput(s, d.ref!, { t: 'ref', action: 'start' }, 2, rng);
+    expect(s.phase).toBe('duel');
+    expect(s.duel!.game).not.toBeNull();
+    expect(applyInput(s, d.ref!, { t: 'ref', action: 'start' }, 3, rng)).toBe(s); // only once
   });
 
   it('only lets the referee use referee controls', () => {
@@ -193,6 +213,7 @@ describe('referee-judged games', () => {
     s = toBetting(s, 0, rng);
     s = tick(s, 1e9, rng);
     const ref = s.duel!.ref!;
+    s = applyInput(s, ref, { t: 'ref', action: 'start' }, 1, rng);
     s = applyInput(s, ref, { t: 'game', payload: { action: 'start' } }, 1, rng);
     s = applyInput(s, ref, { t: 'game', payload: { action: 'stop', elapsedMs: 12345 } }, 2, rng);
     expect(project(s, [], 2).duel!.view.elapsedMs).toBeNull(); // hidden until judged
@@ -202,7 +223,8 @@ describe('referee-judged games', () => {
     s = refAction(s, 'next', 4, rng); // not allowed on a draw
     expect(s.phase).toBe('result');
     s = refAction(s, 'redo', 4, rng);
-    expect(s.phase).toBe('duel');
+    expect(s.phase).toBe('ready');
+    s = refAction(s, 'start', 5, rng);
     expect(s.duel!.game.status).toBe('ready');
   });
 
@@ -212,6 +234,7 @@ describe('referee-judged games', () => {
     s = toBetting(s, 0, rng);
     s = tick(s, 1e9, rng);
     const ref = s.duel!.ref!;
+    s = applyInput(s, ref, { t: 'ref', action: 'start' }, 1, rng);
     const after = applyInput(s, ref, { t: 'game', payload: { pick: 'rock' } }, 1, rng);
     expect(after).toBe(s);
   });
@@ -290,7 +313,7 @@ describe('the final', () => {
     expect(s.duel!.kind).toBe('final');
     expect(new Set([s.duel!.a, s.duel!.b])).toEqual(new Set([s.order[0], s.order[1]]));
     s = toBetting(s, 1, rng);
-    expect(s.phase).toBe('duel');
+    expect(s.phase).toBe('ready');
     const winnerSide = s.duel!.a === s.order[1] ? 'a' : 'b';
     s = winDuel(s, winnerSide, 2, rng);
     s = refAction(s, 'next', 3, rng);
@@ -355,7 +378,7 @@ describe('free play', () => {
     // Timer needs a referee and there are only 2 players.
     expect(hostFreeStart(s, { gameId: 'timer', a: null, b: null, ref: null, spin: false }, 1, rng)).toBe(s);
     s = hostFreeStart(s, { gameId: 'rps', a: 'p0', b: 'p1', ref: null, spin: false }, 1, rng);
-    expect(s.phase).toBe('duel');
+    expect(s.phase).toBe('ready');
     s = winDuel(s, 'b', 2, rng);
     expect(s.seats.p1.coins).toBe(START_COINS);
     s = refAction(s, 'next', 3, rng);

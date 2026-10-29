@@ -57,6 +57,7 @@ export function Room({ backend, initial, profiles: initialProfiles, onClose }: P
         play('whoosh');
         break;
       case 'bet':
+      case 'ready':
         play('reveal');
         break;
       case 'duel':
@@ -166,6 +167,8 @@ function Stage({
       );
     case 'bet':
       return <BetScreen pub={pub} />;
+    case 'ready':
+      return <ReadyScreen pub={pub} onStart={() => update((s) => refAction(s, 'start', now(), rng))} />;
     case 'duel': {
       const Views = GAME_VIEWS[d!.gameId!];
       const info = gameInfo(d!.gameId!)!;
@@ -175,7 +178,7 @@ function Stage({
             <span>
               {info.icon} {info.name}
             </span>
-            {people?.ref && <span className="muted-dark">Referee: {people.ref.name}</span>}
+            {people?.ref && <span className="muted-dark">Host: {people.ref.name}</span>}
           </div>
           {d!.view && <Views.HostView view={d!.view} people={people!} now={now} />}
         </div>
@@ -275,7 +278,7 @@ function PickReveal({ pub }: { pub: PublicState }) {
         <div className="vs big">VS</div>
         {slot(d.b, 2, 'Duelist', true)}
       </div>
-      {d.ref && <div className="pick-ref">{slot(d.ref, 1, 'Referee')}</div>}
+      {d.ref && <div className="pick-ref">{slot(d.ref, 1, 'Host')}</div>}
     </div>
   );
 }
@@ -332,6 +335,46 @@ function BetScreen({ pub }: { pub: PublicState }) {
   );
 }
 
+/** The game's instructions, shown until the round's Host presses Start round. */
+function ReadyScreen({ pub, onStart }: { pub: PublicState; onStart: () => void }) {
+  const d = pub.duel!;
+  const info = gameInfo(d.gameId!)!;
+  const host = d.ref ? pub.seats[d.ref] : null;
+  return (
+    <div className="center-col ready-screen">
+      <h1 className="phase-title">How to play</h1>
+      <div className="card ready-card">
+        <div className="ready-game">
+          <span className="game-icon big" style={{ background: info.color }}>
+            {info.icon}
+          </span>
+          <h2>{info.name}</h2>
+        </div>
+        <p className="ready-rules">{info.rules}</p>
+        {host && (
+          <p className="muted">
+            <b>Host ({host.name}):</b> {info.refereeDuty}
+          </p>
+        )}
+      </div>
+      {host ? (
+        <p className="lead ready-wait">
+          Waiting for <b>{host.name}</b> to press <b>Start round</b>…
+        </p>
+      ) : (
+        <button className="btn btn-primary btn-huge" onClick={onStart}>
+          Start round ▶
+        </button>
+      )}
+      <div className="pick-row">
+        <PlayerTag look={pub.seats[d.a]} size={90} />
+        <div className="vs big">VS</div>
+        <PlayerTag look={pub.seats[d.b]} size={90} flip />
+      </div>
+    </div>
+  );
+}
+
 function ResultScreen({
   pub,
   onAction,
@@ -341,14 +384,14 @@ function ResultScreen({
   onAction: (a: RefAction) => void;
 }) {
   const d = pub.duel!;
-  // In free play (or with no referee) the host drives the game from the big screen.
+  // In free play (or with no round Host) the big screen drives the game.
   const hostControls = (d.kind === 'free' || !d.ref) && <RefControls pub={pub} onAction={onAction} compact />;
   if (d.winner === 'draw') {
     return (
       <div className="center-col">
         <h1 className="phase-title">It’s a draw!</h1>
         <p className="lead">
-          {d.ref ? `${pub.seats[d.ref]?.name ?? 'The referee'} will redo the game or skip it.` : 'Redo the game or skip it.'}
+          {d.ref ? `${pub.seats[d.ref]?.name ?? 'The Host'} will redo the game or skip it.` : 'Redo the game or skip it.'}
         </p>
         <div className="pick-row">
           <PlayerTag look={pub.seats[d.a]} size={140} pose="lose" />
@@ -393,7 +436,7 @@ function ResultScreen({
         </div>
       )}
       {hostControls || (
-        <p className="muted">Waiting for {pub.seats[d.ref!]?.name ?? 'the referee'} to continue…</p>
+        <p className="muted">Waiting for {pub.seats[d.ref!]?.name ?? 'the Host'} to continue…</p>
       )}
     </div>
   );
@@ -408,7 +451,7 @@ function Leaderboard({ pub }: { pub: PublicState }) {
       <ol>
         {sorted.map((id) => {
           const s = pub.seats[id];
-          const role = d && (d.a === id || d.b === id) ? '⚔️' : d?.ref === id ? '🧑‍⚖️' : '';
+          const role = d && (d.a === id || d.b === id) ? '⚔️' : d?.ref === id ? '🎤' : '';
           const change = pub.phase === 'result' ? pub.lastDelta?.[id] : undefined;
           return (
             <li key={id} className={s.connected ? '' : 'dim'}>
@@ -480,9 +523,9 @@ function FreeMenu({ pub, update }: { pub: PublicState; update: Update }) {
       <div className="free-players">
         {pickPlayer(a, setA, 'Player 1', [b, ref].filter(Boolean))}
         {pickPlayer(b, setB, 'Player 2', [a, ref].filter(Boolean))}
-        {(needsRef || gameId === null) && pickPlayer(ref, setRef, needsRef ? 'Referee' : 'Referee (if needed)', [a, b].filter(Boolean))}
+        {(needsRef || gameId === null) && pickPlayer(ref, setRef, needsRef ? 'Host' : 'Host (if needed)', [a, b].filter(Boolean))}
       </div>
-      {tooFew && <p className="error">This game needs a referee, so it needs 3 players.</p>}
+      {tooFew && <p className="error">This game needs a Host, so it needs 3 players.</p>}
       <button
         className="btn btn-primary btn-huge"
         disabled={tooFew}
@@ -636,7 +679,7 @@ function HostMenu({
     <div className="modal-backdrop" onClick={onCloseMenu}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-head">
-          <h2>Host menu</h2>
+          <h2>Menu</h2>
           <button className="btn btn-small" onClick={onCloseMenu}>
             ✕
           </button>
@@ -644,8 +687,8 @@ function HostMenu({
 
         {pub.duel && (
           <section>
-            <h3>Referee controls</h3>
-            <p className="muted">Use these if the referee’s phone isn’t working.</p>
+            <h3>Round Host controls</h3>
+            <p className="muted">Use these if the Host’s phone isn’t working.</p>
             <RefControls
               pub={pub}
               onAction={(a) => {

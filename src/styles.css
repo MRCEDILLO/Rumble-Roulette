@@ -1179,6 +1179,48 @@ select {
   flex: 1 1 140px;
 }
 
+/* The round Host's Start round button gets its own full-width row. */
+.ref-controls.compact .btn-start {
+  flex-basis: 100%;
+  font-size: 1.3em;
+  padding-block: 16px;
+}
+
+/* ------------------------------------------------------------------ instructions before a round */
+
+.ready-screen {
+  gap: 16px;
+}
+
+.ready-card {
+  max-width: 720px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.ready-game {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ready-game h2 {
+  margin: 0;
+  font-size: clamp(28px, 3.4vw, 44px);
+}
+
+.ready-rules {
+  font-size: clamp(20px, 2.2vw, 28px);
+  margin: 4px 0;
+}
+
+.ready-wait {
+  margin: 0;
+}
+
 /* ------------------------------------------------------------------ minigames on the host */
 
 .rps-host,
@@ -1232,7 +1274,6 @@ select {
 }
 
 .hand-reveal {
-  font-size: 96px;
   animation: pop-in 0.3s ease-out;
 }
 
@@ -1568,9 +1609,24 @@ select {
   align-self: center;
 }
 
-.spin-emoji {
-  font-size: 80px;
-  animation: spin 1s linear infinite;
+/* Loading icon: the logo with only the wheel turning, spinning up and settling like the logo's hover spin. */
+.loading-mark {
+  display: block;
+  width: var(--loading-size, 96px);
+  height: var(--loading-size, 96px);
+  margin: 0 auto;
+}
+
+.loading-mark .wheel-spin {
+  transform-origin: 100px 100px;
+  animation: spin 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-mark .wheel-spin {
+    animation-duration: 4s;
+    animation-timing-function: linear;
+  }
 }
 
 .rps-buttons {
@@ -1598,8 +1654,14 @@ select {
   touch-action: manipulation;
 }
 
-.rps-btn span {
-  font-size: 48px;
+.rps-btn .throw-pic {
+  flex: none;
+}
+
+.rps-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .rps-btn:active {
@@ -1608,7 +1670,9 @@ select {
 }
 
 .rps-phone-reveal {
-  font-size: 80px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .rps-phone-reveal small {

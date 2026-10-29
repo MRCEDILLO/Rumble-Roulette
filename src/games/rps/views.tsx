@@ -3,8 +3,7 @@ import { Character } from '../../characters/Character';
 import { Countdown } from '../../ui/common';
 import type { MinigameViews } from '../types';
 import { THROW_MS, WINS_NEEDED, type RpsView, type Throw } from './logic';
-
-const EMOJI: Record<Throw, string> = { rock: '✊', paper: '✋', scissors: '✌️' };
+import { ThrowPicture } from './ThrowPicture';
 const NAME: Record<Throw, string> = { rock: 'Rock', paper: 'Paper', scissors: 'Scissors' };
 
 function Pips({ wins }: { wins: number }) {
@@ -30,7 +29,7 @@ export const rpsViews: MinigameViews<RpsView> = {
           <Pips wins={view.scores[s]} />
           <div className="rps-hand">
             {r ? (
-              <span className="hand-reveal">{EMOJI[r[s]]}</span>
+              <ThrowPicture pick={r[s]} size={110} className="hand-reveal" />
             ) : view.locked[s] ? (
               <span className="locked">Locked in ✓</span>
             ) : (
@@ -54,8 +53,8 @@ export const rpsViews: MinigameViews<RpsView> = {
         </div>
         <div className="rps-history">
           {view.history.map((h, i) => (
-            <span key={i} className="chip">
-              {EMOJI[h.a]} vs {EMOJI[h.b]}
+            <span key={i} className="chip rps-chip">
+              <ThrowPicture pick={h.a} size={30} /> vs <ThrowPicture pick={h.b} size={30} />
             </span>
           ))}
         </div>
@@ -78,7 +77,7 @@ export const rpsViews: MinigameViews<RpsView> = {
       return (
         <div className="phone-center">
           <div className="rps-phone-reveal">
-            {EMOJI[r[side]]} <small>vs</small> {EMOJI[r[other]]}
+            <ThrowPicture pick={r[side]} size={84} /> <small>vs</small> <ThrowPicture pick={r[other]} size={84} />
           </div>
           <div className="phone-big">{res}</div>
           <div>
@@ -90,7 +89,8 @@ export const rpsViews: MinigameViews<RpsView> = {
     if (view.locked[side]) {
       return (
         <div className="phone-center">
-          <div className="phone-big">{picked ? `${EMOJI[picked]} ${NAME[picked]}` : 'Locked in'}</div>
+                    {picked && <ThrowPicture pick={picked} size={110} />}
+          <div className="phone-big">{picked ? NAME[picked] : 'Locked in'}</div>
           <p>Waiting for {people[other].name}…</p>
         </div>
       );
@@ -113,7 +113,7 @@ export const rpsViews: MinigameViews<RpsView> = {
                 send({ pick: t });
               }}
             >
-              <span>{EMOJI[t]}</span>
+              <ThrowPicture pick={t} size={58} />
               {NAME[t]}
             </button>
           ))}
