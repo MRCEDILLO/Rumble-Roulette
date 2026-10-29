@@ -52,7 +52,7 @@ export function Wheel({ spin, now, size = 520, onTick }: Props) {
             const path = `M0 0 L${r * Math.cos(a0)} ${r * Math.sin(a0)} A${r} ${r} 0 0 1 ${r * Math.cos(a1)} ${r * Math.sin(a1)} Z`;
             return (
               <g key={i}>
-                <path d={path} fill={info.color} stroke="#1b1035" strokeWidth="5" opacity={i % 2 ? 0.85 : 1} />
+                <path d={path} fill={info.color} className="wheel-line" strokeWidth="5" opacity={i % 2 ? 0.85 : 1} />
                 <g transform={`rotate(${(i + 0.5) * seg}) translate(0 ${-r * 0.62})`}>
                   <text textAnchor="middle" fontSize="44" y="0" dominantBaseline="middle">
                     {info.icon}
@@ -65,7 +65,7 @@ export function Wheel({ spin, now, size = 520, onTick }: Props) {
                   dominantBaseline="middle"
                   fontSize="17"
                   fontWeight="800"
-                  fill="#1b1035"
+                  className="wheel-label"
                   transform={`rotate(${(i + 0.5) * seg - 90} ${Math.cos(mid) * r * 0.36} ${Math.sin(mid) * r * 0.36})`}
                 >
                   {info.shortName ?? info.name}
@@ -74,9 +74,13 @@ export function Wheel({ spin, now, size = 520, onTick }: Props) {
             );
           })}
         </g>
-        <circle r="34" fill="#ffcc33" stroke="#1b1035" strokeWidth="6" />
-        <circle r={r + 6} fill="none" stroke="#1b1035" strokeWidth="12" />
-        <path d="M-22 -262 L22 -262 L0 -220 Z" fill="#ff4d6d" stroke="#1b1035" strokeWidth="5" strokeLinejoin="round" />
+        <circle r={r + 6} className="wheel-rim" strokeWidth="12" />
+        {slices.map((_, i) => {
+          const a = ((i * seg + angle - 90) * Math.PI) / 180;
+          return <circle key={i} className="wheel-stud" cx={(r + 6) * Math.cos(a)} cy={(r + 6) * Math.sin(a)} r="5" />;
+        })}
+        <circle r="34" className="wheel-hub" strokeWidth="6" />
+        <path d="M-24 -258 L24 -258 L0 -212 Z" className="wheel-pointer" strokeWidth="5" strokeLinejoin="round" />
       </svg>
     </div>
   );

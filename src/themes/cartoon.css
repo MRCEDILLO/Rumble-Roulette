@@ -1,0 +1,140 @@
+/*
+ * Saturday cartoon: sky blue with a sunburst, a strip of grass under the host
+ * screen, and thick ink outlines with hard offset shadows on everything so the
+ * screens match the bean characters.
+ */
+:root[data-theme='cartoon'] {
+  --bg: #59c3ff;
+  --bg-2: #8fd6ff;
+  --page-bg: repeating-conic-gradient(from 0deg at 50% 0%, rgba(255, 255, 255, 0.16) 0deg 9deg, transparent 9deg 18deg),
+    radial-gradient(circle at 50% 0%, #8fd8ff, #59c3ff 70%);
+  --panel: #ffffff;
+  --panel-2: #e6f5ff;
+  --ink: #1d1a2e;
+  --ink-dim: #34405e;
+  --line: #1d1a2e;
+  --faint: rgba(29, 26, 46, 0.3);
+  --bar-bg: rgba(255, 255, 255, 0.6);
+  --overlay: rgba(29, 26, 46, 0.55);
+
+  --gold: #ffd23f;
+  --pink: #ff5a3c;
+  --green: #3fcf6e;
+  --red: #ff5a3c;
+  --blue: #2f8cff;
+  --timer: #2f8cff;
+  --accent-text: #1d1a2e;
+  --good-text: #12813f;
+  --bad-text: #c8321b;
+  --good-bg: #c9f5d6;
+  --bad-bg: #ffd6cc;
+  --win-bg: rgba(255, 210, 63, 0.4);
+
+  --btn-bg: #ffffff;
+  --primary: #ff5a3c;
+  --primary-ink: #ffffff;
+  --danger: #d7263d;
+  --danger-ink: #ffffff;
+
+  --title: #ffffff;
+  --title-alt: #ffd23f;
+  --title-stroke: 0.14em;
+  --title-shadow: 0.04em 0.06em 0 var(--line);
+
+  --logo-text: #1d1a2e;
+  --logo-a: #ff5a3c;
+  --logo-b: #ffd23f;
+  --logo-stud: #ffffff;
+  --logo-blade: #eef2f8;
+  --logo-hilt: #ffd23f;
+  --logo-grip: #8a4b2a;
+
+  --radius: 18px;
+  --shadow: 5px 5px 0 var(--line);
+  --press: 4px 4px 0 var(--line);
+  --press-sm: 3px 3px 0 var(--line);
+  --pressed: 1px 1px 0 var(--line);
+  --press-move: translate(3px, 3px);
+  --drop: drop-shadow(6px 6px 0 #1d1a2e);
+
+  --font-display: 'Bowlby One', 'Arial Black', system-ui, sans-serif;
+  --font-body: 'Baloo 2', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+
+/* A strip of grass for the characters to stand on, on the big screens only. */
+[data-theme='cartoon'] .host,
+[data-theme='cartoon'] .landing {
+  --grass: clamp(24px, 4.5vh, 48px);
+  position: relative;
+}
+
+/* Keep content off the grass so nothing is drawn over it. */
+[data-theme='cartoon'] .host > .host-body,
+[data-theme='cartoon'] .landing {
+  padding-bottom: calc(var(--grass) + 12px);
+}
+
+[data-theme='cartoon'] .host::after,
+[data-theme='cartoon'] .landing::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--grass);
+  background: var(--green);
+  border-top: 5px solid var(--line);
+  z-index: 0;
+  pointer-events: none;
+}
+
+[data-theme='cartoon'] .host > .topbar,
+[data-theme='cartoon'] .host > .host-body,
+[data-theme='cartoon'] .landing > * {
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme='cartoon'] .topbar,
+[data-theme='cartoon'] .leaderboard {
+  backdrop-filter: blur(2px);
+}
+
+/* Coin counts and the room code read as little stickers. */
+[data-theme='cartoon'] .coins,
+[data-theme='cartoon'] .room-code-small b {
+  display: inline-block;
+  background: var(--gold);
+  border: 3px solid var(--line);
+  border-radius: 999px;
+  padding: 0 10px;
+  line-height: 1.5;
+}
+
+[data-theme='cartoon'] .room-code-small b {
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+[data-theme='cartoon'] .duel-banner,
+[data-theme='cartoon'] .game-banner {
+  rotate: -0.6deg;
+}
+
+[data-theme='cartoon'] .rps-side.won,
+[data-theme='cartoon'] .game-card.on {
+  box-shadow: var(--shadow);
+}
+
+[data-theme='cartoon'] .swatch.on {
+  outline-color: var(--line);
+  box-shadow: 0 0 0 3px #ffffff inset;
+}
+
+[data-theme='cartoon'] .bet-choice.on,
+[data-theme='cartoon'] .amount.on,
+[data-theme='cartoon'] .toggle.on,
+[data-theme='cartoon'] .accessory.on {
+  box-shadow: var(--press-sm);
+}
