@@ -1,7 +1,7 @@
 /*
  * Saturday cartoon: sky blue with a sunburst, a strip of grass under the host
  * screen, and thick ink outlines with hard offset shadows on everything so the
- * screens match the bean characters.
+ * screens match the Screenbot characters.
  */
 :root[data-theme='cartoon'] {
   --bg: #59c3ff;

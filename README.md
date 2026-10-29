@@ -90,4 +90,4 @@ npm run build   # type-check and build to dist/
 - `src/engine/` is the whole game as pure TypeScript, run by the host's browser.
 - `src/net/` talks to Firebase (`firebase.ts`) or to other tabs in demo mode (`local.ts`).
 - `src/host/` is the big screen, `src/player/` is the phone controller.
-- `src/characters/` has the bean character, colours and accessories (SVG).
+- `src/characters/` has the Screenbot character, colours and accessories (SVG).
