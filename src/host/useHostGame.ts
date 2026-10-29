@@ -3,13 +3,14 @@ import {
   addSeat,
   allTimeDeltas,
   applyInput,
+  changeLook,
   emptyAllTimeStats,
   project,
   setConnected,
   tick,
 } from '../engine/engine';
 import type { EngineState, Profile } from '../engine/types';
-import { COLORS } from '../characters/looks';
+import { ACCESSORIES, COLORS } from '../characters/looks';
 import type { HostBackend, Inbound } from '../net/types';
 
 const TICK_MS = 250;
@@ -84,6 +85,19 @@ export function useHostGame(backend: HostBackend, initial: EngineState, initialP
         setProfileList([...profilesRef.current, profile]);
         backend.saveProfile(profile).catch(console.error);
         update((s) => addSeat(s, uid, profile.id, { name, color: profile.color, accessory: profile.accessory }, now, rng));
+        return;
+      }
+      if (msg.t === 'look') {
+        if (!COLORS.some((c) => c.id === msg.color) || !ACCESSORIES.some((a) => a.id === msg.accessory)) return;
+        update((s) => changeLook(s, uid, { color: msg.color, accessory: msg.accessory }, now));
+        // Keep the profile in step so the new look sticks for next time.
+        const seat = stateRef.current.seats[uid];
+        const p = seat && profilesRef.current.find((x) => x.id === seat.profileId);
+        if (p && (p.color !== seat.color || p.accessory !== seat.accessory)) {
+          const updated = { ...p, color: seat.color, accessory: seat.accessory };
+          setProfileList(profilesRef.current.map((x) => (x.id === p.id ? updated : x)));
+          backend.saveProfile(updated).catch(console.error);
+        }
         return;
       }
       update((s) => applyInput(s, uid, msg, now, rng));

@@ -548,13 +548,6 @@ select {
   flex: 1;
 }
 
-.stat-line {
-  font-size: 13px;
-  color: var(--ink-dim);
-  width: 100%;
-  padding-left: 50px;
-}
-
 /* ------------------------------------------------------------------ host */
 
 .host {
@@ -1678,4 +1671,54 @@ select {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+}
+
+/* Phone lobby: change look + all-time stats */
+.edit-look {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 12px;
+}
+
+.edit-look h2 {
+  text-align: center;
+  margin: 0;
+}
+
+.my-stats {
+  width: 100%;
+  text-align: left;
+  margin-top: 8px;
+}
+
+.my-stats h3 {
+  margin: 0 0 8px;
+}
+
+.my-stats dl {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.my-stats dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 2px dashed var(--faint);
+  padding-bottom: 4px;
+}
+
+.my-stats dl > div:last-child {
+  border-bottom: none;
+}
+
+.my-stats dt {
+  margin: 0;
+}
+
+.my-stats dd {
+  margin: 0;
+  font-weight: 700;
 }

@@ -3,7 +3,6 @@ import { createState } from '../engine/engine';
 import type { EngineState, Mode, Profile } from '../engine/types';
 import { hostBackend, useLocal } from '../net/backend';
 import type { HostUser } from '../net/types';
-import { startMusic } from '../sound';
 import { Logo } from '../ui/Logo';
 import { Room } from './Room';
 import { Setup, type SetupChoice } from './Setup';
@@ -75,7 +74,6 @@ export function HostApp() {
         if (old) await backend.closeRoom(old);
         const code = await backend.createRoom();
         localStorage.setItem(ROOM_KEY, code);
-        startMusic();
         setGame(createState(code, choice.mode as Mode, choice.rounds, choice.games, Date.now()));
       } catch (err) {
         setError(String(err));

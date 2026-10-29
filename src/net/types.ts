@@ -4,7 +4,8 @@ import type { EngineState, Look, PlayerInput, Profile, PublicState } from '../en
 export type PhoneMessage =
   | PlayerInput
   | { t: 'join'; profileId: string }
-  | { t: 'create'; look: Look };
+  | { t: 'create'; look: Look }
+  | { t: 'look'; color: string; accessory: string };
 
 export interface Inbound {
   uid: string;
