@@ -4,6 +4,9 @@ import type { ComponentType } from 'react';
 export type Role = 'a' | 'b' | 'ref';
 export type Outcome = 'a' | 'b' | 'draw';
 
+/** Which group a game belongs to. The host turns whole categories on or off in setup. */
+export type GameCategory = 'trivia' | 'word' | 'chance' | 'physical' | 'misc';
+
 export interface GameInfo {
   id: string;
   name: string;
@@ -15,6 +18,7 @@ export interface GameInfo {
   refereeDuty: string;
   icon: string;
   color: string;
+  category: GameCategory;
   needsReferee: boolean;
   scoring: 'auto' | 'referee';
 }

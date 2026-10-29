@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Character } from '../characters/Character';
 import type { Mode, Profile } from '../engine/types';
+import { ALL_CATEGORY_IDS, CATEGORIES } from '../games/categories';
 import { ALL_GAME_IDS, gameInfo } from '../games/logic';
+import type { GameCategory } from '../games/types';
 import type { HostUser } from '../net/types';
 import { FullscreenButton } from '../ui/common';
 import { Logo } from '../ui/Logo';
@@ -19,6 +21,7 @@ const LENGTHS = [
 ];
 
 const GAMES_KEY = 'rr-enabled-games';
+const CATEGORIES_KEY = 'rr-enabled-categories';
 
 function loadEnabled(): string[] {
   try {
@@ -27,6 +30,24 @@ function loadEnabled(): string[] {
     return valid?.length ? valid : ALL_GAME_IDS;
   } catch {
     return ALL_GAME_IDS;
+  }
+}
+
+function loadCategories(): GameCategory[] {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CATEGORIES_KEY) ?? 'null') as GameCategory[] | null;
+    // An empty saved list is kept: the host turned every category off on purpose.
+    return saved ? saved.filter((id) => ALL_CATEGORY_IDS.includes(id)) : ALL_CATEGORY_IDS;
+  } catch {
+    return ALL_CATEGORY_IDS;
+  }
+}
+
+function save(key: string, value: unknown) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Private mode etc: the choice just isn't remembered.
   }
 }
 
@@ -44,14 +65,31 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
   const [length, setLength] = useState('short');
   const [custom, setCustom] = useState(15);
   const [games, setGames] = useState<string[]>(loadEnabled);
+  const [categories, setCategories] = useState<GameCategory[]>(loadCategories);
   const [busy, setBusy] = useState(false);
 
   const rounds = length === 'custom' ? custom : LENGTHS.find((l) => l.id === length)!.rounds;
   const toggleGame = (id: string) => {
     const next = games.includes(id) ? games.filter((g) => g !== id) : [...games, id];
     setGames(next);
-    localStorage.setItem(GAMES_KEY, JSON.stringify(next));
+    save(GAMES_KEY, next);
   };
+  const toggleCategory = (id: GameCategory) => {
+    const next = categories.includes(id) ? categories.filter((c) => c !== id) : [...categories, id];
+    setCategories(next);
+    save(CATEGORIES_KEY, next);
+  };
+  const shownGames = ALL_GAME_IDS.filter((id) => categories.includes(gameInfo(id)!.category));
+  // The wheel's pool: games that are ticked and whose category is on.
+  const pool = shownGames.filter((id) => games.includes(id));
+  const poolProblem =
+    categories.length === 0
+      ? 'Turn on at least one category.'
+      : shownGames.length === 0
+        ? 'There are no games in those categories yet. Turn on another category.'
+        : pool.length === 0
+          ? 'Turn on at least one game.'
+          : null;
 
   return (
     <div className="screen setup">
@@ -112,10 +150,29 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
             </>
           )}
 
+          <h2>Categories on the wheel</h2>
+          <div className="toggle-row">
+            {CATEGORIES.map((c) => {
+              const count = ALL_GAME_IDS.filter((id) => gameInfo(id)!.category === c.id).length;
+              return (
+                <button
+                  key={c.id}
+                  className={`toggle${categories.includes(c.id) ? ' on' : ''}`}
+                  aria-pressed={categories.includes(c.id)}
+                  onClick={() => toggleCategory(c.id)}
+                >
+                  {c.icon} {c.name}
+                  <small>{count === 1 ? '1 game' : `${count} games`}</small>
+                </button>
+              );
+            })}
+          </div>
+
           <h2>Games on the wheel</h2>
           <div className="game-list">
-            {ALL_GAME_IDS.map((id) => {
+            {shownGames.map((id) => {
               const info = gameInfo(id)!;
+              const category = CATEGORIES.find((c) => c.id === info.category)!;
               return (
                 <label key={id} className={`game-pick${games.includes(id) ? ' on' : ''}`}>
                   <input type="checkbox" checked={games.includes(id)} onChange={() => toggleGame(id)} />
@@ -125,25 +182,27 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
                   <span>
                     <b>{info.name}</b>
                     <small>{info.rules}</small>
+                    <small className="tag">{category.name}</small>
                     {info.needsReferee && <small className="tag">Needs a Host</small>}
                   </span>
                 </label>
               );
             })}
+            {shownGames.length === 0 && <p className="muted">No games here. Turn a category on above.</p>}
           </div>
 
           <button
             className="btn btn-primary btn-huge"
-            disabled={busy || games.length === 0}
+            disabled={busy || poolProblem !== null}
             onClick={async () => {
               setBusy(true);
-              await onCreate({ mode, rounds, games });
+              await onCreate({ mode, rounds, games: pool });
               setBusy(false);
             }}
           >
             {busy ? 'Creating room…' : 'Create room'}
           </button>
-          {games.length === 0 && <p className="error">Turn on at least one game.</p>}
+          {poolProblem && <p className="error">{poolProblem}</p>}
           {error && <p className="error">{error}</p>}
         </section>
 

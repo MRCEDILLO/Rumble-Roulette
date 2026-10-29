@@ -27,6 +27,7 @@ export const timerLogic: MinigameLogic<TimerState, TimerView> = {
     refereeDuty: 'Tap Start, wait a random time (under 30 s), tap Stop. Then pick whoever guessed closest.',
     icon: '⏱️',
     color: '#b18cff',
+    category: 'misc',
     needsReferee: true,
     scoring: 'referee',
   },

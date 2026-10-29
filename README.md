@@ -57,8 +57,8 @@ The config values aren't secret; the database rules are what keep games and prof
 
 1. Open the site on the computer connected to the TV and choose **Host on this screen**. Sign in with
    Google.
-2. Pick **Party** or **Free play**, a game length (10 / 20 / 30 / custom rounds) and which minigames
-   are on the wheel, then **Create room**.
+2. Pick **Party** or **Free play**, a game length (10 / 20 / 30 / custom rounds) and which game
+   categories and minigames are on the wheel, then **Create room**.
 3. Players scan the QR code (or go to the site and type the 4-letter code), pick their profile or make
    a new one (name, colour, accessory), and wait in the lobby.
 4. Press **Start game**. From then on each round's Host runs it from their phone: once a game is
@@ -73,11 +73,16 @@ If a phone locks or refreshes, reopen the link and pick the same profile to carr
 
 Each minigame lives in its own folder under `src/games/` with two files:
 
-- `logic.ts` exports a `MinigameLogic`: its info (name, rules, icon, colour, whether it needs a
-  referee, auto or referee scoring) and pure functions `init`, `onInput`, `tick`, `result` and
+- `logic.ts` exports a `MinigameLogic`: its info (name, rules, icon, colour, category, whether it
+  needs a referee, auto or referee scoring) and pure functions `init`, `onInput`, `tick`, `result` and
   `project` (what everyone is allowed to see). It runs only on the host.
 - `views.tsx` exports `MinigameViews`: `HostView` (the big screen, which must always show what the
   duelists are doing), `DuelistView` (each duelist's phone) and optionally `RefereeView`.
+
+Every game must declare a `category`: `trivia`, `word`, `chance`, `physical` or `misc` (Trivia, Word
+Games, Chance Games, Physical Games, Miscellaneous Games; the list lives in `src/games/categories.ts`).
+In setup the host turns whole categories on or off, and only games in the categories that are on can
+come up on the wheel.
 
 Register the game in `src/games/logic.ts` and `src/games/views.ts`, and it appears on the wheel and in
 free play. `src/games/rps/` and `src/games/timer/` are the examples to copy.
