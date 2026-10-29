@@ -1,0 +1,181 @@
+/*
+ * Arcade neon: an 80s cabinet at night. A glowing grid floor under the big
+ * screens, scanlines over everything, and neon pink, cyan and yellow outlines
+ * that light up instead of ink outlines and hard shadows.
+ */
+:root[data-theme='arcade'] {
+  --bg: #140b33;
+  --bg-2: #1d1046;
+  --page-bg: linear-gradient(180deg, #140b33 0%, #140b33 55%, #2a0f5c 100%);
+  --panel: #1a0f40;
+  --panel-2: #271660;
+  --ink: #f5f3ff;
+  --ink-dim: #b9b0e6;
+  --line: #07031a;
+  --faint: rgba(245, 243, 255, 0.28);
+  --bar-bg: rgba(7, 3, 26, 0.6);
+  --overlay: rgba(5, 2, 18, 0.75);
+
+  --gold: #ffe14d;
+  --pink: #ff3ea5;
+  --green: #3dffa8;
+  --red: #ff4d6d;
+  --blue: #2de2e6;
+  --timer: #2de2e6;
+  --accent-text: #ffe14d;
+  --good-text: #6dffc0;
+  --bad-text: #ff8fa8;
+  --good-bg: #0f4a3a;
+  --bad-bg: #4a0f2e;
+  --win-bg: rgba(255, 62, 165, 0.18);
+
+  --btn-bg: #1a0f40;
+  --btn-ink: #f5f3ff;
+  --field: #f5f3ff;
+  --field-ink: #140b33;
+  --primary: #ffe14d;
+  --primary-ink: #140b33;
+  --danger: #ff3ea5;
+  --danger-ink: #140b33;
+
+  --title: #ffe14d;
+  --title-alt: #2de2e6;
+  --title-stroke: 0;
+  --title-shadow: 0 0 0.25em currentColor;
+
+  --logo-text: #ffe14d;
+  --logo-a: #ff3ea5;
+  --logo-b: #2de2e6;
+  --logo-stud: #ffe14d;
+  --logo-blade: #f5f3ff;
+  --logo-hilt: #ffe14d;
+  --logo-grip: #5b2a86;
+
+  --neon: #2de2e6;
+  --glow: 0 0 12px rgba(45, 226, 230, 0.45);
+  --radius: 6px;
+  --shadow: 0 0 14px rgba(45, 226, 230, 0.35);
+  --press: 0 0 10px rgba(255, 62, 165, 0.5);
+  --press-sm: 0 0 8px rgba(255, 62, 165, 0.45);
+  --pressed: 0 0 4px rgba(255, 62, 165, 0.3);
+  --press-move: translateY(2px);
+  --drop: drop-shadow(0 0 12px rgba(255, 62, 165, 0.6));
+
+  --font-display: 'Bungee', Impact, system-ui, sans-serif;
+  --font-body: 'Chakra Petch', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: dark;
+}
+
+/* Scanlines over the whole screen. */
+[data-theme='arcade'] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(transparent 0 3px, rgba(0, 0, 0, 0.16) 3px 4px);
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* A neon grid floor running away from the viewer on the big screens. */
+[data-theme='arcade'] .host,
+[data-theme='arcade'] .landing {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme='arcade'] .host::after,
+[data-theme='arcade'] .landing::after {
+  content: '';
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  bottom: 0;
+  height: 32vh;
+  background-image: linear-gradient(rgba(255, 62, 165, 0.45) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255, 62, 165, 0.45) 2px, transparent 2px);
+  background-size: 48px 48px;
+  transform: perspective(240px) rotateX(60deg);
+  transform-origin: bottom;
+  mask-image: linear-gradient(transparent, #000 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+[data-theme='arcade'] .host > .topbar,
+[data-theme='arcade'] .host > .host-body,
+[data-theme='arcade'] .landing > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Outlines are neon tubes: cyan by default, pink for the main action. */
+[data-theme='arcade'] .card,
+[data-theme='arcade'] .leaderboard li,
+[data-theme='arcade'] .bettor,
+[data-theme='arcade'] .bet-result,
+[data-theme='arcade'] .game-card,
+[data-theme='arcade'] .profile-card,
+[data-theme='arcade'] .bet-choice,
+[data-theme='arcade'] .amount,
+[data-theme='arcade'] .accessory,
+[data-theme='arcade'] .toggle,
+[data-theme='arcade'] .game-pick,
+[data-theme='arcade'] .btn,
+[data-theme='arcade'] .rps-btn,
+[data-theme='arcade'] .modal {
+  border-color: var(--neon);
+}
+
+[data-theme='arcade'] .card,
+[data-theme='arcade'] .bet-choice,
+[data-theme='arcade'] .profile-card,
+[data-theme='arcade'] .game-card {
+  box-shadow: var(--glow);
+}
+
+[data-theme='arcade'] .btn-primary,
+[data-theme='arcade'] .rps-btn {
+  border-color: var(--pink);
+}
+
+[data-theme='arcade'] .btn-quiet {
+  border-color: var(--faint);
+}
+
+[data-theme='arcade'] .topbar,
+[data-theme='arcade'] .leaderboard,
+[data-theme='arcade'] .phone-header {
+  border-color: var(--pink);
+}
+
+[data-theme='arcade'] .coins {
+  display: inline-block;
+  border: 2px solid var(--gold);
+  border-radius: 4px;
+  padding: 0 8px;
+  line-height: 1.5;
+  box-shadow: 0 0 8px rgba(255, 225, 77, 0.45);
+}
+
+[data-theme='arcade'] .room-code-small b {
+  color: var(--neon);
+  text-shadow: 0 0 8px var(--neon);
+}
+
+[data-theme='arcade'] .logo-mark .rim,
+[data-theme='arcade'] .wheel-rim {
+  stroke: var(--gold);
+}
+
+[data-theme='arcade'] .wheel-stud {
+  fill: var(--pink);
+}
+
+[data-theme='arcade'] .logo-big .logo-text {
+  letter-spacing: 0.02em;
+}
+
+[data-theme='arcade'] h1,
+[data-theme='arcade'] h2 {
+  text-shadow: 0 0 10px rgba(255, 62, 165, 0.55);
+}

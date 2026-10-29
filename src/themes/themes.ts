@@ -36,6 +36,14 @@ export const THEMES: Theme[] = [
       'https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Barlow+Condensed:wght@500;600;700&display=swap',
     themeColor: '#0f5c3f',
   },
+  {
+    id: 'arcade',
+    name: 'Arcade neon',
+    blurb: 'Glowing grid, scanlines and neon pink and cyan',
+    swatches: ['#140b33', '#ff3ea5', '#2de2e6', '#ffe14d'],
+    fontsHref: 'https://fonts.googleapis.com/css2?family=Bungee&family=Chakra+Petch:wght@500;600;700&display=swap',
+    themeColor: '#140b33',
+  },
 ];
 
 export const DEFAULT_THEME = THEMES[0].id;
