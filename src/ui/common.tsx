@@ -59,6 +59,7 @@ export function PlayerTag({
 }
 
 const ACTION_LABEL: Record<RefAction, string> = {
+  start: 'Start round ▶',
   next: 'Next round ▶',
   redo: 'Redo game ↺',
   skipGame: 'Skip game (re-spin)',
@@ -82,7 +83,7 @@ export function RefControls({ pub, onAction, compact }: { pub: PublicState; onAc
       {actions.map((a) => (
         <button
           key={a}
-          className={a === 'next' ? 'btn btn-primary' : a === 'redo' ? 'btn' : 'btn btn-quiet'}
+          className={a === 'start' ? 'btn btn-primary btn-start' : a === 'next' ? 'btn btn-primary' : a === 'redo' ? 'btn' : 'btn btn-quiet'}
           onClick={() => {
             if ((a === 'skipRound' || a === 'skipGame') && !compact && !confirm(`${ACTION_LABEL[a]}?`)) return;
             onAction(a);

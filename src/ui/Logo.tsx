@@ -45,6 +45,15 @@ export function LogoMark({ className = '' }: { className?: string }) {
   );
 }
 
+/** Loading icon: the logo mark with only the wheel ring spinning (the swords stay still). */
+export function LoadingMark({ size = 96, label = 'Loading' }: { size?: number; label?: string }) {
+  return (
+    <div role="status" aria-label={label} style={{ ['--loading-size' as string]: `${size}px` }}>
+      <LogoMark className="loading-mark" />
+    </div>
+  );
+}
+
 /** Small: the mark beside the name, for top bars. Big: the stacked lockup for the main screens. */
 export function Logo({ size = 'small' }: { size?: 'small' | 'big' }) {
   return (

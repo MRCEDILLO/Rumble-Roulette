@@ -27,6 +27,7 @@ it('shares duels and referee turns evenly for every player count', () => {
           duels[d.b]++;
           refs[d.ref!]++;
           for (let k = 0; k < 3; k++) s = tick(s, (t += 1e6), rng);
+          s = refAction(s, 'start', t, rng);
           while (s.phase === 'duel') {
             s = applyInput(s, d.a, { t: 'game', payload: { pick: 'rock' } }, t, rng);
             s = applyInput(s, d.b, { t: 'game', payload: { pick: 'scissors' } }, t, rng);

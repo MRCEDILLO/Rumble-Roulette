@@ -84,6 +84,8 @@ export type Phase =
   | 'pick'
   | 'spin'
   | 'bet'
+  /** The game's instructions are on the big screen, waiting for the round's Host to start it. */
+  | 'ready'
   | 'duel'
   | 'result'
   | 'end';
@@ -157,7 +159,7 @@ export type PlayerInput =
   | { t: 'ref'; action: RefAction }
   | { t: 'leave' };
 
-export type RefAction = 'next' | 'redo' | 'skipGame' | 'skipRound';
+export type RefAction = 'start' | 'next' | 'redo' | 'skipGame' | 'skipRound';
 
 export interface PublicState {
   code: string;

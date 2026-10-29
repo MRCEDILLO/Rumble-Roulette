@@ -2,10 +2,10 @@
 
 An in-person party game for 3 to 10 players. One computer is the big screen; everyone else plays on
 their phone. Each round two players duel in a random minigame picked by a spin wheel, a third player
-referees, and everyone else bets coins on the winner. After the last round the two richest players
+is the round's Host, and everyone else bets coins on the winner. After the last round the two richest players
 meet in the final.
 
-- **Party mode:** coins, betting, referee, tie-breaks, the final, awards and all-time stats.
+- **Party mode:** coins, betting, a Host each round, tie-breaks, the final, awards and all-time stats.
 - **Free play:** pick any minigame (or spin) and play it with no coins. Handy for testing new games.
 
 Rules and design decisions: [design brief](https://claude.ai/artifact/SXf8WEs9f2zxdzjgHRqiiA) ·
@@ -61,9 +61,11 @@ The config values aren't secret; the database rules are what keep games and prof
    are on the wheel, then **Create room**.
 3. Players scan the QR code (or go to the site and type the 4-letter code), pick their profile or make
    a new one (name, colour, accessory), and wait in the lobby.
-4. Press **Start game**. From then on the referee runs each round from their phone. The host's
-   **☰ Menu** has the same referee buttons in case a phone dies, plus *Skip to the final*, removing
-   players, volume, and closing the room.
+4. Press **Start game**. From then on each round's Host runs it from their phone: once a game is
+   picked (and bets are in), its instructions show on the big screen and nothing starts until the
+   Host presses **Start round**. The big screen's **☰ Menu** has the same Host buttons in case a
+   phone dies, plus *Skip to the final*, removing players, volume, and closing the room. If a duel
+   has no Host (free play with two players), **Start round** is on the big screen instead.
 
 If a phone locks or refreshes, reopen the link and pick the same profile to carry on.
 

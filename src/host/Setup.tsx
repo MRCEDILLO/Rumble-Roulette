@@ -73,7 +73,7 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
           <div className="toggle-row">
             <button className={`toggle${mode === 'party' ? ' on' : ''}`} onClick={() => setMode('party')}>
               🎉 Party
-              <small>Coins, bets, referee and a final</small>
+              <small>Coins, bets, a Host each round and a final</small>
             </button>
             <button className={`toggle${mode === 'free' ? ' on' : ''}`} onClick={() => setMode('free')}>
               🕹️ Free play
@@ -125,7 +125,7 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
                   <span>
                     <b>{info.name}</b>
                     <small>{info.rules}</small>
-                    {info.needsReferee && <small className="tag">Needs a referee</small>}
+                    {info.needsReferee && <small className="tag">Needs a Host</small>}
                   </span>
                 </label>
               );

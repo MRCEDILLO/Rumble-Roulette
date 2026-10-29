@@ -23,7 +23,7 @@ export const timerLogic: MinigameLogic<TimerState, TimerView> = {
   info: {
     id: 'timer',
     name: 'Timer',
-    rules: 'The referee times a secret stretch. Say out loud how long you think it was. Closest wins.',
+    rules: 'The Host times a secret stretch. Say out loud how long you think it was. Closest wins.',
     refereeDuty: 'Tap Start, wait a random time (under 30 s), tap Stop. Then pick whoever guessed closest.',
     icon: '⏱️',
     color: '#b18cff',

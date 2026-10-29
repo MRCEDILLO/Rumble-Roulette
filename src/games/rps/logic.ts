@@ -65,7 +65,7 @@ export const rpsLogic: MinigameLogic<RpsState, RpsView> = {
     shortName: 'R·P·S',
     rules: 'Best of 3. Pick in secret on your phone; ties are thrown again.',
     refereeDuty: 'The game scores itself. Tap Next round when it ends.',
-    icon: '✊',
+    icon: '✂️',
     color: '#ff8a3d',
     needsReferee: false,
     scoring: 'auto',

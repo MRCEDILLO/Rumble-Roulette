@@ -230,7 +230,7 @@ export function removeSeat(state: EngineState, uid: SeatId, now: number, rng: Rn
   let s = clone(state);
   if (!s.seats[uid]) return s;
   const d = s.duel;
-  const live = ['pick', 'spin', 'bet', 'duel', 'result'].includes(s.phase);
+  const live = ['pick', 'spin', 'bet', 'ready', 'duel', 'result'].includes(s.phase);
   const decided = s.phase === 'result' && d?.winner != null && d.winner !== 'draw';
   const leftMidDuel = !!d && live && !decided && (d.a === uid || d.b === uid);
   if (leftMidDuel && (d.kind === 'tiebreak' || d.kind === 'final')) {
@@ -406,6 +406,15 @@ function startSpin(s: EngineState, now: number, rng: Rng, exclude: string | null
   d.winner = null;
   s.spin = { gameId, options, startedAt: now, turns: 4 + Math.floor(rng() * 3) };
   setPhase(s, 'spin', now, SPIN_MS);
+  return s;
+}
+
+/** Show the game's instructions and wait for the round's Host (or the host screen) to start it. */
+function readyUp(s: EngineState, now: number): EngineState {
+  const d = s.duel!;
+  d.game = null;
+  d.winner = null;
+  setPhase(s, 'ready', now);
   return s;
 }
 
@@ -635,10 +644,10 @@ export function tick(state: EngineState, now: number, rng: Rng): EngineState {
         setPhase(s, 'bet', now, BET_MS);
         return s;
       }
-      return startDuelGame(s, now, rng);
+      return readyUp(s, now);
     case 'bet':
       fillAutoBets(s, rng);
-      return startDuelGame(s, now, rng);
+      return readyUp(s, now);
     default:
       return state;
   }
@@ -658,7 +667,7 @@ export function applyInput(state: EngineState, uid: SeatId, input: PlayerInput, 
       const s = clone(state);
       s.bets[uid] = { on: input.on, amount, auto: false } satisfies Bet;
       const allIn = bettors(s).every((id) => s.bets[id] || s.seats[id].coins === 0);
-      return allIn ? startDuelGame(s, now, rng) : s;
+      return allIn ? readyUp(s, now) : s;
     }
     case 'game': {
       if (state.phase !== 'duel' || !d) return state;
@@ -677,16 +686,17 @@ export function applyInput(state: EngineState, uid: SeatId, input: PlayerInput, 
   return state;
 }
 
-/** What the referee's (or the host's) control buttons can do right now. */
+/** What the round Host's (or the host screen's) control buttons can do right now. */
 export function allowedActions(s: EngineState | PublicState): RefAction[] {
   const d = s.duel;
   if (!d) return [];
   const isDraw = s.phase === 'result' && d.winner === 'draw';
   const decided = s.phase === 'result' && d.winner !== null && d.winner !== 'draw';
   const out: RefAction[] = [];
+  if (s.phase === 'ready') out.push('start');
   if (decided) out.push('next');
   if (s.phase === 'duel' || isDraw) out.push('redo');
-  if (s.phase === 'bet' || s.phase === 'duel' || isDraw) {
+  if (s.phase === 'bet' || s.phase === 'ready' || s.phase === 'duel' || isDraw) {
     const hasOtherGame = s.enabledGames.length > 1;
     if (hasOtherGame || d.kind === 'free') out.push('skipGame');
   }
@@ -699,10 +709,12 @@ export function refAction(state: EngineState, action: RefAction, now: number, rn
   const s = clone(state);
   const d = s.duel!;
   switch (action) {
+    case 'start':
+      return startDuelGame(s, now, rng);
     case 'next':
       return advance(s, now, rng);
     case 'redo':
-      return startDuelGame(s, now, rng);
+      return readyUp(s, now);
     case 'skipGame':
       s.bets = {};
       return startSpin(s, now, rng, d.gameId);
@@ -782,7 +794,7 @@ export function hostFreeStart(state: EngineState, opts: FreeStartOptions, now: n
     s.duel.ref = ref;
   }
   s.duel.gameId = opts.gameId;
-  return startDuelGame(s, now, rng);
+  return readyUp(s, now);
 }
 
 // ---------------------------------------------------------------- projection
