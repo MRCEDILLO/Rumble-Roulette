@@ -73,6 +73,7 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
   const [games, setGames] = useState<string[]>(loadEnabled);
   const [categories, setCategories] = useState<GameCategory[]>(loadCategories);
   const [busy, setBusy] = useState(false);
+  const [deleting, setDeleting] = useState<Profile | null>(null);
 
   const rounds = length === 'custom' ? custom : LENGTHS.find((l) => l.id === length)!.rounds;
   const toggleGame = (id: string) => {
@@ -101,7 +102,12 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
   return (
     <div className="screen setup">
       <header className="setup-header">
-        <Logo />
+        <div className="setup-brand">
+          <a className="btn btn-quiet btn-small" href="#/">
+            ← Back
+          </a>
+          <Logo />
+        </div>
         <div className="setup-user">
           {user.photo && <img src={user.photo} alt="" />}
           <span>{user.name}</span>
@@ -190,7 +196,6 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
                     <b>{info.name}</b>
                     <small>{info.rules}</small>
                     <small className="tag">{category.name}</small>
-                    {info.needsReferee && <small className="tag">Needs a Host</small>}
                   </span>
                 </label>
               );
@@ -226,7 +231,7 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
                   <span className="profile-name">{p.name}</span>
                   <button
                     className="btn btn-quiet btn-small"
-                    onClick={() => confirm(`Delete ${p.name} and their stats?`) && onDeleteProfile(p.id)}
+                    onClick={() => setDeleting(p)}
                   >
                     Delete
                   </button>
@@ -234,6 +239,46 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
               ))}
           </ul>
         </section>
+      </div>
+
+      {deleting && (
+        <ConfirmDelete
+          profile={deleting}
+          onCancel={() => setDeleting(null)}
+          onConfirm={() => {
+            onDeleteProfile(deleting.id);
+            setDeleting(null);
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+function ConfirmDelete({ profile, onCancel, onConfirm }: { profile: Profile; onCancel: () => void; onConfirm: () => void }) {
+  return (
+    <div className="modal-backdrop dialog-backdrop" onClick={onCancel}>
+      <div
+        className="dialog card"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="delete-title"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Character color={profile.color} accessory={profile.accessory} size={72} pose="still" />
+        <h2 id="delete-title">Delete {profile.name}?</h2>
+        <p>
+          Are you sure you want to delete this profile? This deletes <b>{profile.name}</b> and all of their data, including
+          their all-time stats. It can’t be undone.
+        </p>
+        <div className="row-buttons">
+          <button className="btn" onClick={onCancel} autoFocus>
+            Cancel
+          </button>
+          <button className="btn btn-danger" onClick={onConfirm}>
+            Delete profile
+          </button>
+        </div>
       </div>
     </div>
   );

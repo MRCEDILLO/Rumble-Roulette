@@ -60,7 +60,6 @@ export function makeTriviaLogic(cat: TriviaCategory): MinigameLogic<TriviaState,
       icon: cat.icon,
       color: cat.color,
       category: 'trivia',
-      needsReferee: true,
       scoring: 'referee',
     },
     init(_now, rng) {

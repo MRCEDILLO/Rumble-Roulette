@@ -20,8 +20,8 @@ import type {
 export const START_COINS = 12;
 export const MAX_BET = 3;
 export const WIN_BONUS = 2;
-export const MIN_PARTY_PLAYERS = 3;
-export const MIN_FREE_PLAYERS = 2;
+/** Every duel needs two players and a Host, in party mode and free play alike. */
+export const MIN_PLAYERS = 3;
 export const MAX_PLAYERS = 10;
 export const PICK_MS = 4_500;
 export const SPIN_MS = 5_500;
@@ -348,12 +348,11 @@ export function chooseReferee(s: EngineState, exclude: SeatId[], rng: Rng): Seat
 export function startGame(state: EngineState, now: number, rng: Rng): EngineState {
   const s = clone(state);
   if (s.phase !== 'lobby') return s;
+  if (s.order.length < MIN_PLAYERS) return s;
   if (s.mode === 'free') {
-    if (s.order.length < MIN_FREE_PLAYERS) return s;
     setPhase(s, 'freeMenu', now);
     return s;
   }
-  if (s.order.length < MIN_PARTY_PLAYERS) return s;
   return beginRound(s, now, rng);
 }
 
@@ -362,7 +361,7 @@ function beginRound(s: EngineState, now: number, rng: Rng): EngineState {
   s.spin = null;
   s.lastDelta = null;
   s.gifted = [];
-  if (s.order.length < MIN_PARTY_PLAYERS) {
+  if (s.order.length < MIN_PLAYERS) {
     s.duel = null;
     setPhase(s, 'paused', now);
     return s;
@@ -382,25 +381,12 @@ function beginRound(s: EngineState, now: number, rng: Rng): EngineState {
   return s;
 }
 
-function gameOptions(s: EngineState, hasRef: boolean): string[] {
-  const enabled = s.enabledGames.filter((id) => GAME_LOGIC[id]);
-  const usable = hasRef ? enabled : enabled.filter((id) => !GAME_LOGIC[id].info.needsReferee);
-  return usable;
-}
-
 function startSpin(s: EngineState, now: number, rng: Rng, exclude: string | null = null): EngineState {
   const d = s.duel!;
-  const hasRef = d.ref !== null || (d.kind === 'free' && s.order.length > 2);
-  const options = gameOptions(s, hasRef);
+  const options = s.enabledGames.filter((id) => GAME_LOGIC[id]);
   if (!options.length) return s;
   const fresh = options.filter((id) => id !== exclude);
   const gameId = pickRandom(fresh.length ? fresh : options, rng);
-  if (d.kind === 'free' && GAME_LOGIC[gameId].info.needsReferee && !d.ref) {
-    d.ref = pickRandom(
-      s.order.filter((id) => id !== d.a && id !== d.b),
-      rng,
-    );
-  }
   d.gameId = gameId;
   d.game = null;
   d.winner = null;
@@ -776,23 +762,22 @@ export interface FreeStartOptions {
 }
 
 export function hostFreeStart(state: EngineState, opts: FreeStartOptions, now: number, rng: Rng): EngineState {
-  if (state.phase !== 'freeMenu' || state.order.length < MIN_FREE_PLAYERS) return state;
+  if (state.phase !== 'freeMenu' || state.order.length < MIN_PLAYERS) return state;
   const s = clone(state);
   const pool = shuffle(s.order, rng);
   const a = opts.a && s.seats[opts.a] ? opts.a : pool.find((id) => id !== opts.b)!;
   const b = opts.b && s.seats[opts.b] && opts.b !== a ? opts.b : pool.find((id) => id !== a)!;
-  let ref = opts.ref && s.seats[opts.ref] && opts.ref !== a && opts.ref !== b ? opts.ref : null;
+  const ref =
+    opts.ref && s.seats[opts.ref] && opts.ref !== a && opts.ref !== b
+      ? opts.ref
+      : pickRandom(
+          s.order.filter((id) => id !== a && id !== b),
+          rng,
+        );
   s.bets = {};
   s.lastDelta = null;
   s.duel = { kind: 'free', a, b, ref, gameId: null, game: null, winner: null };
   if (opts.spin || !opts.gameId || !GAME_LOGIC[opts.gameId]) return startSpin(s, now, rng);
-  const info = GAME_LOGIC[opts.gameId].info;
-  if (info.needsReferee && !ref) {
-    const others = s.order.filter((id) => id !== a && id !== b);
-    if (!others.length) return state;
-    ref = pickRandom(others, rng);
-    s.duel.ref = ref;
-  }
   s.duel.gameId = opts.gameId;
   return readyUp(s, now);
 }

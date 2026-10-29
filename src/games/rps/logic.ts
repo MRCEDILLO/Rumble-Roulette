@@ -68,7 +68,6 @@ export const rpsLogic: MinigameLogic<RpsState, RpsView> = {
     icon: '✂️',
     color: '#ff8a3d',
     category: 'chance',
-    needsReferee: false,
     scoring: 'auto',
   },
   init(now) {

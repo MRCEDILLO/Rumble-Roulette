@@ -54,6 +54,9 @@ export function HostApp() {
   if (!user) {
     return (
       <div className="screen center host-signin">
+        <a className="btn btn-quiet btn-small back-link" href="#/">
+          ← Back
+        </a>
         <Logo size="big" />
         <p className="lead">Sign in to host a game. Players join on their phones, no account needed.</p>
         <button className="btn btn-primary btn-huge" onClick={() => backend.signIn().catch((e) => setError(String(e)))}>
@@ -96,7 +99,11 @@ export function HostApp() {
         profiles={profiles}
         error={error}
         onCreate={create}
-        onSignOut={() => backend.signOut()}
+        onSignOut={async () => {
+          await backend.signOut();
+          // Back to the landing page so the next person can choose Join or Host.
+          location.hash = '#/';
+        }}
         onDeleteProfile={async (id) => {
           await backend.deleteProfile(id);
           setProfiles(profiles.filter((p) => p.id !== id));
