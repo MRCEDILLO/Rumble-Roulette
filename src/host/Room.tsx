@@ -15,7 +15,10 @@ import {
   startGame,
 } from '../engine/engine';
 import type { EngineState, Profile, PublicState, RefAction, SeatId } from '../engine/types';
-import { ALL_GAME_IDS, gameInfo } from '../games/logic';
+import { CATEGORIES } from '../games/categories';
+import { CategoryIcon } from '../games/CategoryIcon';
+import { ALL_GAME_IDS, gameInfo, matchesSearch } from '../games/logic';
+import type { GameCategory } from '../games/types';
 import { GAME_VIEWS } from '../games/views';
 import type { DuelPeople } from '../games/types';
 import type { HostBackend } from '../net/types';
@@ -483,7 +486,14 @@ function FreeMenu({ pub, update }: { pub: PublicState; update: Update }) {
   const [a, setA] = useState<string>('');
   const [b, setB] = useState<string>('');
   const [ref, setRef] = useState<string>('');
+  const [category, setCategory] = useState<GameCategory | 'all'>('all');
+  const [search, setSearch] = useState('');
   const tooFew = pub.order.length < MIN_PLAYERS;
+  const usedCategories = CATEGORIES.filter((c) => ALL_GAME_IDS.some((id) => gameInfo(id)!.category === c.id));
+  const shown = ALL_GAME_IDS.filter(
+    (id) => (category === 'all' || gameInfo(id)!.category === category) && matchesSearch(id, search),
+  );
+  const picked = gameId ? gameInfo(gameId)! : null;
   const pickPlayer = (value: string, set: (v: string) => void, label: string, exclude: string[]) => (
     <label className="free-select">
       {label}
@@ -501,48 +511,80 @@ function FreeMenu({ pub, update }: { pub: PublicState; update: Update }) {
   );
   return (
     <div className="free-menu">
-      <h1 className="phase-title">Free play</h1>
-      <div className="game-cards">
-        <button className={`game-card${gameId === null ? ' on' : ''}`} onClick={() => setGameId(null)}>
-          <span className="game-icon big">🎡</span>
-          <b>Spin the wheel</b>
-          <small>Random game</small>
-        </button>
-        {ALL_GAME_IDS.map((id) => {
-          const g = gameInfo(id)!;
-          return (
-            <button key={id} className={`game-card${gameId === id ? ' on' : ''}`} onClick={() => setGameId(id)}>
-              <span className="game-icon big" style={{ background: g.color }}>
-                {g.icon}
-              </span>
-              <b>{g.name}</b>
-              <small>{g.rules}</small>
+      <section className="free-games card">
+        <div className="free-games-head">
+          <h1 className="phase-title">Free play</h1>
+          <input
+            type="search"
+            className="game-search"
+            placeholder="Find a game…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+        <div className="category-tabs">
+          <button className={`filter-chip${category === 'all' ? ' on' : ''}`} onClick={() => setCategory('all')}>
+            All games
+          </button>
+          {usedCategories.map((c) => (
+            <button key={c.id} className={`filter-chip${category === c.id ? ' on' : ''}`} onClick={() => setCategory(c.id)}>
+              <CategoryIcon id={c.id} /> {c.name}
             </button>
-          );
-        })}
-      </div>
-      <div className="free-players">
-        {pickPlayer(a, setA, 'Player 1', [b, ref].filter(Boolean))}
-        {pickPlayer(b, setB, 'Player 2', [a, ref].filter(Boolean))}
-        {pickPlayer(ref, setRef, 'Host', [a, b].filter(Boolean))}
-      </div>
-      {tooFew && <p className="error">Every game needs two players and a Host, so free play needs {MIN_PLAYERS} players.</p>}
-      <button
-        className="btn btn-primary btn-huge"
-        disabled={tooFew}
-        onClick={() =>
-          update((s) =>
-            hostFreeStart(s, { gameId, a: a || null, b: b || null, ref: ref || null, spin: gameId === null }, now(), rng),
-          )
-        }
-      >
-        Play ▶
-      </button>
-      <div className="lobby-grid small">
-        {pub.order.map((id) => (
-          <PlayerTag key={id} look={pub.seats[id]} size={56} dim={!pub.seats[id].connected} />
-        ))}
-      </div>
+          ))}
+        </div>
+        <div className="game-tiles">
+          <button className={`game-tile${gameId === null ? ' on' : ''}`} onClick={() => setGameId(null)}>
+            <span className="game-icon">🎡</span>
+            <b>Spin the wheel</b>
+          </button>
+          {shown.map((id) => {
+            const g = gameInfo(id)!;
+            return (
+              <button key={id} className={`game-tile${gameId === id ? ' on' : ''}`} onClick={() => setGameId(id)}>
+                <span className="game-icon" style={{ background: g.color }}>
+                  {g.icon}
+                </span>
+                <b>{g.name}</b>
+              </button>
+            );
+          })}
+        </div>
+        {shown.length === 0 && <p className="muted">No games match “{search}”.</p>}
+      </section>
+
+      <section className="free-side card">
+        <div className="free-picked">
+          <span className="game-icon big" style={picked ? { background: picked.color } : undefined}>
+            {picked ? picked.icon : '🎡'}
+          </span>
+          <div>
+            <b>{picked ? picked.name : 'Spin the wheel'}</b>
+            <small>{picked ? picked.rules : 'The wheel picks a random game from your setup.'}</small>
+          </div>
+        </div>
+        <div className="free-players">
+          {pickPlayer(a, setA, 'Player 1', [b, ref].filter(Boolean))}
+          {pickPlayer(b, setB, 'Player 2', [a, ref].filter(Boolean))}
+          {pickPlayer(ref, setRef, 'Host', [a, b].filter(Boolean))}
+        </div>
+        {tooFew && <p className="error">Every game needs two players and a Host, so free play needs {MIN_PLAYERS} players.</p>}
+        <button
+          className="btn btn-primary btn-huge"
+          disabled={tooFew}
+          onClick={() =>
+            update((s) =>
+              hostFreeStart(s, { gameId, a: a || null, b: b || null, ref: ref || null, spin: gameId === null }, now(), rng),
+            )
+          }
+        >
+          Play ▶
+        </button>
+        <div className="lobby-grid small">
+          {pub.order.map((id) => (
+            <PlayerTag key={id} look={pub.seats[id]} size={56} dim={!pub.seats[id].connected} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

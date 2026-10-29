@@ -113,13 +113,15 @@
 [data-theme='arcade'] .leaderboard li,
 [data-theme='arcade'] .bettor,
 [data-theme='arcade'] .bet-result,
-[data-theme='arcade'] .game-card,
+[data-theme='arcade'] .game-group,
 [data-theme='arcade'] .profile-card,
 [data-theme='arcade'] .bet-choice,
 [data-theme='arcade'] .amount,
 [data-theme='arcade'] .accessory,
 [data-theme='arcade'] .toggle,
 [data-theme='arcade'] .game-pick,
+[data-theme='arcade'] .game-tile,
+[data-theme='arcade'] .filter-chip,
 [data-theme='arcade'] .btn,
 [data-theme='arcade'] .rps-btn,
 [data-theme='arcade'] .modal {
@@ -128,8 +130,7 @@
 
 [data-theme='arcade'] .card,
 [data-theme='arcade'] .bet-choice,
-[data-theme='arcade'] .profile-card,
-[data-theme='arcade'] .game-card {
+[data-theme='arcade'] .profile-card {
   box-shadow: var(--glow);
 }
 
