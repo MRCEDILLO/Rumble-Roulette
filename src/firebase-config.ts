@@ -6,11 +6,11 @@
  * with the host in one tab and players in other tabs.
  */
 export const firebaseConfig = {
-  apiKey: '',
-  authDomain: '',
-  databaseURL: '',
-  projectId: '',
-  storageBucket: '',
-  messagingSenderId: '',
-  appId: '',
+  apiKey: 'AIzaSyAVU7CVfTtZ_anbGOxQ-kcliezcqsxuAck',
+  authDomain: 'rumble-roulette.firebaseapp.com',
+  databaseURL: 'https://rumble-roulette-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId: 'rumble-roulette',
+  storageBucket: 'rumble-roulette.firebasestorage.app',
+  messagingSenderId: '35638768781',
+  appId: '1:35638768781:web:de481bd28ec3fa0db79ec4',
 };
