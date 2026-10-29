@@ -373,12 +373,15 @@ describe('free play', () => {
     let s = createState('FREE', 'free', 0, ['rps', 'timer'], 0);
     s = addSeat(s, 'p0', 'a', { name: 'A', color: 'red', accessory: 'none' }, 0, rng);
     s = addSeat(s, 'p1', 'b', { name: 'B', color: 'blue', accessory: 'none' }, 0, rng);
+    // Every game needs a Host, so two players can't start.
+    expect(startGame(s, 0, rng).phase).toBe('lobby');
+    s = addSeat(s, 'p2', 'c', { name: 'C', color: 'green', accessory: 'none' }, 0, rng);
     s = startGame(s, 0, rng);
     expect(s.phase).toBe('freeMenu');
-    // Timer needs a referee and there are only 2 players.
-    expect(hostFreeStart(s, { gameId: 'timer', a: null, b: null, ref: null, spin: false }, 1, rng)).toBe(s);
     s = hostFreeStart(s, { gameId: 'rps', a: 'p0', b: 'p1', ref: null, spin: false }, 1, rng);
     expect(s.phase).toBe('ready');
+    // No Host picked: the third player gets it, even for a self-scoring game.
+    expect(s.duel!.ref).toBe('p2');
     s = winDuel(s, 'b', 2, rng);
     expect(s.seats.p1.coins).toBe(START_COINS);
     s = refAction(s, 'next', 3, rng);

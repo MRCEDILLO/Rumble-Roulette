@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import { Character } from '../characters/Character';
 import {
   BET_MS,
-  MIN_FREE_PLAYERS,
-  MIN_PARTY_PLAYERS,
+  MIN_PLAYERS,
   PICK_MS,
   hostContinue,
   hostEndRounds,
@@ -141,12 +140,12 @@ function Stage({
         <div className="center-col">
           <h1>Waiting for players</h1>
           <p className="lead">
-            Party mode needs at least {MIN_PARTY_PLAYERS} players. Scan the code to join: <b>{pub.code}</b>
+            The game needs at least {MIN_PLAYERS} players. Scan the code to join: <b>{pub.code}</b>
           </p>
           <QrBlock code={pub.code} />
           <button
             className="btn btn-primary btn-huge"
-            disabled={pub.order.length < MIN_PARTY_PLAYERS}
+            disabled={pub.order.length < MIN_PLAYERS}
             onClick={() => update((s) => hostContinue(s, now(), rng))}
           >
             Continue
@@ -214,7 +213,6 @@ function QrBlock({ code, size = 260 }: { code: string; size?: number }) {
 }
 
 function Lobby({ pub, onStart }: { pub: PublicState; onStart: () => void }) {
-  const min = pub.mode === 'party' ? MIN_PARTY_PLAYERS : MIN_FREE_PLAYERS;
   const n = pub.order.length;
   return (
     <div className="lobby">
@@ -234,14 +232,14 @@ function Lobby({ pub, onStart }: { pub: PublicState; onStart: () => void }) {
             const s = pub.seats[id];
             return <PlayerTag key={id} look={s} size={90} dim={!s.connected} sub={s.connected ? undefined : 'reconnecting…'} />;
           })}
-          {Array.from({ length: Math.max(0, min - n) }, (_, i) => (
+          {Array.from({ length: Math.max(0, MIN_PLAYERS - n) }, (_, i) => (
             <div key={`empty${i}`} className="player-tag empty">
               <div className="empty-slot">?</div>
             </div>
           ))}
         </div>
-        <button className="btn btn-primary btn-huge" disabled={n < min} onClick={onStart}>
-          {n < min ? `Need ${min - n} more` : 'Start game ▶'}
+        <button className="btn btn-primary btn-huge" disabled={n < MIN_PLAYERS} onClick={onStart}>
+          {n < MIN_PLAYERS ? `Need ${MIN_PLAYERS - n} more` : 'Start game ▶'}
         </button>
       </div>
     </div>
@@ -480,9 +478,7 @@ function FreeMenu({ pub, update }: { pub: PublicState; update: Update }) {
   const [a, setA] = useState<string>('');
   const [b, setB] = useState<string>('');
   const [ref, setRef] = useState<string>('');
-  const info = gameId ? gameInfo(gameId) : null;
-  const needsRef = info?.needsReferee ?? false;
-  const tooFew = needsRef && pub.order.length < 3;
+  const tooFew = pub.order.length < MIN_PLAYERS;
   const pickPlayer = (value: string, set: (v: string) => void, label: string, exclude: string[]) => (
     <label className="free-select">
       {label}
@@ -523,9 +519,9 @@ function FreeMenu({ pub, update }: { pub: PublicState; update: Update }) {
       <div className="free-players">
         {pickPlayer(a, setA, 'Player 1', [b, ref].filter(Boolean))}
         {pickPlayer(b, setB, 'Player 2', [a, ref].filter(Boolean))}
-        {(needsRef || gameId === null) && pickPlayer(ref, setRef, needsRef ? 'Host' : 'Host (if needed)', [a, b].filter(Boolean))}
+        {pickPlayer(ref, setRef, 'Host', [a, b].filter(Boolean))}
       </div>
-      {tooFew && <p className="error">This game needs a Host, so it needs 3 players.</p>}
+      {tooFew && <p className="error">Every game needs two players and a Host, so free play needs {MIN_PLAYERS} players.</p>}
       <button
         className="btn btn-primary btn-huge"
         disabled={tooFew}

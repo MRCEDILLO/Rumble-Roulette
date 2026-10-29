@@ -19,7 +19,6 @@ export interface GameInfo {
   icon: string;
   color: string;
   category: GameCategory;
-  needsReferee: boolean;
   scoring: 'auto' | 'referee';
 }
 

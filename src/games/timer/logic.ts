@@ -28,7 +28,6 @@ export const timerLogic: MinigameLogic<TimerState, TimerView> = {
     icon: '⏱️',
     color: '#b18cff',
     category: 'misc',
-    needsReferee: true,
     scoring: 'referee',
   },
   init() {

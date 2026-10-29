@@ -413,6 +413,18 @@ select {
   gap: 12px;
 }
 
+.setup-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-link {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+}
+
 .setup-user {
   display: flex;
   align-items: center;
@@ -1149,6 +1161,26 @@ select {
   flex-direction: column;
   gap: 8px;
   align-items: flex-start;
+}
+
+.dialog-backdrop {
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+.dialog {
+  width: min(440px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.dialog h2,
+.dialog p {
+  margin: 0;
 }
 
 .menu-players {
