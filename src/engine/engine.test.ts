@@ -273,32 +273,34 @@ describe('skipping and leaving', () => {
     expect(s.order).toContain('newPhone');
   });
 
-  it('rejects a duplicate colour', () => {
+  it('lets two players share a colour', () => {
     let { s, rng } = setup(3);
     s = addSeat(s, 'x', 'profX', { name: 'X', color: 'red', accessory: 'none' }, 1, rng);
-    expect(s.seats.x).toBeUndefined();
+    expect(s.seats.x.color).toBe('red');
+    expect(s.seats.p0.color).toBe('red');
   });
 });
 
 describe('changing look in the lobby', () => {
   it('updates colour and accessory', () => {
     let { s } = setup(3);
-    s = changeLook(s, 'p0', { color: 'purple', accessory: 'crown' }, 1);
+    s = changeLook(s, 'p0', { color: 'purple', accessory: 'crown' });
     expect(s.seats.p0.color).toBe('purple');
     expect(s.seats.p0.accessory).toBe('crown');
   });
 
-  it("rejects another player's colour", () => {
+  it("allows another player's colour", () => {
     let { s } = setup(3);
-    s = changeLook(s, 'p0', { color: 'blue', accessory: 'none' }, 1);
-    expect(s.seats.p0.color).toBe('red');
-    expect(s.rejects.p0).toBeDefined();
+    s = changeLook(s, 'p0', { color: 'blue', accessory: 'none' });
+    expect(s.seats.p0.color).toBe('blue');
+    expect(s.seats.p1.color).toBe('blue');
+    expect(s.rejects.p0).toBeUndefined();
   });
 
   it('is ignored once the game has started', () => {
     let { s, rng } = setup(3);
     s = startGame(s, 0, rng);
-    s = changeLook(s, 'p0', { color: 'purple', accessory: 'none' }, 1);
+    s = changeLook(s, 'p0', { color: 'purple', accessory: 'none' });
     expect(s.seats.p0.color).toBe('red');
   });
 });

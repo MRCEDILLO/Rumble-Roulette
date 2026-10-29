@@ -174,10 +174,6 @@ export function addSeat(
     reject(s, uid, `The room is full (${MAX_PLAYERS} players).`, now);
     return s;
   }
-  if (Object.values(s.seats).some((seat) => seat.color === look.color)) {
-    reject(s, uid, 'Someone already has that colour. Pick another one.', now);
-    return s;
-  }
   const others = Object.values(s.seats);
   const gs = emptyGameStats();
   // Joining mid-game: count as having refereed as often as the least-used player so far.
@@ -210,16 +206,11 @@ export function changeLook(
   state: EngineState,
   uid: SeatId,
   look: Pick<Look, 'color' | 'accessory'>,
-  now: number,
 ): EngineState {
   const seat = state.seats[uid];
   if (!seat || state.phase !== 'lobby') return state;
   if (seat.color === look.color && seat.accessory === look.accessory) return state;
   const s = clone(state);
-  if (Object.values(s.seats).some((other) => other.id !== uid && other.color === look.color)) {
-    reject(s, uid, 'Someone already has that colour. Pick another one.', now);
-    return s;
-  }
   s.seats[uid].color = look.color;
   s.seats[uid].accessory = look.accessory;
   delete s.rejects[uid];
@@ -823,7 +814,6 @@ export function project(s: EngineState, profiles: Profile[], now: number): Publi
     rejects: s.rejects,
     profiles,
     takenProfiles: Object.values(s.seats).map((seat) => seat.profileId),
-    takenColors: Object.values(s.seats).map((seat) => seat.color),
   };
 }
 

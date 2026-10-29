@@ -177,12 +177,10 @@ function CreateProfile({
   onBack?: () => void;
   onCreate: (look: { name: string; color: string; accessory: string }) => void;
 }) {
-  const free = COLORS.filter((c) => !pub.takenColors.includes(c.id));
   const [name, setName] = useState('');
-  const [color, setColor] = useState(free[0]?.id ?? COLORS[0].id);
+  const [color, setColor] = useState(COLORS[0].id);
   const [accessory, setAccessory] = useState('none');
-  const colorTaken = pub.takenColors.includes(color);
-  const valid = name.trim().length > 0 && !colorTaken;
+  const valid = name.trim().length > 0;
   return (
     <div className="screen phone">
       <header className="phone-header">
@@ -203,7 +201,7 @@ function CreateProfile({
         Name
         <input value={name} maxLength={14} onChange={(e) => setName(e.target.value)} placeholder="Your name" autoFocus />
       </label>
-      <LookPicker takenColors={pub.takenColors} color={color} accessory={accessory} onColor={setColor} onAccessory={setAccessory} />
+      <LookPicker color={color} accessory={accessory} onColor={setColor} onAccessory={setAccessory} />
       {reject && <p className="error">{reject}</p>}
       <button className="btn btn-primary btn-huge" disabled={!valid || waiting} onClick={() => onCreate({ name: name.trim(), color, accessory })}>
         {waiting ? 'Joining…' : 'Join game'}
@@ -214,13 +212,11 @@ function CreateProfile({
 
 /** Colour swatches and accessory buttons, shared by the new-profile and edit-look screens. */
 function LookPicker({
-  takenColors,
   color,
   accessory,
   onColor,
   onAccessory,
 }: {
-  takenColors: string[];
   color: string;
   accessory: string;
   onColor: (id: string) => void;
@@ -231,21 +227,15 @@ function LookPicker({
       <div className="field">
         Colour
         <div className="swatches">
-          {COLORS.map((c) => {
-            const taken = takenColors.includes(c.id);
-            return (
-              <button
-                key={c.id}
-                className={`swatch${color === c.id ? ' on' : ''}`}
-                style={{ background: c.main }}
-                disabled={taken}
-                aria-label={`${c.name}${taken ? ' (taken)' : ''}`}
-                onClick={() => onColor(c.id)}
-              >
-                {taken ? '✕' : ''}
-              </button>
-            );
-          })}
+          {COLORS.map((c) => (
+            <button
+              key={c.id}
+              className={`swatch${color === c.id ? ' on' : ''}`}
+              style={{ background: c.main }}
+              aria-label={c.name}
+              onClick={() => onColor(c.id)}
+            />
+          ))}
         </div>
       </div>
       <div className="field">
@@ -274,22 +264,19 @@ function LobbyWait({ pub, uid, send }: { pub: PublicState; uid: string; send: (m
   const profile = pub.profiles.find((p) => p.id === me.profileId);
 
   if (editing) {
-    // Your own colour shows as free; everyone else's is crossed out.
-    const takenColors = pub.takenColors.filter((c) => c !== me.color);
     return (
       <div className="edit-look">
         <h2>Change your look</h2>
         <div className="creator-preview">
           <Character color={color} accessory={accessory} size={130} />
         </div>
-        <LookPicker takenColors={takenColors} color={color} accessory={accessory} onColor={setColor} onAccessory={setAccessory} />
+        <LookPicker color={color} accessory={accessory} onColor={setColor} onAccessory={setAccessory} />
         <div className="row-buttons">
           <button className="btn" onClick={() => setEditing(false)}>
             Cancel
           </button>
           <button
             className="btn btn-primary"
-            disabled={takenColors.includes(color)}
             onClick={() => {
               send({ t: 'look', color, accessory });
               setEditing(false);

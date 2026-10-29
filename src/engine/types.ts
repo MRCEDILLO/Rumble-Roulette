@@ -188,5 +188,4 @@ export interface PublicState {
   rejects: Record<string, { msg: string; at: number }>;
   profiles: Profile[];
   takenProfiles: string[];
-  takenColors: string[];
 }

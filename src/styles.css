@@ -1614,11 +1614,6 @@ select {
   outline-offset: 2px;
 }
 
-.swatch:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
 .accessories {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
