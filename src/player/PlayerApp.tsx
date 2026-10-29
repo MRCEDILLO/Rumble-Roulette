@@ -8,6 +8,7 @@ import { GAME_VIEWS } from '../games/views';
 import { phoneBackend } from '../net/backend';
 import { cleanRoomCode } from '../net/roomCode';
 import type { PhoneMessage } from '../net/types';
+import { applyTheme } from '../themes/themes';
 import { Countdown, RefControls, duelTitle, peopleOf, signed } from '../ui/common';
 import { useHostClock, useOnChange, useWakeLock, vibrate } from '../ui/hooks';
 import { LoadingMark, Logo } from '../ui/Logo';
@@ -71,6 +72,11 @@ function Connected({ code }: { code: string }) {
       stop?.();
     };
   }, [backend, code]);
+
+  // Match the TV's look.
+  useEffect(() => {
+    if (pub?.theme) applyTheme(pub.theme);
+  }, [pub?.theme]);
 
   const send = (msg: PhoneMessage) => backend.send(code, msg);
   const seated = !!(uid && pub?.seats[uid]);

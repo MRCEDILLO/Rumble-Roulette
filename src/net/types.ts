@@ -12,6 +12,12 @@ export interface Inbound {
   msg: PhoneMessage;
 }
 
+/** Preferences saved on the host's account. */
+export interface HostSettings {
+  /** Id of the look (theme) used on the TV and the phones. */
+  theme?: string;
+}
+
 export interface HostUser {
   uid: string;
   name: string;
@@ -42,6 +48,8 @@ export interface HostBackend {
   /** Trivia questions this host has already had, by category id. */
   loadTriviaMemory(): Promise<Record<string, string[]>>;
   saveTriviaMemory(category: string, used: string[]): Promise<void>;
+  loadSettings(): Promise<HostSettings>;
+  saveSettings(settings: HostSettings): Promise<void>;
 }
 
 /** Everything a phone needs from the backend. */

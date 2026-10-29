@@ -7,6 +7,7 @@ import type { GameCategory } from '../games/types';
 import type { HostUser } from '../net/types';
 import { FullscreenButton } from '../ui/common';
 import { Logo } from '../ui/Logo';
+import { ThemePicker } from '../ui/ThemePicker';
 
 export interface SetupChoice {
   mode: Mode;
@@ -64,9 +65,11 @@ interface Props {
   onCreate: (c: SetupChoice) => void;
   onSignOut: () => void;
   onDeleteProfile: (id: string) => void;
+  theme: string;
+  onTheme: (id: string) => void;
 }
 
-export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProfile }: Props) {
+export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProfile, theme, onTheme }: Props) {
   const [mode, setMode] = useState<Mode>('party');
   const [length, setLength] = useState('short');
   const [custom, setCustom] = useState(15);
@@ -218,6 +221,13 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
           {error && <p className="error">{error}</p>}
         </section>
 
+        <div className="setup-side">
+        <section className="card">
+          <h2>Look</h2>
+          <p className="muted">How the TV and the phones look. Saved on your account, and you can change it mid-game from the menu.</p>
+          <ThemePicker value={theme} onChange={onTheme} />
+        </section>
+
         <section className="card">
           <h2>Profiles ({profiles.length})</h2>
           <p className="muted">Players pick or create these on their phone when they join, and see their own all-time stats there.</p>
@@ -239,6 +249,7 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
               ))}
           </ul>
         </section>
+        </div>
       </div>
 
       {deleting && (

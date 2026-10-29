@@ -23,16 +23,25 @@ const newId = () => Math.random().toString(36).slice(2, 12);
  * Runs the game on the host: applies phone inputs and timers to the engine state,
  * then publishes the public view for the phones.
  */
-export function useHostGame(backend: HostBackend, initial: EngineState, initialProfiles: Profile[]) {
+export function useHostGame(backend: HostBackend, initial: EngineState, initialProfiles: Profile[], theme: string) {
   const code = initial.code;
   const stateRef = useRef(initial);
+  const themeRef = useRef(theme);
   const profilesRef = useRef(initialProfiles);
   const [state, setState] = useState(initial);
   const [profiles, setProfiles] = useState(initialProfiles);
 
   const publish = useCallback(() => {
-    backend.publish(code, project(stateRef.current, profilesRef.current, Date.now()), stateRef.current);
+    const pub = { ...project(stateRef.current, profilesRef.current, Date.now()), theme: themeRef.current };
+    backend.publish(code, pub, stateRef.current);
   }, [backend, code]);
+
+  // Phones pick up a new look straight away.
+  useEffect(() => {
+    if (themeRef.current === theme) return;
+    themeRef.current = theme;
+    publish();
+  }, [theme, publish]);
 
   const commit = useCallback(
     (next: EngineState) => {

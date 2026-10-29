@@ -4,13 +4,14 @@
  */
 import type { EngineState, Profile, PublicState } from '../engine/types';
 import { newRoomCode } from './roomCode';
-import type { HostBackend, HostUser, Inbound, PhoneBackend, PhoneMessage } from './types';
+import type { HostBackend, HostSettings, HostUser, Inbound, PhoneBackend, PhoneMessage } from './types';
 
 const KEY = {
   user: 'rr-local-user',
   profiles: 'rr-local-profiles',
   games: 'rr-local-games',
   trivia: 'rr-local-trivia',
+  settings: 'rr-local-settings',
   room: (code: string) => `rr-local-room-${code}`,
   pub: (code: string) => `rr-local-pub-${code}`,
   phone: 'rr-local-phone-id',
@@ -142,6 +143,12 @@ export function localHostBackend(): HostBackend {
     },
     async saveTriviaMemory(category, used) {
       writeJson(KEY.trivia, { ...readJson<Record<string, string[]>>(KEY.trivia, {}), [category]: used });
+    },
+    async loadSettings() {
+      return readJson<HostSettings>(KEY.settings, {});
+    },
+    async saveSettings(settings) {
+      writeJson(KEY.settings, { ...readJson<HostSettings>(KEY.settings, {}), ...settings });
     },
   };
 }

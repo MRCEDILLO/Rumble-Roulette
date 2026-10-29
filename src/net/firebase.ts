@@ -20,11 +20,11 @@ import {
   serverTimestamp,
   set,
 } from 'firebase/database';
-import { collection, deleteDoc, doc, getDocs, getFirestore, addDoc, setDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, addDoc, setDoc } from 'firebase/firestore';
 import type { EngineState, Profile, PublicState } from '../engine/types';
 import { firebaseConfig } from '../firebase-config';
 import { newRoomCode } from './roomCode';
-import type { HostBackend, HostUser, PhoneBackend } from './types';
+import type { HostBackend, HostSettings, HostUser, PhoneBackend } from './types';
 
 let app: FirebaseApp | null = null;
 function firebase() {
@@ -118,6 +118,13 @@ export function firebaseHostBackend(): HostBackend {
     },
     async saveTriviaMemory(category, used) {
       await setDoc(doc(fs, 'hosts', uid(), 'trivia', category), { used, updatedAt: Date.now() });
+    },
+    async loadSettings() {
+      const snap = await getDoc(doc(fs, 'hosts', uid(), 'settings', 'prefs'));
+      return (snap.data() as HostSettings | undefined) ?? {};
+    },
+    async saveSettings(settings) {
+      await setDoc(doc(fs, 'hosts', uid(), 'settings', 'prefs'), settings, { merge: true });
     },
   };
 }
