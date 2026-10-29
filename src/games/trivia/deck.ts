@@ -32,26 +32,35 @@ function usedSet(category: string) {
  */
 export function drawQuestion(category: string, rng: () => number, avoid?: string): Question {
   const cat = TRIVIA_CATEGORIES.find((c) => c.id === category);
-  if (!cat || !cat.questions.length) throw new Error(`No questions for trivia category "${category}"`);
-  const set = usedSet(category);
-  let fresh = cat.questions.filter((q) => !set.has(q.id));
+  if (!cat) throw new Error(`No questions for trivia category "${category}"`);
+  return drawFrom(category, cat.questions, rng, avoid);
+}
+
+/**
+ * The same, for any list of questions with ids (other games use this to share the host's
+ * question memory). `deck` is the name the used questions are remembered under.
+ */
+export function drawFrom<Q extends { id: string }>(deck: string, questions: Q[], rng: () => number, avoid?: string): Q {
+  if (!questions.length) throw new Error(`No questions for "${deck}"`);
+  const set = usedSet(deck);
+  let fresh = questions.filter((q) => !set.has(q.id));
   if (!fresh.length) {
     set.clear();
-    fresh = cat.questions.filter((q) => q.id !== avoid);
-    if (!fresh.length) fresh = cat.questions;
+    fresh = questions.filter((q) => q.id !== avoid);
+    if (!fresh.length) fresh = questions;
   }
   const q = fresh[Math.floor(rng() * fresh.length)];
   set.add(q.id);
   // Only keep ids that are still in the file, so edits to the file don't leave junk behind.
-  const ids = cat.questions.filter((x) => set.has(x.id)).map((x) => x.id);
-  save?.(category, ids);
+  const ids = questions.filter((x) => set.has(x.id)).map((x) => x.id);
+  save?.(deck, ids);
   return q;
 }
 
 /** How many questions are left before the category starts over. */
-export function questionsLeft(category: string): number {
-  const cat = TRIVIA_CATEGORIES.find((c) => c.id === category);
-  if (!cat) return 0;
+export function questionsLeft(category: string, questions?: { id: string }[]): number {
+  const list = questions ?? TRIVIA_CATEGORIES.find((c) => c.id === category)?.questions;
+  if (!list) return 0;
   const set = usedSet(category);
-  return cat.questions.filter((q) => !set.has(q.id)).length;
+  return list.filter((q) => !set.has(q.id)).length;
 }

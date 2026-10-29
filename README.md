@@ -105,6 +105,15 @@ host never gets the same question twice until every question in that category ha
 category starts over. Questions are picked at random from the ones not used yet. Editing a question's
 wording makes it count as a new question.
 
+## Higher or Lower questions
+
+Higher or Lower (in the Trivia category) asks number questions: both duelists type a guess on their
+phones, and the closest guess wins. Its questions live in `src/games/higher-lower/questions.csv` with a
+header row of `question,answer,unit,source`. The answer must be a plain number (`8849`, `-89.2`,
+`42.195`); `unit` is shown after it (`m`, `calories`) and can be blank for years; `source` is shown on
+the Host's phone. Used questions are remembered per host the same way as trivia, under
+`hosts/<uid>/trivia/higher-lower`.
+
 ## Development
 
 ```bash

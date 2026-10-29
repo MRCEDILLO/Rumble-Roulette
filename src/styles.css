@@ -2076,3 +2076,147 @@ select {
   margin: 0;
   font-weight: 700;
 }
+
+/* ------------------------------------------------------------------ higher or lower */
+
+.hl-host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.hl-middle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.hl-host .trivia-card {
+  font-size: clamp(24px, 3vw, 46px);
+  padding: 16px 28px;
+}
+
+.hl-center {
+  width: min(420px, 34vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.hl-guess {
+  min-height: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 22px;
+}
+
+.hl-guess b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 32px;
+  animation: pop-in 0.3s ease-out;
+}
+
+.hl-guess small {
+  color: var(--ink-dim);
+  font-size: 16px;
+}
+
+.hl-line {
+  position: relative;
+  width: min(900px, 90%);
+  height: 64px;
+}
+
+.hl-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 34px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--panel);
+  border: 3px solid var(--line);
+}
+
+.hl-mark {
+  position: absolute;
+  top: 26px;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  border-radius: 50%;
+  border: 3px solid var(--line);
+  animation: pop-in 0.4s ease-out;
+}
+
+.hl-mark span {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.hl-mark.guess span {
+  top: -26px;
+}
+
+.hl-mark.answer {
+  top: 16px;
+  width: 14px;
+  height: 44px;
+  margin-left: -7px;
+  border-radius: 5px;
+  background: var(--gold);
+}
+
+.hl-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  align-items: center;
+}
+
+.hl-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.hl-input {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 34px;
+  text-align: center;
+}
+
+.hl-sign {
+  font-size: 24px;
+  padding: 8px 14px;
+}
+
+.hl-unit {
+  font-weight: 700;
+  max-width: 110px;
+}
+
+@media (max-width: 760px) {
+  .hl-middle {
+    gap: 12px;
+  }
+  .hl-center {
+    width: auto;
+  }
+}
