@@ -6,6 +6,7 @@ import movies from './questions/movies.csv?raw';
 import music from './questions/music.csv?raw';
 import tv from './questions/tv.csv?raw';
 import videogames from './questions/videogames.csv?raw';
+import history from './questions/history.csv?raw';
 
 export interface Question {
   /** Stable id made from the question text, so used questions are remembered across visits. */
@@ -71,6 +72,7 @@ export const TRIVIA_CATEGORIES: TriviaCategory[] = [
   { id: 'music', name: 'Music', icon: '🎵', color: '#b48cff', questions: parseQuestions(music) },
   { id: 'tv', name: 'TV Shows', icon: '📺', color: '#4fd8e0', questions: parseQuestions(tv) },
   { id: 'videogames', name: 'Video Game', icon: '🎮', color: '#7ee05f', questions: parseQuestions(videogames) },
+  { id: 'history', name: 'World History', icon: '🏛️', color: '#e0a86b', questions: parseQuestions(history) },
 ];
 
 const byId = new Map(TRIVIA_CATEGORIES.map((c) => [c.id, new Map(c.questions.map((q) => [q.id, q]))]));
