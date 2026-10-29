@@ -67,6 +67,7 @@ export const rpsLogic: MinigameLogic<RpsState, RpsView> = {
     refereeDuty: 'The game scores itself. Tap Next round when it ends.',
     icon: '✂️',
     color: '#ff8a3d',
+    category: 'chance',
     needsReferee: false,
     scoring: 'auto',
   },

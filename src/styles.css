@@ -508,6 +508,12 @@ select {
   color: var(--ink-dim);
 }
 
+.game-pick small.tag {
+  display: inline-block;
+  color: var(--line);
+  margin-right: 6px;
+}
+
 .game-icon {
   display: grid;
   place-items: center;

@@ -49,7 +49,7 @@ Source of truth for the rules: the approved [design brief](https://claude.ai/art
 
 ## Minigames (`src/games/`)
 
-Each game is one folder exporting a `MinigameDef`: info (name, rules, icon, colour, needsReferee,
+Each game is one folder exporting a `MinigameDef`: info (name, rules, icon, colour, category, needsReferee,
 scoring), `init`, `onInput`, `tick`, `result`, `project` (public view), and three React views
 (`HostView`, `DuelistView`, `RefereeView`). Register it in `src/games/index.ts` and it appears on the wheel.
 
