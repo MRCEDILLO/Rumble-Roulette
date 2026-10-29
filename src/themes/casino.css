@@ -91,13 +91,15 @@
 [data-theme='casino'] .leaderboard li,
 [data-theme='casino'] .bettor,
 [data-theme='casino'] .bet-result,
-[data-theme='casino'] .game-card,
+[data-theme='casino'] .game-group,
 [data-theme='casino'] .profile-card,
 [data-theme='casino'] .bet-choice,
 [data-theme='casino'] .amount,
 [data-theme='casino'] .accessory,
 [data-theme='casino'] .toggle,
 [data-theme='casino'] .game-pick,
+[data-theme='casino'] .game-tile,
+[data-theme='casino'] .filter-chip,
 [data-theme='casino'] .modal {
   border-color: var(--rail);
 }

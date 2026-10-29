@@ -3,7 +3,7 @@ import { Character } from '../characters/Character';
 import type { Mode, Profile } from '../engine/types';
 import { ALL_CATEGORY_IDS, CATEGORIES } from '../games/categories';
 import { CategoryIcon } from '../games/CategoryIcon';
-import { ALL_GAME_IDS, gameInfo } from '../games/logic';
+import { ALL_GAME_IDS, gameInfo, matchesSearch } from '../games/logic';
 import type { GameCategory } from '../games/types';
 import type { HostUser } from '../net/types';
 import { FullscreenButton } from '../ui/common';
@@ -84,6 +84,8 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
   const [categories, setCategories] = useState<GameCategory[]>(loadCategories);
   const [busy, setBusy] = useState(false);
   const [deleting, setDeleting] = useState<Profile | null>(null);
+  const [search, setSearch] = useState('');
+  const [openGroups, setOpenGroups] = useState<GameCategory[]>([]);
 
   const rounds = length === 'custom' ? custom : LENGTHS.find((l) => l.id === length)!.rounds;
   const toggleGame = (id: string) => {
@@ -92,6 +94,14 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
     save(GAMES_KEY, next);
     save(KNOWN_KEY, ALL_GAME_IDS);
   };
+  const setMany = (ids: string[], on: boolean) => {
+    const next = on ? [...games, ...ids.filter((id) => !games.includes(id))] : games.filter((g) => !ids.includes(g));
+    setGames(next);
+    save(GAMES_KEY, next);
+    save(KNOWN_KEY, ALL_GAME_IDS);
+  };
+  const toggleGroup = (id: GameCategory) =>
+    setOpenGroups((open) => (open.includes(id) ? open.filter((c) => c !== id) : [...open, id]));
   const toggleCategory = (id: GameCategory) => {
     const next = categories.includes(id) ? categories.filter((c) => c !== id) : [...categories, id];
     setCategories(next);
@@ -174,6 +184,26 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
             </>
           )}
 
+          <button
+            className="btn btn-primary btn-huge"
+            disabled={busy || poolProblem !== null}
+            onClick={async () => {
+              setBusy(true);
+              await onCreate({ mode, rounds, games: pool });
+              setBusy(false);
+            }}
+          >
+            {busy ? 'Creating room…' : 'Create room'}
+          </button>
+          {poolProblem ? (
+            <p className="error">{poolProblem}</p>
+          ) : (
+            <p className="muted pool-count">
+              {pool.length === 1 ? '1 game' : `${pool.length} games`} on the wheel, out of {ALL_GAME_IDS.length}.
+            </p>
+          )}
+          {error && <p className="error">{error}</p>}
+
           <h2>Categories on the wheel</h2>
           <div className="toggle-row">
             {CATEGORIES.map((c) => {
@@ -194,41 +224,72 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
             })}
           </div>
 
-          <h2>Games on the wheel</h2>
-          <div className="game-list">
-            {shownGames.map((id) => {
-              const info = gameInfo(id)!;
-              const category = CATEGORIES.find((c) => c.id === info.category)!;
+          <div className="games-heading">
+            <h2>Games on the wheel</h2>
+            <input
+              type="search"
+              className="game-search"
+              placeholder="Find a game…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+          <div className="game-groups">
+            {CATEGORIES.filter((c) => categories.includes(c.id)).map((c) => {
+              const all = shownGames.filter((id) => gameInfo(id)!.category === c.id);
+              if (!all.length) return null;
+              const matches = all.filter((id) => matchesSearch(id, search));
+              if (!matches.length) return null;
+              const on = all.filter((id) => games.includes(id)).length;
+              // A search opens every group that has a match.
+              const open = search.trim() !== '' || openGroups.includes(c.id);
               return (
-                <label key={id} className={`game-pick${games.includes(id) ? ' on' : ''}`}>
-                  <input type="checkbox" checked={games.includes(id)} onChange={() => toggleGame(id)} />
-                  <span className="game-icon" style={{ background: info.color }}>
-                    {info.icon}
-                  </span>
-                  <span>
-                    <b>{info.name}</b>
-                    <small>{info.rules}</small>
-                    <small className="tag">{category.name}</small>
-                  </span>
-                </label>
+                <div key={c.id} className={`game-group${open ? ' open' : ''}`}>
+                  <div className="game-group-head">
+                    <button className="game-group-toggle" aria-expanded={open} onClick={() => toggleGroup(c.id)}>
+                      <span className="chevron" aria-hidden="true">
+                        ▸
+                      </span>
+                      <CategoryIcon id={c.id} />
+                      <b>{c.name}</b>
+                      <small>
+                        {on} of {all.length} on
+                      </small>
+                    </button>
+                    <button className="btn btn-quiet btn-small" disabled={on === all.length} onClick={() => setMany(all, true)}>
+                      All
+                    </button>
+                    <button className="btn btn-quiet btn-small" disabled={on === 0} onClick={() => setMany(all, false)}>
+                      None
+                    </button>
+                  </div>
+                  {open && (
+                    <div className="game-list">
+                      {matches.map((id) => {
+                        const info = gameInfo(id)!;
+                        return (
+                          <label key={id} className={`game-pick${games.includes(id) ? ' on' : ''}`} title={info.rules}>
+                            <input type="checkbox" checked={games.includes(id)} onChange={() => toggleGame(id)} />
+                            <span className="game-icon" style={{ background: info.color }}>
+                              {info.icon}
+                            </span>
+                            <span>
+                              <b>{info.name}</b>
+                              <small>{info.rules}</small>
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               );
             })}
             {shownGames.length === 0 && <p className="muted">No games here. Turn a category on above.</p>}
+            {shownGames.length > 0 && !shownGames.some((id) => matchesSearch(id, search)) && (
+              <p className="muted">No games match “{search}”.</p>
+            )}
           </div>
-
-          <button
-            className="btn btn-primary btn-huge"
-            disabled={busy || poolProblem !== null}
-            onClick={async () => {
-              setBusy(true);
-              await onCreate({ mode, rounds, games: pool });
-              setBusy(false);
-            }}
-          >
-            {busy ? 'Creating room…' : 'Create room'}
-          </button>
-          {poolProblem && <p className="error">{poolProblem}</p>}
-          {error && <p className="error">{error}</p>}
         </section>
 
         <div className="setup-side">

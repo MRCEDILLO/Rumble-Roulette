@@ -1,11 +1,40 @@
 import { useRef } from 'react';
-import { SPIN_MS } from '../engine/engine';
+import { SPIN_MS, shuffle } from '../engine/engine';
 import type { Spin } from '../engine/types';
 import { gameInfo } from '../games/logic';
 import { useTicker } from './hooks';
 
 const SPIN_TIME = SPIN_MS - 1200;
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 4);
+
+/** The most games the wheel shows. More than this and the slices get too thin to read. */
+export const MAX_WHEEL_GAMES = 12;
+
+/** A tiny seeded random generator (mulberry32), so a spin always draws the same wheel. */
+function seeded(seed: number) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/**
+ * The games on the wheel for this spin. A big pool shows the chosen game plus a random
+ * handful of the others, picked from the spin's start time so every redraw matches.
+ */
+export function wheelGames(spin: Spin): string[] {
+  if (spin.options.length <= MAX_WHEEL_GAMES) return spin.options;
+  const rng = seeded(spin.startedAt);
+  const others = shuffle(
+    spin.options.filter((id) => id !== spin.gameId),
+    rng,
+  ).slice(0, MAX_WHEEL_GAMES - 1);
+  return shuffle([spin.gameId, ...others], rng);
+}
 
 /** Repeat the game list so the wheel always has at least 8 slices. */
 function slicesFor(options: string[]) {
@@ -15,7 +44,7 @@ function slicesFor(options: string[]) {
 }
 
 export function wheelAngle(spin: Spin, now: number) {
-  const slices = slicesFor(spin.options);
+  const slices = slicesFor(wheelGames(spin));
   const seg = 360 / slices.length;
   const target = slices.indexOf(spin.gameId); // first slice showing the chosen game
   const final = spin.turns * 360 + (360 - (target + 0.5) * seg);
@@ -40,12 +69,16 @@ export function Wheel({ spin, now, size = 520, onTick }: Props) {
     lastSlice.current = slice;
   }
   const r = 240;
+  // Names run from just outside the hub to just inside the icons.
+  const LABEL_FROM = 44;
+  const LABEL_ROOM = r * 0.8 - 26 - LABEL_FROM;
   return (
     <div className="wheel" style={{ width: size, height: size }}>
       <svg viewBox="-260 -260 520 520" width={size} height={size} aria-label="Game wheel">
         <g transform={`rotate(${angle})`}>
           {slices.map((id, i) => {
             const info = gameInfo(id)!;
+            const label = info.shortName ?? info.name;
             const a0 = ((i * seg - 90) * Math.PI) / 180;
             const a1 = (((i + 1) * seg - 90) * Math.PI) / 180;
             const mid = ((i + 0.5) * seg - 90) * (Math.PI / 180);
@@ -53,22 +86,23 @@ export function Wheel({ spin, now, size = 520, onTick }: Props) {
             return (
               <g key={i}>
                 <path d={path} fill={info.color} className="wheel-line" strokeWidth="5" opacity={i % 2 ? 0.85 : 1} />
-                <g transform={`rotate(${(i + 0.5) * seg}) translate(0 ${-r * 0.62})`}>
-                  <text textAnchor="middle" fontSize="44" y="0" dominantBaseline="middle">
+                <g transform={`rotate(${(i + 0.5) * seg}) translate(0 ${-r * 0.8})`}>
+                  <text textAnchor="middle" fontSize="38" y="0" dominantBaseline="middle">
                     {info.icon}
                   </text>
                 </g>
+                {/* The name reads outwards from the hub and is squeezed to fit before the icon. */}
                 <text
-                  x={Math.cos(mid) * r * 0.36}
-                  y={Math.sin(mid) * r * 0.36}
-                  textAnchor="middle"
+                  x={Math.cos(mid) * LABEL_FROM}
+                  y={Math.sin(mid) * LABEL_FROM}
                   dominantBaseline="middle"
                   fontSize="17"
                   fontWeight="800"
                   className="wheel-label"
-                  transform={`rotate(${(i + 0.5) * seg - 90} ${Math.cos(mid) * r * 0.36} ${Math.sin(mid) * r * 0.36})`}
+                  transform={`rotate(${(i + 0.5) * seg - 90} ${Math.cos(mid) * LABEL_FROM} ${Math.sin(mid) * LABEL_FROM})`}
+                  {...(label.length * 9.5 > LABEL_ROOM ? { textLength: LABEL_ROOM, lengthAdjust: 'spacingAndGlyphs' } : {})}
                 >
-                  {info.shortName ?? info.name}
+                  {label}
                 </text>
               </g>
             );

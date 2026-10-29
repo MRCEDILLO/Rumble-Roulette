@@ -24,3 +24,8 @@ export const ALL_GAME_IDS = Object.keys(GAME_LOGIC);
 export function gameInfo(id: string) {
   return GAME_LOGIC[id]?.info;
 }
+
+/** Whether a game's name contains the search text (an empty search matches everything). */
+export function matchesSearch(id: string, search: string) {
+  return gameInfo(id)!.name.toLowerCase().includes(search.trim().toLowerCase());
+}

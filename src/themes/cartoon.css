@@ -126,7 +126,7 @@
 }
 
 [data-theme='cartoon'] .rps-side.won,
-[data-theme='cartoon'] .game-card.on {
+[data-theme='cartoon'] .game-tile.on {
   box-shadow: var(--shadow);
 }
 
