@@ -16,48 +16,56 @@ export const triviaViews: MinigameViews<TriviaView> = {
     }, [view.status, view.correct]);
 
     const buzzer = view.buzzer ? people[view.buzzer] : null;
+    const contestant = (s: 'a' | 'b') => {
+      const won = view.status === 'done' && view.winner === s;
+      const lit = view.buzzer === s;
+      return (
+        <div className={`trivia-contestant${lit ? ' lit' : ''}${won ? ' won' : ''}`}>
+          <Character
+            color={people[s].color}
+            accessory={people[s].accessory}
+            size={130}
+            flip={s === 'b'}
+            pose={won ? 'win' : view.status === 'done' ? 'lose' : 'idle'}
+          />
+          {/* The podium sits in front of the character, with a buzzer that lights up when they buzz. */}
+          <div className="podium">
+            <div className="podium-buzzer" />
+            <div className="podium-top" />
+            <div className="podium-front">
+              <span className="podium-name">{people[s].name}</span>
+            </div>
+          </div>
+        </div>
+      );
+    };
     return (
       <div className="trivia-host">
-        <div className="trivia-number">Question {view.number}</div>
-        <div className="trivia-card">{view.question}</div>
-        <div className={`trivia-answer${view.answer ? ' shown' : ''}`}>
-          {view.answer ? (
-            <>
-              <small>Answer</small> {view.answer}
-            </>
-          ) : (
-            '?'
-          )}
+        {contestant('a')}
+        <div className="trivia-middle">
+          <div className="trivia-number">Question {view.number}</div>
+          <div className="trivia-card">{view.question}</div>
+          <div className={`trivia-answer${view.answer ? ' shown' : ''}`}>
+            {view.answer ? (
+              <>
+                <small>Answer</small> {view.answer}
+              </>
+            ) : (
+              '?'
+            )}
+          </div>
+          <h2 className="trivia-call">
+            {view.status === 'open' && 'Buzz in on your phone!'}
+            {view.status === 'buzzed' && `${buzzer!.name}, say your answer out loud!`}
+            {view.status === 'revealed' && `Was ${buzzer!.name} right? The Host decides…`}
+            {view.status === 'nobody' && 'Nobody got it! Next question coming up…'}
+            {view.status === 'done' &&
+              (view.correct
+                ? `Correct! ${people[view.winner as 'a' | 'b'].name} wins!`
+                : `Wrong! ${people[view.winner as 'a' | 'b'].name} wins!`)}
+          </h2>
         </div>
-        <h2 className="trivia-call">
-          {view.status === 'open' && 'Buzz in on your phone!'}
-          {view.status === 'buzzed' && `${buzzer!.name}, say your answer out loud!`}
-          {view.status === 'revealed' && `Was ${buzzer!.name} right? The Host decides…`}
-          {view.status === 'nobody' && 'Nobody got it! Next question coming up…'}
-          {view.status === 'done' &&
-            (view.correct
-              ? `Correct! ${people[view.winner as 'a' | 'b'].name} wins!`
-              : `Wrong! ${people[view.winner as 'a' | 'b'].name} wins!`)}
-        </h2>
-        <div className="rps-arena trivia-arena">
-          {(['a', 'b'] as const).map((s) => {
-            const won = view.status === 'done' && view.winner === s;
-            const buzzed = view.buzzer === s;
-            return (
-              <div key={s} className={`rps-side${won ? ' won' : ''}${buzzed && view.status !== 'done' ? ' buzzed' : ''}`}>
-                <Character
-                  color={people[s].color}
-                  accessory={people[s].accessory}
-                  size={90}
-                  flip={s === 'b'}
-                  pose={won ? 'win' : 'idle'}
-                />
-                <div className="big-name">{people[s].name}</div>
-                {buzzed && <span className="buzz-tag">BUZZED!</span>}
-              </div>
-            );
-          })}
-        </div>
+        {contestant('b')}
       </div>
     );
   },
