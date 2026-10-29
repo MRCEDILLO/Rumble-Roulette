@@ -2,7 +2,7 @@
  * Host-screen sound effects (no background music), synthesised with Web Audio so there are no audio files to host.
  * Phones never call this.
  */
-type Sfx = 'tick' | 'reveal' | 'coin' | 'lose' | 'fanfare' | 'pop' | 'whoosh' | 'drum';
+type Sfx = 'tick' | 'reveal' | 'coin' | 'lose' | 'fanfare' | 'pop' | 'whoosh' | 'drum' | 'buzz';
 
 let ctx: AudioContext | null = null;
 let master: GainNode | null = null;
@@ -108,6 +108,8 @@ export function play(sfx: Sfx) {
       case 'coin':
         tone(988, 0, 0.08, 'square', 0.12);
         return tone(1319, 0.08, 0.25, 'square', 0.12);
+      case 'buzz':
+        return tone(180, 0, 0.45, 'sawtooth', 0.18);
       case 'lose':
         return tone(330, 0, 0.5, 'sawtooth', 0.1, 140);
       case 'fanfare':

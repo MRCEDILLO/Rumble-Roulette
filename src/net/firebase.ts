@@ -112,6 +112,13 @@ export function firebaseHostBackend(): HostBackend {
     async saveGameSummary(summary) {
       await addDoc(collection(fs, 'hosts', uid(), 'games'), summary as object);
     },
+    async loadTriviaMemory() {
+      const snap = await getDocs(collection(fs, 'hosts', uid(), 'trivia'));
+      return Object.fromEntries(snap.docs.map((d) => [d.id, (d.data().used as string[] | undefined) ?? []]));
+    },
+    async saveTriviaMemory(category, used) {
+      await setDoc(doc(fs, 'hosts', uid(), 'trivia', category), { used, updatedAt: Date.now() });
+    },
   };
 }
 

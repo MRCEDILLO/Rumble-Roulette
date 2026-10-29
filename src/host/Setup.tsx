@@ -22,12 +22,18 @@ const LENGTHS = [
 
 const GAMES_KEY = 'rr-enabled-games';
 const CATEGORIES_KEY = 'rr-enabled-categories';
+/** Games this browser has seen in setup, so games added later start ticked. */
+const KNOWN_KEY = 'rr-known-games';
+/** The games that existed before KNOWN_KEY was added. */
+const FIRST_GAMES = ['rps', 'timer'];
 
 function loadEnabled(): string[] {
   try {
     const saved = JSON.parse(localStorage.getItem(GAMES_KEY) ?? 'null') as string[] | null;
+    const known = (JSON.parse(localStorage.getItem(KNOWN_KEY) ?? 'null') as string[] | null) ?? FIRST_GAMES;
+    const added = ALL_GAME_IDS.filter((id) => !known.includes(id));
     const valid = saved?.filter((id) => ALL_GAME_IDS.includes(id));
-    return valid?.length ? valid : ALL_GAME_IDS;
+    return valid?.length ? [...valid, ...added.filter((id) => !valid.includes(id))] : ALL_GAME_IDS;
   } catch {
     return ALL_GAME_IDS;
   }
@@ -73,6 +79,7 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
     const next = games.includes(id) ? games.filter((g) => g !== id) : [...games, id];
     setGames(next);
     save(GAMES_KEY, next);
+    save(KNOWN_KEY, ALL_GAME_IDS);
   };
   const toggleCategory = (id: GameCategory) => {
     const next = categories.includes(id) ? categories.filter((c) => c !== id) : [...categories, id];
