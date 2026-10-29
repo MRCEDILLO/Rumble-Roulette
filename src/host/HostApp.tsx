@@ -3,6 +3,7 @@ import { createState } from '../engine/engine';
 import type { EngineState, Mode, Profile } from '../engine/types';
 import { hostBackend, useLocal } from '../net/backend';
 import type { HostUser } from '../net/types';
+import { applyTheme, lastTheme, themeById } from '../themes/themes';
 import { LoadingMark, Logo } from '../ui/Logo';
 import { Room } from './Room';
 import { Setup, type SetupChoice } from './Setup';
@@ -16,8 +17,30 @@ export function HostApp() {
   const [game, setGame] = useState<EngineState | null>(null);
   const [resuming, setResuming] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [theme, setTheme] = useState(lastTheme);
 
   useEffect(() => backend.onAuth(setUser), [backend]);
+  useEffect(() => applyTheme(theme), [theme]);
+
+  // The look is saved on the host's account, so it follows them to any screen.
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    backend
+      .loadSettings()
+      .then((s) => {
+        if (!cancelled && s.theme) setTheme(themeById(s.theme).id);
+      })
+      .catch(console.error);
+    return () => {
+      cancelled = true;
+    };
+  }, [user, backend]);
+
+  const chooseTheme = (id: string) => {
+    setTheme(id);
+    backend.saveSettings({ theme: id }).catch(console.error);
+  };
 
   // Once signed in: load profiles, and pick up a game that was running before a refresh.
   useEffect(() => {
@@ -108,6 +131,8 @@ export function HostApp() {
           await backend.deleteProfile(id);
           setProfiles(profiles.filter((p) => p.id !== id));
         }}
+        theme={theme}
+        onTheme={chooseTheme}
       />
     );
   }
@@ -118,6 +143,8 @@ export function HostApp() {
       backend={backend}
       initial={game}
       profiles={profiles}
+      theme={theme}
+      onTheme={chooseTheme}
       onClose={async () => {
         await backend.closeRoom(game.code);
         localStorage.removeItem(ROOM_KEY);

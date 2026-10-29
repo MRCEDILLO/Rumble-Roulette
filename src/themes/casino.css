@@ -1,0 +1,157 @@
+/*
+ * Casino felt: the screens are a green felt table with a gold rail. Coins are
+ * poker chips, titles are gold slab type, and controls are cream cards on felt.
+ */
+:root[data-theme='casino'] {
+  --bg: #0f5c3f;
+  --bg-2: #0b4a33;
+  --page-bg: radial-gradient(ellipse at 50% 30%, #17845a 0%, #0f5c3f 55%, #083a28 100%);
+  --panel: #0b4630;
+  --panel-2: #135d40;
+  --ink: #f6ecd2;
+  --ink-dim: #c5d6c0;
+  --line: #04241a;
+  --faint: rgba(246, 236, 210, 0.3);
+  --bar-bg: rgba(4, 36, 26, 0.55);
+  --overlay: rgba(2, 20, 14, 0.7);
+
+  --gold: #e8c15a;
+  --pink: #c8323c;
+  --green: #3ddc84;
+  --red: #e0525b;
+  --blue: #3b7fc4;
+  --timer: #e8c15a;
+  --accent-text: #e8c15a;
+  --good-text: #7be3a5;
+  --bad-text: #ff9e9e;
+  --good-bg: #1d6b48;
+  --bad-bg: #6b2328;
+  --win-bg: rgba(232, 193, 90, 0.18);
+
+  --btn-bg: #f6ecd2;
+  --field: #f6ecd2;
+  --field-ink: #04241a;
+  --primary: #e8c15a;
+  --primary-ink: #04241a;
+  --danger: #c8323c;
+  --danger-ink: #ffffff;
+
+  --title: #e8c15a;
+  --title-alt: #f6ecd2;
+  --title-stroke: 0;
+  --title-shadow: 0 0.05em 0 rgba(0, 0, 0, 0.45);
+
+  --logo-text: #e8c15a;
+  --logo-a: #c8323c;
+  --logo-b: #0d1f17;
+  --logo-stud: #e8c15a;
+  --logo-blade: #eef2f8;
+  --logo-hilt: #e8c15a;
+  --logo-grip: #5a2f1a;
+
+  --rail: rgba(232, 193, 90, 0.65);
+  --radius: 12px;
+  --shadow: 0 6px 0 rgba(0, 0, 0, 0.35);
+  --press: 0 4px 0 rgba(0, 0, 0, 0.35);
+  --press-sm: 0 3px 0 rgba(0, 0, 0, 0.35);
+  --pressed: 0 1px 0 rgba(0, 0, 0, 0.35);
+  --press-move: translateY(3px);
+  --drop: drop-shadow(0 8px 6px rgba(0, 0, 0, 0.4));
+
+  --font-display: 'Alfa Slab One', Rockwell, Georgia, serif;
+  --font-body: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+  color-scheme: dark;
+}
+
+/* The gold rail around the table on the big screens. */
+[data-theme='casino'] .stage,
+[data-theme='casino'] .landing {
+  position: relative;
+}
+
+[data-theme='casino'] .stage::before,
+[data-theme='casino'] .landing::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 3px solid var(--rail);
+  border-radius: 50% / 16%;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+[data-theme='casino'] .stage > *,
+[data-theme='casino'] .landing > * {
+  position: relative;
+}
+
+/* Cards and controls get a thin gold trim instead of an ink outline. */
+[data-theme='casino'] .card,
+[data-theme='casino'] .leaderboard li,
+[data-theme='casino'] .bettor,
+[data-theme='casino'] .bet-result,
+[data-theme='casino'] .game-card,
+[data-theme='casino'] .profile-card,
+[data-theme='casino'] .bet-choice,
+[data-theme='casino'] .amount,
+[data-theme='casino'] .accessory,
+[data-theme='casino'] .toggle,
+[data-theme='casino'] .game-pick,
+[data-theme='casino'] .modal {
+  border-color: var(--rail);
+}
+
+[data-theme='casino'] .topbar,
+[data-theme='casino'] .leaderboard {
+  border-color: var(--rail);
+}
+
+/* Coin counts are poker chips; the room code is a gold plaque. */
+[data-theme='casino'] .coins {
+  display: inline-block;
+  background: var(--pink);
+  color: var(--ink);
+  border: 3px dashed var(--ink);
+  border-radius: 999px;
+  padding: 0 10px;
+  line-height: 1.5;
+}
+
+[data-theme='casino'] .room-code-small b {
+  background: var(--gold);
+  color: var(--line);
+  border-radius: 6px;
+  padding: 0 8px;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+[data-theme='casino'] .logo-mark .rim {
+  stroke: var(--gold);
+}
+
+[data-theme='casino'] .logo-big .logo-text {
+  letter-spacing: 0.02em;
+}
+
+[data-theme='casino'] .wheel-rim {
+  stroke: var(--gold);
+}
+
+[data-theme='casino'] .wheel-stud {
+  fill: var(--gold);
+}
+
+[data-theme='casino'] h1,
+[data-theme='casino'] h2 {
+  color: var(--gold);
+}
+
+[data-theme='casino'] .btn-quiet {
+  border-color: var(--rail);
+}
+
+[data-theme='casino'] .lead,
+[data-theme='casino'] .muted {
+  letter-spacing: 0.01em;
+}

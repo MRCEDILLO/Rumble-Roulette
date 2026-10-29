@@ -23,6 +23,7 @@ import { getSoundSettings, play, setMuted, setVolume } from '../sound';
 import { Countdown, FullscreenButton, PlayerTag, RefControls, duelTitle, peopleOf, signed } from '../ui/common';
 import { useOnChange, useTicker } from '../ui/hooks';
 import { Logo } from '../ui/Logo';
+import { ThemePicker } from '../ui/ThemePicker';
 import { Wheel } from '../ui/Wheel';
 import { useHostGame } from './useHostGame';
 
@@ -37,11 +38,13 @@ interface Props {
   backend: HostBackend;
   initial: EngineState;
   profiles: Profile[];
+  theme: string;
+  onTheme: (id: string) => void;
   onClose: () => void;
 }
 
-export function Room({ backend, initial, profiles: initialProfiles, onClose }: Props) {
-  const { state, profiles, update } = useHostGame(backend, initial, initialProfiles);
+export function Room({ backend, initial, profiles: initialProfiles, theme, onTheme, onClose }: Props) {
+  const { state, profiles, update } = useHostGame(backend, initial, initialProfiles, theme);
   const [menu, setMenu] = useState(false);
   const pub = project(state, profiles, Date.now());
   const d = state.duel;
@@ -107,6 +110,8 @@ export function Room({ backend, initial, profiles: initialProfiles, onClose }: P
           state={state}
           onCloseMenu={() => setMenu(false)}
           update={update}
+          theme={theme}
+          onTheme={onTheme}
           onCloseRoom={() => {
             if (confirm('End this game and close the room?')) onClose();
           }}
@@ -660,12 +665,16 @@ function HostMenu({
   pub,
   state,
   update,
+  theme,
+  onTheme,
   onCloseMenu,
   onCloseRoom,
 }: {
   pub: PublicState;
   state: EngineState;
   update: Update;
+  theme: string;
+  onTheme: (id: string) => void;
   onCloseMenu: () => void;
   onCloseRoom: () => void;
 }) {
@@ -710,6 +719,12 @@ function HostMenu({
             </button>
           </section>
         )}
+
+        <section>
+          <h3>Look</h3>
+          <p className="muted">Changes the TV and every phone. Saved on your account.</p>
+          <ThemePicker value={theme} onChange={onTheme} />
+        </section>
 
         <section>
           <h3>Players</h3>

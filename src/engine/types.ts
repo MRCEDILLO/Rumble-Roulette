@@ -170,6 +170,8 @@ export interface PublicState {
   phaseStartedAt: number;
   phaseEndsAt: number | null;
   hostNow: number;
+  /** The host's chosen look, so the phones match the TV. Set by the host app, not the engine. */
+  theme?: string;
   seats: Record<SeatId, Omit<Seat, 'gs'> & { gs?: GameStats }>;
   order: SeatId[];
   duel: (Omit<Duel, 'game'> & { view: any }) | null;

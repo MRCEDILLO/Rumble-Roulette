@@ -3,9 +3,10 @@ import { createRoot } from 'react-dom/client';
 import { App } from './App';
 import './styles.css';
 import './themes/cartoon.css';
-import { applyTheme, DEFAULT_THEME } from './themes/themes';
+import './themes/casino.css';
+import { applyTheme, lastTheme } from './themes/themes';
 
-applyTheme(DEFAULT_THEME);
+applyTheme(lastTheme());
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
