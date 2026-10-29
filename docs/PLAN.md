@@ -60,7 +60,7 @@ auto-stop at 30 s).
 
 1. Scaffold: Vite/React/TS, lint-free build, GitHub Actions deploy to Pages.
 2. Transport layer (local + Firebase), room creation with code + QR, phone join, presence.
-3. Profiles + character creator (SVG bean, 12 colours, 8 accessories), all-time stats on the picker.
+3. Profiles + character creator (SVG Screenbot, 12 colours, 8 accessories), all-time stats on the picker.
 4. Minigame framework + RPS + Timer, playable in free play.
 5. Party mode engine: selection, wheel, betting, referee controls, payouts, final, tie-breaks.
 6. Awards rundown, scoreboard, saving stats, sound (Web Audio), vibration, wake lock, reconnects.

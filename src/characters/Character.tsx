@@ -15,7 +15,7 @@ interface Props {
 
 const INK = '#1b1035';
 
-/** The Rumble Roulette bean: a simple character with a visor, a backpack and one hat slot. */
+/** The Rumble Roulette Screenbot: a chunky robot whose screen face changes with the pose, plus one hat slot. */
 export function Character({ color, accessory, size = 96, pose = 'idle', flip = false, dim = false, title }: Props) {
   const c = colorById(color);
   return (
@@ -29,28 +29,59 @@ export function Character({ color, accessory, size = 96, pose = 'idle', flip = f
     >
       <g transform={flip ? 'translate(100 0) scale(-1 1)' : undefined}>
        <g className="character-body">
-        <ellipse cx="50" cy="119" rx="30" ry="4" fill="rgba(0,0,0,0.25)" />
-        {/* backpack */}
-        <rect x="12" y="50" width="18" height="40" rx="7" fill={c.shade} stroke={INK} strokeWidth="4" />
-        {/* legs */}
-        <rect x="30" y="92" width="16" height="24" rx="7" fill={c.shade} stroke={INK} strokeWidth="4" />
-        <rect x="56" y="92" width="16" height="24" rx="7" fill={c.shade} stroke={INK} strokeWidth="4" />
+        <ellipse cx="52" cy="119" rx="30" ry="4" fill="rgba(0,0,0,0.25)" />
+        {/* legs and feet */}
+        <rect x="34" y="92" width="14" height="18" rx="5" fill={c.shade} stroke={INK} strokeWidth="4" />
+        <rect x="56" y="92" width="14" height="18" rx="5" fill={c.shade} stroke={INK} strokeWidth="4" />
+        <rect x="30" y="106" width="20" height="8" rx="4" fill={INK} />
+        <rect x="54" y="106" width="20" height="8" rx="4" fill={INK} />
+        {/* bolt ears */}
+        <circle cx="24" cy="48" r="6" fill={c.shade} stroke={INK} strokeWidth="4" />
+        <circle cx="80" cy="48" r="6" fill={c.shade} stroke={INK} strokeWidth="4" />
         {/* body */}
-        <path
-          d="M24 56 C24 30 36 20 52 20 C70 20 80 32 80 56 L80 92 C80 102 74 106 64 106 L40 106 C30 106 24 102 24 92 Z"
-          fill={c.main}
-          stroke={INK}
-          strokeWidth="4"
-        />
-        <path d="M30 88 C30 98 36 100 44 100" fill="none" stroke={c.shade} strokeWidth="5" strokeLinecap="round" />
-        {/* visor */}
-        <rect x="46" y="36" width="42" height="24" rx="12" fill="#9be4ff" stroke={INK} strokeWidth="4" />
-        <rect x="56" y="41" width="20" height="6" rx="3" fill="#ffffff" opacity="0.85" />
-        {pose === 'lose' && <path d="M90 30 q4 8 0 10 q-4 -2 0 -10z" fill="#9be4ff" stroke={INK} strokeWidth="2" />}
+        <rect x="26" y="22" width="52" height="74" rx="16" fill={c.main} stroke={INK} strokeWidth="4" />
+        <path d="M32 86 C32 90 34 91 40 91" fill="none" stroke={c.shade} strokeWidth="5" strokeLinecap="round" />
+        {/* screen */}
+        <rect x="33" y="31" width="38" height="36" rx="10" fill={SCREEN} stroke={INK} strokeWidth="3.5" />
+        <path d="M38 36 h10" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" opacity="0.35" />
+        <Face pose={pose} />
+        <circle cx="44" cy="80" r="3.5" fill={c.shade} />
+        <circle cx="54" cy="80" r="3.5" fill={c.shade} />
+        <circle cx="64" cy="80" r="3.5" fill={c.shade} />
         <Accessory id={accessory} />
        </g>
       </g>
     </svg>
+  );
+}
+
+const SCREEN = '#22263a';
+const GLOW = '#7dfcff';
+const SAD_GLOW = '#ff8c8c';
+
+function Face({ pose }: { pose: Pose }) {
+  if (pose === 'win') {
+    return (
+      <g fill="none" stroke={GLOW} strokeWidth="3.5" strokeLinecap="round">
+        <path d="M40 48 q5 -7 10 0 M56 48 q5 -7 10 0" />
+        <path d="M45 56 q8 8 16 0" />
+      </g>
+    );
+  }
+  if (pose === 'lose') {
+    return (
+      <g fill="none" stroke={SAD_GLOW} strokeWidth="3.5" strokeLinecap="round">
+        <path d="M41 42 l8 8 M49 42 l-8 8 M57 42 l8 8 M65 42 l-8 8" />
+        <path d="M46 60 q7 -6 14 0" />
+      </g>
+    );
+  }
+  return (
+    <g>
+      <rect x="41" y="40" width="7" height="11" rx="3.5" fill={GLOW} />
+      <rect x="58" y="40" width="7" height="11" rx="3.5" fill={GLOW} />
+      <path d="M47 57 q6 4 12 0" fill="none" stroke={GLOW} strokeWidth="3.5" strokeLinecap="round" />
+    </g>
   );
 }
 
