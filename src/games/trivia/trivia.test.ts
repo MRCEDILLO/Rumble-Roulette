@@ -20,10 +20,10 @@ describe('question files', () => {
     expect(qs.map((q) => q.answer)).toEqual(['This']);
   });
 
-  it('has at least 300 science questions, each with an answer and a unique id', () => {
-    expect(science.questions.length).toBeGreaterThanOrEqual(300);
-    expect(new Set(science.questions.map((q) => q.id)).size).toBe(science.questions.length);
-    for (const q of science.questions) expect(q.answer.length).toBeGreaterThan(0);
+  it.each(TRIVIA_CATEGORIES)('has at least 300 $name questions, each with an answer and a unique id', (cat) => {
+    expect(cat.questions.length).toBeGreaterThanOrEqual(300);
+    expect(new Set(cat.questions.map((q) => q.id)).size).toBe(cat.questions.length);
+    for (const q of cat.questions) expect(q.answer.length).toBeGreaterThan(0);
   });
 });
 
