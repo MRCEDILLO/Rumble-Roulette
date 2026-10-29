@@ -90,11 +90,6 @@ export function useHostGame(backend: HostBackend, initial: EngineState, initialP
         const name = String(msg.look.name ?? '').trim().slice(0, 14);
         if (!name || !COLORS.some((c) => c.id === msg.look.color)) return;
         if (stateRef.current.seats[uid]) return;
-        const taken = Object.values(stateRef.current.seats).some((seat) => seat.color === msg.look.color);
-        if (taken) {
-          update((s) => addSeat(s, uid, 'x', { ...msg.look, name }, now, rng));
-          return;
-        }
         const profile: Profile = {
           id: newId(),
           name,
@@ -110,7 +105,7 @@ export function useHostGame(backend: HostBackend, initial: EngineState, initialP
       }
       if (msg.t === 'look') {
         if (!COLORS.some((c) => c.id === msg.color) || !ACCESSORIES.some((a) => a.id === msg.accessory)) return;
-        update((s) => changeLook(s, uid, { color: msg.color, accessory: msg.accessory }, now));
+        update((s) => changeLook(s, uid, { color: msg.color, accessory: msg.accessory }));
         // Keep the profile in step so the new look sticks for next time.
         const seat = stateRef.current.seats[uid];
         const p = seat && profilesRef.current.find((x) => x.id === seat.profileId);
