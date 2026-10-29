@@ -1,5 +1,6 @@
 import { parseCsv } from './csv';
 import science from './questions/science.csv?raw';
+import math from './questions/math.csv?raw';
 
 export interface Question {
   /** Stable id made from the question text, so used questions are remembered across visits. */
@@ -59,6 +60,7 @@ export function parseQuestions(csv: string): Question[] {
  */
 export const TRIVIA_CATEGORIES: TriviaCategory[] = [
   { id: 'science', name: 'Science', icon: '🔬', color: '#5fd3a0', questions: parseQuestions(science) },
+  { id: 'math', name: 'Math', icon: '➗', color: '#ffb84f', questions: parseQuestions(math) },
 ];
 
 const byId = new Map(TRIVIA_CATEGORIES.map((c) => [c.id, new Map(c.questions.map((q) => [q.id, q]))]));

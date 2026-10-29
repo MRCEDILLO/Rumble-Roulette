@@ -1,0 +1,421 @@
+question,answer
+How many sides does a hexagon have?,6
+How many sides does an octagon have?,8
+How many sides does a pentagon have?,5
+How many sides does a heptagon have?,7
+How many sides does a nonagon have?,9
+How many sides does a decagon have?,10
+How many sides does a dodecagon have?,12
+What is a polygon with 11 sides called?,Hendecagon (or undecagon)
+What do the interior angles of a triangle add up to?,180 degrees
+What do the interior angles of a quadrilateral add up to?,360 degrees
+What do the interior angles of a pentagon add up to?,540 degrees
+What do the interior angles of a hexagon add up to?,720 degrees
+How many degrees is each interior angle of a regular hexagon?,120 degrees
+How many degrees is each interior angle of a regular pentagon?,108 degrees
+How many degrees is each interior angle of a regular octagon?,135 degrees
+What do the exterior angles of any convex polygon add up to?,360 degrees
+How many degrees are in a right angle?,90
+How many degrees are in a straight angle?,180
+How many degrees are in a full turn?,360
+What is an angle smaller than 90 degrees called?,Acute angle
+What is an angle between 90 and 180 degrees called?,Obtuse angle
+What is an angle between 180 and 360 degrees called?,Reflex angle
+What do two angles that add up to 90 degrees get called?,Complementary angles
+What do two angles that add up to 180 degrees get called?,Supplementary angles
+What is a triangle with all three sides equal called?,Equilateral triangle
+What is a triangle with exactly two equal sides called?,Isosceles triangle
+What is a triangle with no equal sides called?,Scalene triangle
+What is the longest side of a right-angled triangle called?,Hypotenuse
+Which theorem says a squared plus b squared equals c squared?,Pythagoras' theorem
+A right triangle has legs 3 and 4. How long is the hypotenuse?,5
+A right triangle has legs 5 and 12. How long is the hypotenuse?,13
+A right triangle has legs 6 and 8. How long is the hypotenuse?,10
+A right triangle has legs 8 and 15. How long is the hypotenuse?,17
+A right triangle has legs 7 and 24. How long is the hypotenuse?,25
+What is the area of a rectangle 7 by 8?,56
+What is the perimeter of a square with side 9?,36
+What is the area of a square with side 12?,144
+What is the area of a triangle with base 10 and height 6?,30
+What is the perimeter of a rectangle 5 by 9?,28
+What is the formula for the area of a circle?,Pi r squared
+What is the formula for the circumference of a circle?,2 pi r (or pi times the diameter)
+What is the distance across a circle through its centre called?,Diameter
+What is the distance from the centre of a circle to its edge called?,Radius
+What is the distance around the outside of a circle called?,Circumference
+What is a straight line that touches a circle at exactly one point called?,Tangent
+What is a straight line joining two points on a circle called?,Chord
+"What is a ""slice"" of a circle between two radii called?",Sector
+What is the angle in a semicircle?,90 degrees (a right angle)
+What is the formula for the volume of a cube with side s?,s cubed
+What is the volume of a cube with side 3?,27
+What is the volume of a cube with side 5?,125
+What is the volume of a box 2 by 3 by 4?,24
+What is the formula for the volume of a sphere?,Four thirds pi r cubed
+What is the formula for the volume of a cylinder?,Pi r squared h
+How many faces does a cube have?,6
+How many edges does a cube have?,12
+How many vertices does a cube have?,8
+How many faces does a tetrahedron have?,4
+How many faces does a square-based pyramid have?,5
+How many faces does an octahedron have?,8
+How many faces does a dodecahedron have?,12
+How many faces does an icosahedron have?,20
+How many Platonic solids are there?,5
+What shape is each face of a dodecahedron?,Pentagon
+What shape is each face of an icosahedron?,Triangle
+What is Euler's formula for polyhedra?,Vertices minus edges plus faces equals 2
+What 3D shape has one circular base and comes to a point?,Cone
+What 3D shape is shaped like a ring doughnut?,Torus
+What is a quadrilateral with exactly one pair of parallel sides called (in Australia and the UK)?,Trapezium (trapezoid in the US)
+What is a quadrilateral with all sides equal but no right angles called?,Rhombus
+"What quadrilateral has two pairs of adjacent equal sides, like a toy you fly?",Kite
+What is a quadrilateral with two pairs of parallel sides called?,Parallelogram
+How many lines of symmetry does a square have?,4
+How many lines of symmetry does an equilateral triangle have?,3
+How many lines of symmetry does a regular hexagon have?,6
+How many lines of symmetry does a circle have?,Infinitely many
+What is the order of rotational symmetry of a square?,4
+What do we call shapes that are exactly the same shape and size?,Congruent
+What do we call shapes that are the same shape but different sizes?,Similar
+What is the name of a flip transformation?,Reflection
+What is the name of a slide transformation?,Translation
+What is the name of a turn transformation?,Rotation
+What is the name of a resize transformation?,Enlargement (or dilation)
+What is the value of pi to two decimal places?,3.14
+What is the value of pi to five decimal places?,3.14159
+Which fraction is a common approximation of pi?,22 over 7
+What is March 14 celebrated as?,Pi Day
+"What irrational number, about 2.718, is the base of natural logarithms?",e (Euler's number)
+What is the golden ratio to three decimal places?,1.618
+Which Greek letter is used for the golden ratio?,Phi
+Which Greek letter is used for the sum of a series?,Sigma
+Which Greek letter is often used for an angle?,Theta
+"Which Greek letter is often used for a small change, as in ""change in x""?",Delta
+"What is the next number in the Fibonacci sequence: 1, 1, 2, 3, 5, 8, ...?",13
+"What is the 10th Fibonacci number (starting 1, 1)?",55
+"What is the next number: 2, 4, 8, 16, ...?",32
+"What is the next number: 1, 4, 9, 16, 25, ...?",36
+"What is the next number: 1, 3, 6, 10, 15, ...?",21
+"What is the next number: 1, 8, 27, 64, ...?",125
+"What is the next number: 2, 3, 5, 7, 11, ...?",13
+"What is the next number: 3, 7, 11, 15, ...?",19
+"What is the next number: 100, 90, 81, 73, ...?",66
+"What is the next number: 1, 2, 6, 24, ...?",120
+"What are the numbers 1, 3, 6, 10, 15 called?",Triangular numbers
+What is the smallest prime number?,2
+What is the only even prime number?,2
+Is 1 a prime number?,No
+Is 51 a prime number?,No (3 times 17)
+Is 91 a prime number?,No (7 times 13)
+Is 97 a prime number?,Yes
+Is 57 a prime number?,No (3 times 19)
+Is 61 a prime number?,Yes
+How many prime numbers are there below 20?,"8 (2, 3, 5, 7, 11, 13, 17, 19)"
+How many prime numbers are there below 100?,25
+What is the largest prime number below 100?,97
+What is the smallest two-digit prime number?,11
+What is the smallest three-digit prime number?,101
+What is a number with more than two factors called?,Composite number
+What is the prime factorisation of 12?,2 times 2 times 3
+What is the prime factorisation of 30?,2 times 3 times 5
+What is the prime factorisation of 100?,2 squared times 5 squared
+What is the highest common factor of 12 and 18?,6
+What is the highest common factor of 24 and 36?,12
+What is the highest common factor of 15 and 28?,1
+What is the lowest common multiple of 4 and 6?,12
+What is the lowest common multiple of 6 and 8?,24
+"What is the lowest common multiple of 3, 4 and 5?",60
+What is the smallest number divisible by every whole number from 1 to 10?,2520
+What is the smallest perfect number?,6
+What is the second perfect number?,28
+How many factors does 12 have?,6
+How many factors does a prime number have?,2
+What is 0 factorial?,1
+What is 5 factorial?,120
+What is 4 factorial?,24
+What is 6 factorial?,720
+What is any non-zero number to the power of 0?,1
+What is the square root of 144?,12
+What is the square root of 169?,13
+What is the square root of 196?,14
+What is the square root of 225?,15
+What is the square root of 256?,16
+What is the square root of 400?,20
+What is the square root of 625?,25
+"What is the square root of 10,000?",100
+What is the cube root of 27?,3
+What is the cube root of 64?,4
+What is the cube root of 125?,5
+What is the cube root of 1000?,10
+What is 2 to the power of 10?,1024
+What is 2 to the power of 8?,256
+What is 3 to the power of 4?,81
+What is 5 to the power of 3?,125
+What is 10 to the power of 6?,One million
+What is 11 squared?,121
+What is 13 squared?,169
+What is 15 squared?,225
+What is 25 squared?,625
+What is 9 cubed?,729
+Which number is called a googol?,1 followed by 100 zeros (10 to the power of 100)
+How many zeros are there in one billion?,9
+How many zeros are there in one trillion?,12
+How many millions make a billion?,1000
+What is the Roman numeral for 50?,L
+What is the Roman numeral for 100?,C
+What is the Roman numeral for 500?,D
+What is the Roman numeral for 1000?,M
+What number is the Roman numeral XIV?,14
+What number is the Roman numeral XL?,40
+What number is the Roman numeral XC?,90
+What number is the Roman numeral MMXX?,2020
+What number is the Roman numeral CD?,400
+What number is the Roman numeral XIX?,19
+What is 9 written in Roman numerals?,IX
+What is 1999 written in Roman numerals?,MCMXCIX
+What number system uses only 0 and 1?,Binary
+What is 5 in binary?,101
+What is 8 in binary?,1000
+What is binary 1111 in normal numbers?,15
+What is binary 1010 in normal numbers?,10
+What base is the hexadecimal number system?,16
+"Which number system did the ancient Babylonians use, which gives us 60 minutes in an hour?",Base 60 (sexagesimal)
+What is 0.5 as a fraction?,One half
+What is 0.25 as a fraction?,One quarter
+What is 0.75 as a fraction?,Three quarters
+What is 0.2 as a fraction?,One fifth
+What is 0.125 as a fraction?,One eighth
+What is one third as a decimal?,0.333 recurring
+What is one eighth as a percentage?,12.5%
+What is three fifths as a percentage?,60%
+What is seven tenths as a percentage?,70%
+What is 0.05 as a percentage?,5%
+What is 150% as a decimal?,1.5
+What is one half plus one quarter?,Three quarters
+What is one half plus one third?,Five sixths
+What is one third plus one sixth?,One half
+What is three quarters minus one half?,One quarter
+What is one half times one half?,One quarter
+What is two thirds of 30?,20
+What is three quarters of 80?,60
+What is one half divided by one quarter?,2
+What is six eighths in simplest form?,Three quarters
+What is ten fifteenths in simplest form?,Two thirds
+What is the top number of a fraction called?,Numerator
+What is the bottom number of a fraction called?,Denominator
+What is a fraction where the top is bigger than the bottom called?,Improper fraction
+What is seven halves as a mixed number?,Three and a half
+What is the reciprocal of 4?,One quarter
+What is the reciprocal of two thirds?,Three halves
+What is 10% of 250?,25
+What is 25% of 80?,20
+What is 50% of 64?,32
+What is 20% of 45?,9
+What is 15% of 200?,30
+What is 1% of 3000?,30
+What is 75% of 40?,30
+What is 5% of 60?,3
+What is 200% of 15?,30
+What is 12.5% of 64?,8
+A $50 shirt is 20% off. What is the sale price?,$40
+A $80 game is 25% off. What is the sale price?,$60
+A price rises from $20 to $25. What is the percentage increase?,25%
+A price falls from $40 to $30. What is the percentage decrease?,25%
+What is 10% of 10% as a percentage?,1%
+"What is the mean of 2, 4 and 9?",5
+"What is the mean of 10, 20, 30 and 40?",25
+"What is the median of 3, 8, 1, 9, 5?",5
+"What is the median of 2, 4, 6, 8?",5
+"What is the mode of 1, 2, 2, 3, 4?",2
+"What is the range of 4, 9, 2, 15?",13
+What do we call the middle value when data is put in order?,Median
+What do we call the most common value in a set of data?,Mode
+What do we call the difference between the largest and smallest values?,Range
+What kind of chart shows parts of a whole as slices?,Pie chart
+How many degrees does a whole pie chart represent?,360
+What is the probability of a fair coin landing on heads?,One half
+What is the probability of rolling a 6 on a fair die?,One sixth
+What is the probability of rolling an even number on a fair die?,One half
+What is the probability of rolling a number greater than 4 on a fair die?,One third
+What is the probability of flipping two heads in a row with a fair coin?,One quarter
+What is the probability of rolling a total of 7 with two dice?,One sixth
+What is the most likely total when rolling two dice?,7
+How many different totals are possible when rolling two normal dice?,11
+What is the probability of drawing a heart from a standard deck?,One quarter
+What is the probability of drawing an ace from a standard deck?,One thirteenth (4 in 52)
+How many cards are in a standard deck without jokers?,52
+What do the numbers on opposite faces of a standard die add up to?,7
+What do all the numbers on a standard die add up to?,21
+What is the probability of something that is certain to happen?,1
+What is the probability of something that is impossible?,0
+What is the sum of the numbers from 1 to 10?,55
+What is the sum of the numbers from 1 to 100?,5050
+"Which mathematician, as a schoolboy, supposedly added up the numbers 1 to 100 in seconds?",Carl Friedrich Gauss
+How many seconds are in an hour?,3600
+How many minutes are in a day?,1440
+How many hours are in a week?,168
+How many days are in a leap year?,366
+How many seconds are in a day?,"86,400"
+How many centimetres are in a metre?,100
+How many millimetres are in a metre?,1000
+How many metres are in a kilometre?,1000
+How many grams are in a kilogram?,1000
+How many millilitres are in a litre?,1000
+How many square centimetres are in a square metre?,"10,000"
+How many cubic centimetres are in a litre?,1000
+How many inches are in a foot?,12
+How many feet are in a yard?,3
+How many ounces are in a pound?,16
+How many items are in a dozen?,12
+How many items are in a baker's dozen?,13
+How many items are in a gross?,144 (a dozen dozens)
+How many years are in a millennium?,1000
+How many years are in a decade?,10
+How many sides does a 50 cent coin in Australia have?,12
+What is 3 cubed minus 3 squared?,18
+What is negative 5 plus 8?,3
+What is negative 4 times negative 6?,24
+What is negative 3 minus 7?,Negative 10
+What is negative 20 divided by 4?,Negative 5
+What is 5 minus negative 3?,8
+What is the absolute value of negative 12?,12
+Solve for x: x plus 7 equals 15.,8
+Solve for x: 3x equals 27.,9
+Solve for x: 2x plus 3 equals 11.,4
+Solve for x: x over 4 equals 5.,20
+Solve for x: 5x minus 5 equals 20.,5
+Solve for x: x squared equals 49 (positive answer).,7
+"If y equals 2x plus 1, what is y when x is 4?",9
+What is the gradient of the line y equals 3x plus 2?,3
+What is the y-intercept of the line y equals 3x plus 2?,2
+What is the gradient of a horizontal line?,0
+"What is the gradient of a line through (0, 0) and (2, 6)?",3
+What are the coordinates of the origin?,"(0, 0)"
+What is the horizontal axis on a graph usually called?,The x-axis
+What shape is the graph of y equals x squared?,Parabola
+What is x times x written with an index?,x squared
+What do you get when you expand (x plus 1)(x plus 1)?,x squared plus 2x plus 1
+What is the value of x squared when x is negative 3?,9
+"In algebra, what is the number in front of a variable, like the 5 in 5x, called?",Coefficient
+What is a letter that stands for an unknown number called?,Variable (or pronumeral)
+"What does BODMAS (or BIDMAS, PEMDAS) help you remember?",The order of operations
+"Using order of operations, what is 2 plus 3 times 4?",14
+"Using order of operations, what is 10 minus 2 times 3?",4
+"Using order of operations, what is (2 plus 3) times 4?",20
+"Using order of operations, what is 20 divided by 4 plus 1?",6
+What is 1 plus 2 times 3 minus 4?,3
+What is 6 squared divided by 4?,9
+What is the answer when you multiply any number by zero?,Zero
+What do you get if you divide 0 by 7?,0
+What is the result of a multiplication called?,Product
+What is the result of an addition called?,Sum
+What is the result of a subtraction called?,Difference
+What is the result of a division called?,Quotient
+What is the amount left over in a division called?,Remainder
+"What is 17 divided by 5, as a whole number and remainder?",3 remainder 2
+"What is 50 divided by 7, as a whole number and remainder?",7 remainder 1
+"What is a number that reads the same backwards, like 121, called?",Palindrome
+What is the only number that is spelt with its letters in alphabetical order in English?,Forty
+What is the only number in English whose letters are all in reverse alphabetical order?,One
+Which number in English has the same number of letters as its value?,Four
+"Which mathematician is famous for his ""Last Theorem"", proved by Andrew Wiles in 1994?",Pierre de Fermat
+"Which ancient Greek wrote ""Elements"", the famous geometry book?",Euclid
+"Which ancient Greek reportedly shouted ""Eureka!"" in his bath?",Archimedes
+Which mathematician and physicist co-invented calculus with Leibniz?,Isaac Newton
+"Who invented the coordinate grid, giving us ""Cartesian"" coordinates?",René Descartes
+Which mathematician is known as the first computer programmer?,Ada Lovelace
+Which British mathematician cracked the Enigma code in World War II?,Alan Turing
+Which Indian mathematician is famous for the taxicab number 1729?,Srinivasa Ramanujan
+Which mathematician introduced the letter e and the symbol i into common use?,Leonhard Euler
+Which Italian mathematician brought Hindu-Arabic numerals to Europe and has a famous sequence named after him?,Fibonacci (Leonardo of Pisa)
+Which ancient Greek used a sieve to find prime numbers?,Eratosthenes
+"Which number, written as i, is the square root of negative 1?",The imaginary unit
+"Which branch of maths studies triangles, sines and cosines?",Trigonometry
+Which branch of maths studies rates of change and areas under curves?,Calculus
+Which branch of maths uses letters to stand for numbers?,Algebra
+"Which branch of maths studies shapes, sizes and positions?",Geometry
+"What does ""sin"" stand for in trigonometry?",Sine
+What does SOH CAH TOA help you remember?,"Sine, cosine and tangent ratios"
+"In a right triangle, what is sine equal to?",Opposite over hypotenuse
+"In a right triangle, what is cosine equal to?",Adjacent over hypotenuse
+"In a right triangle, what is tangent equal to?",Opposite over adjacent
+What is the sine of 90 degrees?,1
+What is the sine of 30 degrees?,One half
+What is the cosine of 0 degrees?,1
+What is the tangent of 45 degrees?,1
+"How many degrees are in one radian, roughly?",About 57 degrees
+How many radians are in a full circle?,2 pi
+What is a 3D shape with a polygon base and triangular sides meeting at a point called?,Pyramid
+"What is the name for a 3D shape with identical ends and flat sides, like a Toblerone box?",Prism
+What is the name of a line that goes on forever in one direction only?,Ray
+What are lines that never meet called?,Parallel lines
+What are lines that meet at a right angle called?,Perpendicular lines
+What is the corner point of a shape called?,Vertex
+"What is a whole number that can be negative, zero or positive called?",Integer
+"What is a number that cannot be written as a fraction, like pi, called?",Irrational number
+What is the square root of 2 to two decimal places?,1.41
+What is the next square number after 100?,121
+"What is the smallest number that is both a square and a cube, other than 0 and 1?",64
+How many numbers are on a standard dartboard?,20
+How many squares are on a chessboard?,64
+What is the total of all the numbers on a roulette wheel (0 to 36)?,666
+How many minutes does the minute hand take to go round a clock once?,60
+What angle do the hands of a clock make at 3 o'clock?,90 degrees
+What angle do the hands of a clock make at 6 o'clock?,180 degrees
+What angle do the hands of a clock make at 2 o'clock?,60 degrees
+What is the 24-hour time for 3:30 pm?,15:30
+"If today is Monday, what day will it be in 10 days?",Thursday
+How many days are there in 6 weeks?,42
+What is 99 plus 99 plus 99?,297
+"If 5 cats catch 5 mice in 5 minutes, how many minutes do 100 cats take to catch 100 mice?",5
+A bat and ball cost $1.10. The bat costs $1 more than the ball. How much is the ball?,5 cents
+How many times can you subtract 10 from 100?,Once (after that you're subtracting from 90)
+"If you have 3 apples and take away 2, how many apples do you have?",2 (the ones you took)
+A farmer has 17 sheep and all but 9 run away. How many are left?,9
+How many months have 28 days?,All 12
+Divide 30 by a half and add 10. What do you get?,70
+What three positive whole numbers give the same answer when added or multiplied together?,"1, 2 and 3"
+I'm thinking of a number. Double it and add 4 to get 20. What is my number?,8
+I'm thinking of a number. Triple it and take away 5 to get 16. What is my number?,7
+What two consecutive whole numbers add up to 51?,25 and 26
+What number is 3 more than double 12?,27
+How many quarter-hours are in a day?,96
+"Travelling at 60 km per hour, how far do you go in 2.5 hours?",150 km
+"Travelling at 80 km per hour, how long does it take to go 200 km?",2.5 hours
+"If a car goes 300 km in 3 hours, what is its average speed?",100 km per hour
+"If 4 pens cost $6, how much do 10 pens cost?",$15
+"If 3 workers paint a fence in 6 hours, how long do 6 workers take?",3 hours
+What is the ratio 10 to 15 in simplest form?,2 to 3
+Share $30 in the ratio 1 to 2. How much is the bigger share?,$20
+What is $100 with 10% simple interest for 3 years?,$130
+What is $100 with 10% compound interest for 2 years?,$121
+"What does the ""per cent"" in percent mean?",Per hundred
+What is a 10-sided shape's total of interior angles?,1440 degrees
+What is the 100th odd number?,199
+What is the sum of the first 10 odd numbers?,100
+What is the sum of the first 5 square numbers?,55
+"Is zero even, odd, or neither?",Even
+What is the smallest positive whole number that has exactly 3 factors?,4
+What is the digital root of 9 times any positive whole number?,9
+What is the name for the number 10 to the power of 3?,One thousand
+How many digits does the number one million have?,7
+What is 0.1 times 0.1?,0.01
+What is 0.5 divided by 0.1?,5
+What is 1 divided by 0.25?,4
+What is 3.6 plus 1.45?,5.05
+What is 7 minus 2.35?,4.65
+What is 1000 minus 1?,999
+What is 1001 minus 999?,2
+Round 3.456 to one decimal place.,3.5
+"Round 2,749 to the nearest hundred.","2,700"
+"Round 15,500 to the nearest thousand.","16,000"
+Round 0.0678 to two significant figures.,0.068
+What is 4.5 million written as a number?,"4,500,000"
+What is 3 times 10 to the power of 4?,"30,000"
+"What is the place value of the 7 in 4,732?",700 (hundreds)
+Estimate 49 times 51 by rounding each to the nearest ten.,2500
+What is the name for a polygon with all sides and angles equal?,Regular polygon
+What do we call a number multiplied by itself?,Square (squaring)
+What is the inverse operation of squaring?,Square root
+What is the inverse operation of multiplication?,Division

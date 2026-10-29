@@ -64,7 +64,7 @@ export const higherLowerLogic: MinigameLogic<HigherLowerState, HigherLowerView> 
     refereeDuty: 'The game scores itself. Your phone shows the answer: keep it secret until the reveal!',
     icon: '🔢',
     color: '#4fb3ff',
-    category: 'trivia',
+    category: 'misc',
     scoring: 'auto',
   },
   init(now, rng) {
