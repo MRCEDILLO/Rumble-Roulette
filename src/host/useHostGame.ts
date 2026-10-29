@@ -11,6 +11,7 @@ import {
 } from '../engine/engine';
 import type { EngineState, Profile } from '../engine/types';
 import { ACCESSORIES, COLORS } from '../characters/looks';
+import { connectTriviaMemory } from '../games/trivia/deck';
 import type { HostBackend, Inbound } from '../net/types';
 
 const TICK_MS = 250;
@@ -54,6 +55,26 @@ export function useHostGame(backend: HostBackend, initial: EngineState, initialP
     },
     [publish],
   );
+
+  // Remember which trivia questions this host has had, so they don't come up again.
+  useEffect(() => {
+    let live = true;
+    const save = (category: string, used: string[]) => {
+      backend.saveTriviaMemory(category, used).catch(console.error);
+    };
+    backend
+      .loadTriviaMemory()
+      .catch((err) => {
+        console.error(err);
+        return {};
+      })
+      .then((saved) => {
+        if (live) connectTriviaMemory(saved, save);
+      });
+    return () => {
+      live = false;
+    };
+  }, [backend]);
 
   // Phone messages.
   useEffect(() => {

@@ -39,6 +39,9 @@ export interface HostBackend {
   saveProfile(p: Profile): Promise<void>;
   deleteProfile(id: string): Promise<void>;
   saveGameSummary(summary: unknown): Promise<void>;
+  /** Trivia questions this host has already had, by category id. */
+  loadTriviaMemory(): Promise<Record<string, string[]>>;
+  saveTriviaMemory(category: string, used: string[]): Promise<void>;
 }
 
 /** Everything a phone needs from the backend. */

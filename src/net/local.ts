@@ -10,6 +10,7 @@ const KEY = {
   user: 'rr-local-user',
   profiles: 'rr-local-profiles',
   games: 'rr-local-games',
+  trivia: 'rr-local-trivia',
   room: (code: string) => `rr-local-room-${code}`,
   pub: (code: string) => `rr-local-pub-${code}`,
   phone: 'rr-local-phone-id',
@@ -135,6 +136,12 @@ export function localHostBackend(): HostBackend {
     },
     async saveGameSummary(summary) {
       writeJson(KEY.games, [...readJson<unknown[]>(KEY.games, []), summary].slice(-50));
+    },
+    async loadTriviaMemory() {
+      return readJson<Record<string, string[]>>(KEY.trivia, {});
+    },
+    async saveTriviaMemory(category, used) {
+      writeJson(KEY.trivia, { ...readJson<Record<string, string[]>>(KEY.trivia, {}), [category]: used });
     },
   };
 }

@@ -87,6 +87,24 @@ come up on the wheel.
 Register the game in `src/games/logic.ts` and `src/games/views.ts`, and it appears on the wheel and in
 free play. `src/games/rps/` and `src/games/timer/` are the examples to copy.
 
+## Adding a trivia category
+
+Every trivia category is its own game on the wheel, and they all play the same way: the question shows
+on the big screen, the two duelists race to buzz in on their phones, the first to buzz answers out loud,
+and the round's Host reveals the answer and marks it right (buzzer wins) or wrong (the other player wins).
+
+To add a category:
+
+1. Make a CSV file in `src/games/trivia/questions/` with a header row of `question,answer` and one
+   question per row. Put quotes around any question or answer that has a comma in it. A spreadsheet
+   saved as CSV works.
+2. Add one line for it to `TRIVIA_CATEGORIES` in `src/games/trivia/bank.ts` (name, icon, colour, file).
+
+Questions are remembered per host account (in Firestore under `hosts/<uid>/trivia/<category>`), so a
+host never gets the same question twice until every question in that category has been used; then the
+category starts over. Questions are picked at random from the ones not used yet. Editing a question's
+wording makes it count as a new question.
+
 ## Development
 
 ```bash
