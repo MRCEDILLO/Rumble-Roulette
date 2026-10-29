@@ -1,22 +1,7 @@
-:root {
-  --bg: #1b1035;
-  --bg-2: #2a1b52;
-  --panel: #33236a;
-  --panel-2: #3f2c80;
-  --ink: #fff8e7;
-  --ink-dim: #c9bfe8;
-  --line: #1b1035;
-  --gold: #ffcc33;
-  --pink: #ff4d6d;
-  --green: #3ddc84;
-  --red: #ff5a5a;
-  --blue: #3dc1ff;
-  --radius: 18px;
-  --shadow: 0 6px 0 var(--line);
-  --font-display: 'Lilita One', 'Arial Rounded MT Bold', system-ui, sans-serif;
-  --font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  color-scheme: dark;
-}
+/*
+ * Layout and components. Colours, fonts and shadows come from the active theme
+ * (src/themes/*.css), which sets these tokens on :root[data-theme="..."].
+ */
 
 * {
   box-sizing: border-box;
@@ -31,7 +16,9 @@ body,
 }
 
 body {
-  background: radial-gradient(circle at 50% -20%, #4b2a9a 0%, var(--bg) 60%) fixed, var(--bg);
+  background: var(--bg);
+  background-image: var(--page-bg);
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-body);
   font-weight: 600;
@@ -72,7 +59,8 @@ p {
 }
 
 .muted-dark {
-  color: rgba(27, 16, 53, 0.75);
+  color: var(--line);
+  opacity: 0.8;
 }
 
 .small-print {
@@ -80,8 +68,8 @@ p {
 }
 
 .error {
-  color: #ffb3b3;
-  background: rgba(255, 90, 90, 0.15);
+  color: var(--bad-text);
+  background: var(--bad-bg);
   border: 2px solid var(--red);
   padding: 8px 12px;
   border-radius: 12px;
@@ -117,11 +105,11 @@ p {
   font-family: var(--font-display);
   font-size: 18px;
   color: var(--line);
-  background: #e9e2ff;
+  background: var(--btn-bg);
   border: 4px solid var(--line);
   border-radius: 14px;
   padding: 10px 18px;
-  box-shadow: 0 5px 0 var(--line);
+  box-shadow: var(--press);
   cursor: pointer;
   text-decoration: none;
   display: inline-flex;
@@ -133,8 +121,8 @@ p {
 }
 
 .btn:active:not(:disabled) {
-  transform: translateY(4px);
-  box-shadow: 0 1px 0 var(--line);
+  transform: var(--press-move);
+  box-shadow: var(--pressed);
 }
 
 .btn:disabled {
@@ -143,12 +131,13 @@ p {
 }
 
 .btn-primary {
-  background: var(--gold);
+  background: var(--primary);
+  color: var(--primary-ink);
 }
 
 .btn-danger {
-  background: var(--pink);
-  color: #fff;
+  background: var(--danger);
+  color: var(--danger-ink);
 }
 
 .btn-quiet {
@@ -162,7 +151,7 @@ p {
   font-size: 14px;
   padding: 6px 10px;
   border-width: 3px;
-  box-shadow: 0 3px 0 var(--line);
+  box-shadow: var(--press-sm);
 }
 
 .btn-quiet.btn-small {
@@ -180,29 +169,88 @@ p {
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-family: var(--font-display);
   font-size: 22px;
-  color: var(--gold);
-  text-shadow: 0 3px 0 var(--line);
-}
-
-.logo em {
-  font-style: normal;
-  color: var(--pink);
-}
-
-.logo-big {
-  font-size: clamp(40px, 8vw, 88px);
-  flex-direction: column;
-  gap: 0;
   line-height: 1;
+  color: var(--logo-text);
 }
 
-.logo-big .logo-wheel {
-  font-size: 0.8em;
-  display: inline-block;
-  animation: spin 6s linear infinite;
+.logo-mark {
+  width: 1.7em;
+  height: 1.7em;
+  flex: none;
+  overflow: visible;
+}
+
+.logo-mark .wedge-a {
+  fill: var(--logo-a);
+}
+
+.logo-mark .wedge-b {
+  fill: var(--logo-b);
+}
+
+.logo-mark .rim,
+.logo-mark .outline {
+  stroke: var(--line);
+}
+
+.logo-mark .rim {
+  fill: none;
+}
+
+.logo-mark .stud {
+  fill: var(--logo-stud);
+}
+
+.logo-mark .hub {
+  fill: var(--line);
+}
+
+.logo-mark .blade {
+  fill: var(--logo-blade);
+}
+
+.logo-mark .fuller {
+  stroke: var(--line);
+  opacity: 0.2;
+}
+
+.logo-mark .hilt {
+  fill: var(--logo-hilt);
+}
+
+.logo-mark .grip {
+  fill: var(--logo-grip);
+}
+
+/* Stacked lockup for the main screens: the wheel above the name. */
+.logo-big {
+  flex-direction: column;
+  gap: 14px;
+  font-size: clamp(36px, 6vw, 64px);
+  text-align: center;
+}
+
+.logo-big .logo-mark {
+  width: clamp(96px, 13vw, 150px);
+  height: auto;
+}
+
+.logo-big .logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.95;
+  color: var(--title);
+  -webkit-text-stroke: var(--title-stroke) var(--line);
+  paint-order: stroke fill;
+  text-shadow: var(--title-shadow);
+}
+
+.logo-big .wheel-spin {
+  animation: spin 24s linear infinite;
+  transform-origin: 100px 100px;
 }
 
 @keyframes spin {
@@ -273,7 +321,7 @@ p {
 
 .player-tag-sub {
   font-size: 14px;
-  color: var(--gold);
+  color: var(--accent-text);
 }
 
 .player-tag.dim {
@@ -284,18 +332,18 @@ p {
 .empty-slot {
   width: 80px;
   height: 100px;
-  border: 4px dashed var(--panel-2);
+  border: 4px dashed var(--faint);
   border-radius: 20px;
   display: grid;
   place-items: center;
   font-family: var(--font-display);
   font-size: 40px;
-  color: var(--panel-2);
+  color: var(--faint);
 }
 
 .coins {
   font-weight: 800;
-  color: var(--gold);
+  color: var(--accent-text);
 }
 
 /* ------------------------------------------------------------------ cards and forms */
@@ -330,7 +378,7 @@ input,
 select {
   font: inherit;
   color: var(--line);
-  background: #fff;
+  background: var(--panel);
   border: 3px solid var(--line);
   border-radius: 10px;
   padding: 8px 10px;
@@ -516,14 +564,14 @@ select {
 
 .topbar {
   padding: 10px 20px;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--bar-bg);
   border-bottom: 4px solid var(--line);
 }
 
 .topbar-mid {
   font-family: var(--font-display);
   font-size: 26px;
-  color: var(--gold);
+  color: var(--ink);
 }
 
 .topbar-right {
@@ -535,7 +583,7 @@ select {
 .room-code-small b {
   font-family: var(--font-display);
   font-size: 22px;
-  color: var(--gold);
+  color: var(--accent-text);
   letter-spacing: 3px;
 }
 
@@ -558,7 +606,7 @@ select {
 }
 
 .leaderboard {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--bar-bg);
   border-left: 4px solid var(--line);
   padding: 16px;
   overflow: auto;
@@ -597,7 +645,7 @@ select {
 .lb-coins {
   font-family: var(--font-display);
   font-size: 22px;
-  color: var(--gold);
+  color: var(--accent-text);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -609,11 +657,11 @@ select {
 }
 
 .up {
-  color: var(--green) !important;
+  color: var(--good-text) !important;
 }
 
 .down {
-  color: var(--red) !important;
+  color: var(--bad-text) !important;
 }
 
 .lobby {
@@ -641,8 +689,7 @@ select {
 .room-code {
   font-size: 72px;
   letter-spacing: 10px;
-  color: var(--gold);
-  text-shadow: 0 5px 0 var(--line);
+  color: var(--title-alt);
   line-height: 1;
 }
 
@@ -678,20 +725,30 @@ select {
 
 .phase-title {
   font-size: clamp(36px, 5vw, 72px);
-  color: var(--gold);
-  text-shadow: 0 5px 0 var(--line);
+  color: var(--title);
+}
+
+/* Big display text drawn like a sticker: a fill, an outline and a hard shadow from the theme. */
+.phase-title,
+.winner-title,
+.room-code,
+.vs,
+.timer-clock,
+.timer-secret,
+.delta-big {
+  -webkit-text-stroke: var(--title-stroke) var(--line);
+  paint-order: stroke fill;
+  text-shadow: var(--title-shadow);
 }
 
 .winner-title {
-  color: var(--gold);
+  color: var(--title);
   font-size: clamp(36px, 5vw, 72px);
-  text-shadow: 0 5px 0 var(--line);
 }
 
 .vs {
   font-size: 56px;
   color: var(--pink);
-  text-shadow: 0 4px 0 var(--line);
 }
 
 .vs.big {
@@ -743,7 +800,34 @@ select {
 .wheel svg {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 8px 0 var(--line));
+  filter: var(--drop);
+}
+
+.wheel-line,
+.wheel-rim,
+.wheel-hub,
+.wheel-pointer {
+  stroke: var(--line);
+}
+
+.wheel-label {
+  fill: var(--line);
+}
+
+.wheel-rim {
+  fill: none;
+}
+
+.wheel-stud {
+  fill: var(--panel);
+}
+
+.wheel-hub {
+  fill: var(--gold);
+}
+
+.wheel-pointer {
+  fill: var(--pink);
 }
 
 .spin-landing {
@@ -784,11 +868,11 @@ select {
 
 .bettor.locked {
   opacity: 1;
-  background: #245c45;
+  background: var(--good-bg);
 }
 
 .bettor small {
-  color: var(--gold);
+  color: var(--accent-text);
 }
 
 .countdown {
@@ -804,14 +888,14 @@ select {
 }
 
 .countdown-track {
-  fill: var(--bg-2);
+  fill: var(--panel);
   stroke: var(--line);
   stroke-width: 10;
 }
 
 .countdown-fill {
   fill: none;
-  stroke: var(--gold);
+  stroke: var(--timer);
   stroke-width: 8;
   stroke-linecap: round;
   transition: stroke-dashoffset 0.1s linear;
@@ -824,7 +908,7 @@ select {
 .countdown span {
   position: relative;
   font-family: var(--font-display);
-  font-size: 1.6em;
+  font-size: 1.3em;
 }
 
 .countdown.urgent span {
@@ -881,11 +965,11 @@ select {
 }
 
 .bet-result.won {
-  background: #245c45;
+  background: var(--good-bg);
 }
 
 .bet-result.lost {
-  background: #6a2338;
+  background: var(--bad-bg);
 }
 
 .bet-result .delta {
@@ -1003,7 +1087,7 @@ select {
 .scoreboard td {
   text-align: left;
   padding: 6px 8px;
-  border-bottom: 2px solid var(--panel-2);
+  border-bottom: 2px solid var(--faint);
 }
 
 .sb-name {
@@ -1024,7 +1108,7 @@ select {
 .award-value {
   font-family: var(--font-display);
   font-size: 48px;
-  color: var(--gold);
+  color: var(--accent-text);
 }
 
 .row-buttons {
@@ -1037,7 +1121,7 @@ select {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(10, 5, 25, 0.7);
+  background: var(--overlay);
   display: flex;
   justify-content: flex-end;
   z-index: 10;
@@ -1139,8 +1223,8 @@ select {
 }
 
 .rps-side.won {
-  border-color: var(--gold);
-  background: rgba(255, 204, 51, 0.12);
+  border-color: var(--line);
+  background: var(--win-bg);
 }
 
 .big-name {
@@ -1200,8 +1284,7 @@ select {
 .timer-clock {
   font-family: var(--font-display);
   font-size: 120px;
-  color: var(--gold);
-  text-shadow: 0 6px 0 var(--line);
+  color: var(--title-alt);
   line-height: 1.1;
 }
 
@@ -1233,7 +1316,7 @@ select {
 
 .phone-header {
   padding-bottom: 8px;
-  border-bottom: 3px solid var(--panel-2);
+  border-bottom: 3px solid var(--line);
 }
 
 .me {
@@ -1476,7 +1559,7 @@ select {
 }
 
 .gift {
-  color: var(--gold);
+  color: var(--accent-text);
 }
 
 .delta-big {
@@ -1512,7 +1595,7 @@ select {
   background: var(--gold);
   border: 4px solid var(--line);
   border-radius: 18px;
-  box-shadow: 0 5px 0 var(--line);
+  box-shadow: var(--press);
   padding: 10px;
   display: flex;
   align-items: center;
@@ -1527,8 +1610,8 @@ select {
 }
 
 .rps-btn:active {
-  transform: translateY(4px);
-  box-shadow: 0 1px 0 var(--line);
+  transform: var(--press-move);
+  box-shadow: var(--pressed);
 }
 
 .rps-phone-reveal {
@@ -1543,7 +1626,7 @@ select {
 .timer-secret {
   font-family: var(--font-display);
   font-size: 64px;
-  color: var(--gold);
+  color: var(--title-alt);
 }
 
 .judge-buttons {
