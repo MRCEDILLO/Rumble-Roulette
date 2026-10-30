@@ -90,11 +90,27 @@ function BlackjackCards() {
   );
 }
 
+/** A two-faced chess clock, one button pressed down and one up. */
+function ChessClock() {
+  return (
+    <g strokeLinejoin="round" strokeLinecap="round">
+      <rect x="11" y="11" width="8" height="5" rx="1.5" fill="#ff5a3c" stroke={INK} strokeWidth="2.2" />
+      <rect x="29" y="7" width="8" height="9" rx="1.5" fill="#ffd23f" stroke={INK} strokeWidth="2.2" />
+      <path d="M4 16 H44 L41 42 H7 Z" fill="#4cc9f0" stroke={INK} strokeWidth="2.5" />
+      <circle cx="15" cy="28" r="8" fill="#fffdf6" stroke={INK} strokeWidth="2.2" />
+      <circle cx="33" cy="28" r="8" fill="#fffdf6" stroke={INK} strokeWidth="2.2" />
+      <path d="M15 28 V22.5 M15 28 L18.5 30" fill="none" stroke={INK} strokeWidth="2" />
+      <path d="M33 28 V22.5 M33 28 L29 26" fill="none" stroke="#ff5a3c" strokeWidth="2" />
+    </g>
+  );
+}
+
 const DRAWN: Record<string, () => JSX.Element> = {
   wanted: WantedPoster,
   snap: SnapCards,
   blackjack: BlackjackCards,
   scramble: ScrambleTiles,
+  'category-clash': ChessClock,
 };
 
 /** The drawing for a game, if it has one, as SVG content on a 48×48 canvas. */
