@@ -79,7 +79,7 @@ const DEALERS = [
   { color: 'black', accessory: 'fedora' },
   { color: 'purple', accessory: 'bow' },
 ];
-const dealerLook = (people: DuelPeople) =>
+export const dealerLook = (people: DuelPeople) =>
   DEALERS.find((d) => !(['a', 'b'] as Side[]).some((s) => people[s].color === d.color && people[s].accessory === d.accessory))!;
 
 /** Whether an event happened in the last moment, so its flash is still showing. */
@@ -161,6 +161,24 @@ function Player({ view, people, side, now }: { view: SnapView; people: DuelPeopl
   );
 }
 
+/** The wooden card table with green felt and a DEALER sign, shared with Blackjack. */
+export function TableTop() {
+  return (
+    <svg className="sn-table" viewBox="0 0 640 230" preserveAspectRatio="none" aria-hidden="true">
+      <rect x="80" y="150" width="26" height="80" rx="6" fill="#5a3420" stroke={INK} strokeWidth="5" />
+      <rect x="534" y="150" width="26" height="80" rx="6" fill="#5a3420" stroke={INK} strokeWidth="5" />
+      <path d="M60 20 H580 L630 140 H10 Z" fill="#8a5a3b" stroke={INK} strokeWidth="6" strokeLinejoin="round" />
+      <path d="M76 32 H564 L606 128 H34 Z" fill="#1f8f4e" />
+      <path d="M96 44 H544 L578 116 H62 Z" fill="none" stroke="#5fd08f" strokeWidth="3" strokeDasharray="10 8" opacity="0.6" />
+      <rect x="10" y="138" width="620" height="24" rx="6" fill="#6b4029" stroke={INK} strokeWidth="6" />
+      <rect x="262" y="166" width="116" height="30" rx="6" fill="#f3d9a4" stroke={INK} strokeWidth="4" />
+      <text x="320" y="188" textAnchor="middle" fontSize="18" fontWeight="900" fill={INK} fontFamily="Arial, sans-serif" letterSpacing="3">
+        DEALER
+      </text>
+    </svg>
+  );
+}
+
 /** The table scene: a duelist at each end, the dealer behind, and the two cards in the middle. */
 function Table({ view, people, now }: { view: SnapView; people: DuelPeople; now: number }) {
   const dealer = dealerLook(people);
@@ -173,18 +191,7 @@ function Table({ view, people, now }: { view: SnapView; people: DuelPeople; now:
       <div key={view.dealt} className={`sn-dealer${view.status === 'shuffling' ? ' shuffling' : ''}`}>
         <Character color={dealer.color} accessory={dealer.accessory} pose={ended(view) ? 'still' : 'idle'} size={100} />
       </div>
-      <svg className="sn-table" viewBox="0 0 640 230" preserveAspectRatio="none" aria-hidden="true">
-        <rect x="80" y="150" width="26" height="80" rx="6" fill="#5a3420" stroke={INK} strokeWidth="5" />
-        <rect x="534" y="150" width="26" height="80" rx="6" fill="#5a3420" stroke={INK} strokeWidth="5" />
-        <path d="M60 20 H580 L630 140 H10 Z" fill="#8a5a3b" stroke={INK} strokeWidth="6" strokeLinejoin="round" />
-        <path d="M76 32 H564 L606 128 H34 Z" fill="#1f8f4e" />
-        <path d="M96 44 H544 L578 116 H62 Z" fill="none" stroke="#5fd08f" strokeWidth="3" strokeDasharray="10 8" opacity="0.6" />
-        <rect x="10" y="138" width="620" height="24" rx="6" fill="#6b4029" stroke={INK} strokeWidth="6" />
-        <rect x="262" y="166" width="116" height="30" rx="6" fill="#f3d9a4" stroke={INK} strokeWidth="4" />
-        <text x="320" y="188" textAnchor="middle" fontSize="18" fontWeight="900" fill={INK} fontFamily="Arial, sans-serif" letterSpacing="3">
-          DEALER
-        </text>
-      </svg>
+      <TableTop />
       <div className="sn-deck">
         <CardBack />
         <CardBack />

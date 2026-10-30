@@ -1,3 +1,4 @@
+import { blackjackViews } from './blackjack/views';
 import { celebrityHeadsViews } from './celebrity-heads/views';
 import { firstLastViews } from './first-last/views';
 import { hangmanViews } from './hangman/views';
@@ -31,5 +32,6 @@ export const GAME_VIEWS: Record<string, MinigameViews> = {
   wanted: wantedViews,
   jinx: jinxViews,
   snap: snapViews,
+  blackjack: blackjackViews,
   ...Object.fromEntries(TRIVIA_CATEGORIES.map((c) => [triviaGameId(c.id), triviaViews])),
 };
