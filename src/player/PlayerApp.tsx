@@ -27,6 +27,9 @@ function EnterCode() {
   };
   return (
     <div className="screen phone center">
+      <a className="btn btn-quiet btn-small back-link" href="#/">
+        ← Back
+      </a>
       <Logo size="big" />
       <h2>Enter the room code</h2>
       <input

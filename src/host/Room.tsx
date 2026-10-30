@@ -776,7 +776,7 @@ function HostMenu({
         )}
 
         <section>
-          <h3>Look</h3>
+          <h3>Theme</h3>
           <p className="muted">Changes the TV and every phone. Saved on your account.</p>
           <ThemePicker value={theme} onChange={onTheme} />
         </section>

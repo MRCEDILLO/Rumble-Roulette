@@ -295,7 +295,7 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
 
         <div className="setup-side">
         <section className="card">
-          <h2>Look</h2>
+          <h2>Theme</h2>
           <p className="muted">How the TV and the phones look. Saved on your account, and you can change it mid-game from the menu.</p>
           <ThemePicker value={theme} onChange={onTheme} />
         </section>
