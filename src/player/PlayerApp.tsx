@@ -9,6 +9,7 @@ import { phoneBackend } from '../net/backend';
 import { cleanRoomCode } from '../net/roomCode';
 import type { PhoneMessage } from '../net/types';
 import { applyTheme } from '../themes/themes';
+import { GameIcon } from '../games/GameIcon';
 import { Countdown, RefControls, duelTitle, peopleOf, signed } from '../ui/common';
 import { useHostClock, useOnChange, useWakeLock, vibrate } from '../ui/hooks';
 import { LoadingMark, Logo } from '../ui/Logo';
@@ -573,7 +574,7 @@ function GameBanner({ info, role }: { info: NonNullable<ReturnType<typeof gameIn
   return (
     <div className="game-banner" style={{ background: info.color }}>
       <b>
-        {info.icon} {info.name}
+        <GameIcon info={info} /> {info.name}
       </b>
       <small>{role === 'ref' ? info.refereeDuty : info.rules}</small>
     </div>

@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { SPIN_MS, shuffle } from '../engine/engine';
 import type { Spin } from '../engine/types';
+import { drawnGameIcon } from '../games/GameIcon';
 import { gameInfo } from '../games/logic';
 import { useTicker } from './hooks';
 
@@ -87,9 +88,13 @@ export function Wheel({ spin, now, size = 520, onTick }: Props) {
               <g key={i}>
                 <path d={path} fill={info.color} className="wheel-line" strokeWidth="5" opacity={i % 2 ? 0.85 : 1} />
                 <g transform={`rotate(${(i + 0.5) * seg}) translate(0 ${-r * 0.8})`}>
-                  <text textAnchor="middle" fontSize="38" y="0" dominantBaseline="middle">
-                    {info.icon}
-                  </text>
+                  {drawnGameIcon(id) ? (
+                    <g transform="translate(-24 -24)">{drawnGameIcon(id)!()}</g>
+                  ) : (
+                    <text textAnchor="middle" fontSize="38" y="0" dominantBaseline="middle">
+                      {info.icon}
+                    </text>
+                  )}
                 </g>
                 {/* The name reads outwards from the hub and is squeezed to fit before the icon. */}
                 <text

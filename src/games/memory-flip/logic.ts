@@ -103,7 +103,7 @@ export const memoryFlipLogic: MinigameLogic<MemoryFlipState, MemoryFlipView> = {
     refereeDuty: 'Nothing to judge: the game scores itself. Just watch the cards!',
     icon: '🃏',
     color: '#9b5de5',
-    category: 'puzzle',
+    category: 'card',
     scoring: 'auto',
   },
   init(now, rng) {
