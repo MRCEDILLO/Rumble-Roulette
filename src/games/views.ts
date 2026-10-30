@@ -1,6 +1,7 @@
 import { firstLastViews } from './first-last/views';
 import { hangmanViews } from './hangman/views';
 import { higherLowerViews } from './higher-lower/views';
+import { memoryFlipViews } from './memory-flip/views';
 import { rpsViews } from './rps/views';
 import { stackToeViews } from './stack-toe/views';
 import { timerViews } from './timer/views';
@@ -17,5 +18,6 @@ export const GAME_VIEWS: Record<string, MinigameViews> = {
   'first-last': firstLastViews,
   hangman: hangmanViews,
   'stack-toe': stackToeViews,
+  'memory-flip': memoryFlipViews,
   ...Object.fromEntries(TRIVIA_CATEGORIES.map((c) => [triviaGameId(c.id), triviaViews])),
 };

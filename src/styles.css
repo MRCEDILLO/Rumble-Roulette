@@ -2929,3 +2929,109 @@ select {
 .st-phone .st-hint {
   margin: 0;
 }
+
+/* Memory Flip */
+.mf-grid {
+  display: grid;
+  gap: 6px;
+  padding: 6px;
+  background: var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.mf-card {
+  padding: 0;
+  border: 0;
+  background: none;
+  perspective: 600px;
+  font: inherit;
+}
+
+.mf-card:disabled {
+  cursor: default;
+}
+
+.mf-card.open {
+  cursor: pointer;
+}
+
+.mf-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.35s ease-out;
+}
+
+.mf-card.up .mf-inner {
+  transform: rotateY(180deg);
+}
+
+.mf-back,
+.mf-front {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: calc(var(--radius) - 6px);
+  backface-visibility: hidden;
+}
+
+/* Card backs: the same plain stripes on every card, so there is nothing on them to memorise. */
+.mf-back {
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.18) 0 6px, transparent 6px 14px),
+    #7b4fe0;
+}
+
+.mf-card.open:hover .mf-back {
+  filter: brightness(1.12);
+}
+
+.mf-front {
+  background: #fff;
+  transform: rotateY(180deg);
+}
+
+.mf-shape {
+  stroke: #1d1d2b;
+  stroke-width: 4;
+}
+
+.mf-card.fresh .mf-front {
+  outline: 4px solid var(--gold);
+  outline-offset: -4px;
+}
+
+/* Found pairs stay up but fade back, ringed in the finder's colour. */
+.mf-taken .mf-shape {
+  opacity: 0.4;
+}
+
+.mf-taken.mf-a .mf-front {
+  box-shadow: inset 0 0 0 5px var(--red);
+}
+
+.mf-taken.mf-b .mf-front {
+  box-shadow: inset 0 0 0 5px var(--blue);
+}
+
+.mf-score {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.mf-score b {
+  font-size: 44px;
+  line-height: 1;
+}
+
+.mf-scores {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
