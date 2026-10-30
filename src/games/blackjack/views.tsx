@@ -122,30 +122,35 @@ export function PlayingCard({ card, className, style }: { card: Card; className?
   );
 }
 
-export function BlackjackBack({ className }: { className?: string }) {
+export function BlackjackBack({ className, style }: { className?: string; style?: CSSProperties }) {
   return (
-    <svg className={`bj-back${className ? ` ${className}` : ''}`} viewBox="0 0 100 140" aria-hidden="true">
+    <svg className={`bj-back${className ? ` ${className}` : ''}`} style={style} viewBox="0 0 100 140" aria-hidden="true">
       <rect x="2" y="2" width="96" height="136" rx="10" fill="#1f5fbf" stroke={INK} strokeWidth="4" />
       <rect x="11" y="11" width="78" height="118" rx="6" fill="none" stroke="#fff" strokeWidth="3" opacity="0.7" />
-      <text x="50" y="82" textAnchor="middle" fontSize="34" fontWeight="900" fill="#fff" opacity="0.9" fontFamily="Arial, sans-serif">
-        21
-      </text>
+      <path d="M50 30 L72 70 L50 110 L28 70 Z" fill="#fff" opacity="0.85" />
+      <path d="M50 48 L62 70 L50 92 L38 70 Z" fill="#1f5fbf" />
     </svg>
   );
 }
 
 /** "17", or "7 / 17" while an Ace could still count either way. */
-export function totalText(h: Hand, view?: BlackjackView) {
+export function totalText(h: Hand, view?: BlackjackView, hidden = false) {
   // Wait for the cards to land before giving the total away.
   if (view?.status === 'dealing') return '…';
+  if (view && hidden && !faceUp(view)) return '?';
   const { total, soft } = handTotal(h.cards);
   return soft && total < 21 ? `${total - 10} / ${total}` : `${total}`;
 }
 
 const ended = (view: BlackjackView) => view.status === 'reveal' || view.status === 'done';
+/**
+ * Hands stay face down on the big screen and the other duelist's phone, so nobody can play to the
+ * other hand. Both are turned over once the hand is settled.
+ */
+const faceUp = (view: BlackjackView) => view.status === 'push' || ended(view);
 
-/** What a duelist is up to right now, as one short tag. */
-function tag(view: BlackjackView, side: Side): { cls: string; text: string } | null {
+/** What a duelist is up to right now, as one short tag. A `hidden` hand never gives its 21 away. */
+function tag(view: BlackjackView, side: Side, hidden = false): { cls: string; text: string } | null {
   if (view.status === 'dealing') return null;
   const h = view.hands[side];
   const total = handTotal(h.cards).total;
@@ -154,7 +159,7 @@ function tag(view: BlackjackView, side: Side): { cls: string; text: string } | n
     const c = view.shown[side]!;
     return { cls: c, text: c === 'hit' ? 'HIT!' : view.timedOut[side] ? 'STAND (time!)' : 'STAND' };
   }
-  if (total === 21) return { cls: 'twentyone', text: h.cards.length === 2 ? 'BLACKJACK!' : '21!' };
+  if (total === 21 && !(hidden && !faceUp(view))) return { cls: 'twentyone', text: h.cards.length === 2 ? 'BLACKJACK!' : '21!' };
   if (h.stood) return { cls: 'stand', text: 'STAND' };
   if (view.status === 'choosing') return view.locked[side] ? { cls: 'locked', text: '✓ Locked in' } : { cls: 'thinking', text: 'Thinking…' };
   return null;
@@ -202,18 +207,17 @@ function useHostSounds(view: BlackjackView) {
 }
 
 /** A fanned-out hand. On the first deal the cards fly in one at a time, a, b, a, b. */
-function HandCards({ hand, side, dealing, className }: { hand: Hand; side: Side; dealing: boolean; className?: string }) {
+/** `secret` hands are face down until the hand is settled, then turn over. */
+function HandCards({ hand, side, dealing, secret = false, view, className }: { hand: Hand; side: Side; dealing: boolean; secret?: boolean; view?: BlackjackView; className?: string }) {
+  const hidden = secret && !!view && !faceUp(view);
   const n = hand.cards.length;
   return (
-    <div className={`bj-hand${isBust(hand) ? ' bust' : ''}${className ? ` ${className}` : ''}`} style={{ ['--n' as string]: n }}>
-      {hand.cards.map((card, i) => (
-        <PlayingCard
-          key={i}
-          card={card}
-          className="bj-dealt"
-          style={{ ['--i' as string]: i, animationDelay: dealing && i < 2 ? `${(i * 2 + (side === 'b' ? 1 : 0)) * 0.45}s` : undefined }}
-        />
-      ))}
+    <div className={`bj-hand${isBust(hand) && !hidden ? ' bust' : ''}${className ? ` ${className}` : ''}`} style={{ ['--n' as string]: n }}>
+      {hand.cards.map((card, i) => {
+        const style = { ['--i' as string]: i, animationDelay: dealing && i < 2 ? `${(i * 2 + (side === 'b' ? 1 : 0)) * 0.45}s` : undefined };
+        if (hidden) return <BlackjackBack key={`b${i}`} className="bj-card bj-dealt" style={style} />;
+        return <PlayingCard key={`f${i}`} card={card} className={secret ? 'bj-flip' : 'bj-dealt'} style={style} />;
+      })}
     </div>
   );
 }
@@ -222,12 +226,12 @@ function Seat({ view, people, side }: { view: BlackjackView; people: DuelPeople;
   const p = people[side];
   const won = ended(view) && view.winner === side;
   const lost = ended(view) && view.winner === otherSide(side);
-  const t = tag(view, side);
+  const t = tag(view, side, true);
   const pose = won ? 'win' : lost || isBust(view.hands[side]) ? 'lose' : 'idle';
   return (
     <div className={`sn-player sn-player-${side}${won ? ' won' : ''}`} style={{ ['--me' as string]: colorById(p.color).main }}>
       <div className="sn-score">
-        <b className={isBust(view.hands[side]) ? 'bj-bust-total' : undefined}>{totalText(view.hands[side], view)}</b>
+        <b className={isBust(view.hands[side]) ? 'bj-bust-total' : undefined}>{totalText(view.hands[side], view, true)}</b>
         <span className="sn-name">{p.name}</span>
         {t && (
           <span key={t.text} className={`bj-tag bj-tag-${t.cls}`}>
@@ -242,7 +246,7 @@ function Seat({ view, people, side }: { view: BlackjackView; people: DuelPeople;
   );
 }
 
-/** The Snap! table again: a duelist at each end, the dealer behind, and both hands face up on the felt. */
+/** The Snap! table again: a duelist at each end, the dealer behind, and both hands face down on the felt. */
 function Table({ view, people }: { view: BlackjackView; people: DuelPeople }) {
   const dealer = dealerLook(people);
   const dealing = view.status === 'dealing';
@@ -259,8 +263,8 @@ function Table({ view, people }: { view: BlackjackView; people: DuelPeople }) {
         <BlackjackBack />
       </div>
       <div key={view.hand} className="bj-hands">
-        <HandCards hand={view.hands.a} side="a" dealing={dealing} className="bj-hand-a" />
-        <HandCards hand={view.hands.b} side="b" dealing={dealing} className="bj-hand-b" />
+        <HandCards hand={view.hands.a} side="a" dealing={dealing} secret view={view} className="bj-hand-a" />
+        <HandCards hand={view.hands.b} side="b" dealing={dealing} secret view={view} className="bj-hand-b" />
       </div>
       {view.status === 'push' && (
         <div className="sn-nope bj-push">
@@ -319,7 +323,7 @@ export const blackjackViews: MinigameViews<BlackjackView> = {
     const other = otherSide(side);
     const me = view.hands[side];
     const canPick = view.status === 'choosing' && isActive(me) && !view.locked[side];
-    const t = tag(view, other);
+    const t = tag(view, other, true);
     return (
       <div className="phone-center bj-phone">
         <div className="phone-row">
@@ -329,10 +333,10 @@ export const blackjackViews: MinigameViews<BlackjackView> = {
         <div className="bj-phone-them" style={{ borderColor: colorById(people[other].color).main }}>
           <div className="bj-phone-who">
             <b>{people[other].name}</b>
-            <span>{totalText(view.hands[other], view)}</span>
+            <span>{totalText(view.hands[other], view, true)}</span>
             {t && <span className={`bj-tag bj-tag-${t.cls}`}>{t.text}</span>}
           </div>
-          <HandCards hand={view.hands[other]} side={other} dealing={false} className="bj-hand-small" />
+          <HandCards hand={view.hands[other]} side={other} dealing={false} secret view={view} className="bj-hand-small" />
         </div>
         <div className="bj-phone-me" style={{ borderColor: colorById(people[side].color).main }}>
           <HandCards key={view.hand} hand={me} side={side} dealing={false} className="bj-hand-mine" />

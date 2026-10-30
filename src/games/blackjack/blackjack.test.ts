@@ -113,10 +113,13 @@ describe('Blackjack', () => {
     expect(s.status).toBe('push');
   });
 
-  it('21 stops taking cards, and running out of time counts as Stand', () => {
+  it('21 still has to pick, so stopping never gives it away, and running out of time counts as Stand', () => {
     let s = table(['A', '5'], ['10', '3'], ['5']);
     s = play(pick(pick(s, 'a', 'hit'), 'b', 'stand'));
-    // A hit to 21 and B has stood: nobody is left to choose.
+    // A hit to 21, but still has to choose like anyone else.
+    expect(handTotal(s.hands.a.cards).total).toBe(21);
+    expect(s.status).toBe('choosing');
+    s = play(pick(s, 'a', 'stand'));
     expect(s.status).toBe('reveal');
     expect(s.winner).toBe('a');
 

@@ -4093,6 +4093,17 @@ button.wd-person svg .character-body > ellipse {
   }
 }
 
+.bj-flip {
+  animation: bj-flip 0.45s ease-out both;
+  animation-delay: calc(var(--i) * 0.08s);
+}
+
+@keyframes bj-flip {
+  from {
+    transform: rotateY(90deg);
+  }
+}
+
 .bj-hand.bust .bj-card {
   filter: grayscale(0.7) brightness(0.8) drop-shadow(0 4px 0 rgba(0, 0, 0, 0.35));
 }

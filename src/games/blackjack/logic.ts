@@ -27,7 +27,7 @@ export const REVEAL_MS = 5_000;
 
 export interface Hand {
   cards: Card[];
-  /** Stood (by choice, by running out of time, or by reaching 21): no more cards. */
+  /** Stood (by choice or by running out of time): no more cards. */
   stood: boolean;
 }
 
@@ -83,8 +83,11 @@ export function handTotal(cards: Card[]) {
 }
 
 export const isBust = (h: Hand) => handTotal(h.cards).total > 21;
-/** Still choosing: not stood, not bust, and not already on 21. */
-export const isActive = (h: Hand) => !h.stood && !isBust(h) && handTotal(h.cards).total < 21;
+/**
+ * Still choosing: not stood and not bust. Even on 21 you still pick (Stand, surely), because stopping
+ * on your own would tell the other duelist you've got 21.
+ */
+export const isActive = (h: Hand) => !h.stood && !isBust(h);
 
 export function freshDeck(rng: () => number): Card[] {
   const deck = SUITS.flatMap((suit) => RANKS.map((rank) => ({ rank, suit })));
@@ -161,7 +164,7 @@ export const blackjackLogic: MinigameLogic<BlackjackState, BlackjackView> = {
   info: {
     id: 'blackjack',
     name: 'Blackjack',
-    rules: `You both get two cards. Each turn, secretly pick HIT (take another card) or STAND (stop) on your phone. Nobody sees the picks until you've both chosen. Closest to 21 without going over wins!`,
+    rules: `You both get two cards that only you can see, on your phone. Each turn, secretly pick HIT (take another card) or STAND (stop). The picks are shown once you've both chosen, and the cards are turned over at the end. Closest to 21 without going over wins!`,
     refereeDuty: 'Nothing to judge: the game scores itself. Enjoy the poker faces!',
     icon: '🂡',
     color: '#1f8f4e',
