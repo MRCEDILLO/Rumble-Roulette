@@ -1,0 +1,342 @@
+# Category Clash categories: one per line. Lines starting with # are ignored.
+# Good categories have dozens of answers most people know, so a duel can go back and forth
+# for a while. Avoid ones with a short fixed list (planets, days of the week).
+
+# Animals
+Insects
+Dog breeds
+Birds
+Fish
+Sea creatures
+Farm animals
+Zoo animals
+Animals in Australia
+Animals in Africa
+Reptiles
+Mammals
+Animals that live in trees
+Animals that can fly
+Animals with stripes or spots
+Pets
+Baby animal names
+Animals that hibernate or sleep a lot
+Dinosaurs
+
+# Food and drink
+Fruits
+Vegetables
+Pizza toppings
+Ice cream flavours
+Breakfast foods
+Types of cheese
+Types of pasta
+Desserts
+Types of cake
+Biscuits and cookies
+Chocolate bars
+Lollies and sweets
+Breakfast cereals
+Soft drinks
+Hot drinks
+Cocktails
+Herbs and spices
+Sandwich fillings
+Things you put on toast
+Things at a barbecue
+Fast food chains
+Foods that are yellow
+Foods that are red
+Foods that are green
+Foods you eat with your hands
+Things you find in a lunchbox
+Nuts and seeds
+Sauces and condiments
+Soups
+Foods from Italy
+Foods from Mexico
+Foods from Japan
+Foods from China
+Foods from India
+Things made with eggs
+Things made with potatoes
+Things made with flour
+Things in a fruit salad
+Party foods
+Junk food
+Chip flavours
+
+# Places
+Countries
+Countries in Europe
+Countries in Asia
+Countries in Africa
+Countries in South America
+Capital cities
+Cities in Australia
+Cities in the USA
+Cities in Europe
+US states
+Islands
+Rivers
+Mountains
+Famous landmarks
+Places in a city
+Places in a school
+Rooms in a house
+Shops at a shopping centre
+Places you go on holiday
+Things at the beach
+Things at the zoo
+Things at a theme park
+Things at a playground
+Things at the airport
+Things at a hospital
+Things at a supermarket
+Things at a camping site
+Things at a wedding
+Things at a birthday party
+Things at a farm
+Things in space
+
+# Around the house
+Things in a kitchen
+Things in a bathroom
+Things in a bedroom
+Things in a garage
+Things in a garden
+Things in a fridge
+Things in a school bag
+Things in a handbag or wallet
+Things in a toolbox
+Things in a first aid kit
+Things on a desk
+Furniture
+Kitchen utensils
+Electrical appliances
+Cleaning products
+Things that plug in
+Things that use batteries
+Things with buttons
+Things with wheels
+Things with a screen
+Things with a lid
+Things with strings
+Things that are round
+Things that are square
+Things that are soft
+Things that are sharp
+Things that are sticky
+Things that are cold
+Things that are hot
+Things that are heavy
+Things that are tiny
+Things that are tall
+Things that bounce
+Things that melt
+Things that float
+Things that open and close
+Things you can fold
+Things you can fill with water
+Things that are made of wood
+Things that are made of glass
+Things that are made of metal
+Things that are made of plastic
+Things that are made of paper
+Things that are white
+Things that are black
+Things that are blue
+Things that are pink
+Things that are orange
+Things that are green
+Things that smell good
+Things that smell bad
+Things that make noise
+Things that glow or light up
+Things with holes in them
+Things that come in pairs
+
+# People and jobs
+Jobs
+Jobs that need a uniform
+Jobs in a hospital
+Jobs at a school
+Jobs in a restaurant
+Jobs on a film set
+Superheroes
+Villains
+Cartoon characters
+Disney characters
+Fairy tale characters
+Pixar movies
+Disney movies
+Harry Potter characters
+Marvel characters
+Star Wars characters
+Video game characters
+Famous singers
+Famous bands
+Famous actors
+Famous athletes
+Famous scientists
+Famous artists
+Famous authors
+Famous people with one name
+Boys' names
+Girls' names
+Family members
+Things a teacher says
+
+# Entertainment
+Movies
+Animated movies
+Movies with a number in the title
+Christmas movies
+Scary movies
+TV shows
+Cartoons
+Reality TV shows
+Video games
+Board games
+Card games
+Playground games
+Party games
+Toys
+Musical instruments
+Music genres
+Songs everyone knows
+Dance moves
+Dances
+Things in a circus
+Apps on a phone
+Websites
+Social media apps
+
+# Sport and activities
+Sports
+Olympic sports
+Ball sports
+Water sports
+Winter sports
+Sports teams
+Things you need for sport
+Things in a gym
+Ways to exercise
+Hobbies
+Things you do on the weekend
+Things you do at a sleepover
+Things you do in the morning
+Things you do before bed
+Things you do at the beach
+Ways to travel
+Things you pack for a holiday
+Camping gear
+
+# Nature and science
+Flowers
+Trees
+Plants
+Weather
+Natural disasters
+Things in the sky
+Things in the ocean
+Things in a forest
+Things in the desert
+Gemstones
+Metals
+Chemical elements
+Body parts
+Bones in the body
+Organs in the body
+Things a doctor uses
+Illnesses
+Colours
+Shapes
+Units of measurement
+Things in a science lab
+Inventions
+
+# School and words
+School subjects
+Things in a classroom
+Stationery
+Things in a pencil case
+Languages
+Words that rhyme with cat
+Words that rhyme with day
+Words that rhyme with blue
+Words that start with S
+Words that start with B
+Words that start with P
+Words that end in ING
+Words with double letters
+Words with Q in them
+Compound words
+Words that mean happy
+Words that mean big
+Words that mean small
+Words that mean fast
+Excuses for being late
+Ways to say hello
+Ways to say goodbye
+Things you say when you are surprised
+Emojis
+
+# Clothes and stuff
+Clothes
+Things you wear on your head
+Things you wear on your feet
+Jewellery and accessories
+Winter clothes
+Things in a makeup bag
+Hairstyles
+Fabrics
+Clothing brands
+Car brands
+Phone and tech brands
+Brands of food
+Famous logos
+Things that are expensive
+Things that are cheap
+Things you can buy at a petrol station
+Things you can recycle
+Things you can share
+Things you can lose
+Things you can break
+Things you can throw
+Things you can climb
+Things you can ride
+Things you can blow
+Things you can collect
+Things you can catch
+Things you can grow
+Things you can wrap
+Things you can stack
+Things that have teeth
+Things that have tails
+Things that have wings
+Things that have legs
+Things that have keys
+Things that have a shell
+
+# Holidays and events
+Christmas things
+Halloween costumes
+Easter things
+Things at a party
+Things on a birthday cake
+Wedding things
+Gifts
+Things that are scary
+Things you are afraid of
+Things that are lucky
+Things that are unlucky
+Things that are magical
+Mythical creatures
+Things a pirate has
+Things a wizard has
+Things a knight has
+Things in a castle
+Things in a haunted house
+Things a superhero needs
+Things in a spaceship
+Things in a treasure chest

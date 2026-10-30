@@ -2425,6 +2425,134 @@ select {
   font-size: 24px;
 }
 
+/* Category Clash: a chess clock over each podium. */
+.cc-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.cc-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 150px;
+  padding: 8px 14px 10px;
+  border: 4px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  color: var(--ink);
+  box-shadow: var(--press);
+  opacity: 0.7;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.cc-clock.running {
+  opacity: 1;
+  background: var(--gold);
+  color: var(--line);
+}
+
+.cc-clock.urgent.running {
+  background: var(--red);
+  color: #fff;
+  animation: cc-shake 0.25s ease-in-out infinite alternate;
+}
+
+@keyframes cc-shake {
+  to {
+    transform: rotate(2deg) scale(1.04);
+  }
+}
+
+.cc-time {
+  font-family: var(--font-display);
+  font-size: 54px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.cc-bar {
+  width: 100%;
+  height: 10px;
+  border: 3px solid var(--line);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.cc-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--green);
+}
+
+.cc-clock.urgent .cc-bar > span {
+  background: var(--line);
+}
+
+.cc-clock.small {
+  min-width: 110px;
+  padding: 6px 10px 8px;
+  box-shadow: none;
+}
+
+.cc-clock.small .cc-time {
+  font-size: 34px;
+}
+
+.cc-phone-clocks {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.cc-phone-clocks > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.cc-phone-clocks small {
+  font-weight: 800;
+}
+
+.cc-turn small::before {
+  content: '▶ ';
+}
+
+.cc-host {
+  margin-top: 24px;
+}
+
+.cc-card {
+  min-width: min(100%, 520px);
+  font-size: clamp(36px, 4.6vw, 72px);
+}
+
+.cc-phone-cat {
+  font-family: var(--font-display);
+  font-size: 30px;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.cc-paused {
+  color: var(--red);
+}
+
+.buzzer.cc-off {
+  background: var(--panel-2);
+  color: var(--line);
+  opacity: 0.5;
+  box-shadow: 0 4px 0 var(--line);
+  transform: translateY(6px);
+  cursor: default;
+}
+
 /* ------------------------------------------------------------------ small screens */
 
 @media (max-width: 900px) {
