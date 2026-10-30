@@ -23,6 +23,18 @@ function Clock({ view, side, now, small }: { view: ClashView; side: Side; now: (
   );
 }
 
+/** Forbidden Categories: the banned letter, crossed out like a no-entry sign. */
+export function ForbiddenLetter({ letter, small }: { letter: string; small?: boolean }) {
+  return (
+    <div className={`fc-letter${small ? ' small' : ''}`} aria-label={`No letter ${letter}`}>
+      <span className="fc-sign">
+        <span className="fc-char">{letter}</span>
+      </span>
+      <span className="fc-label">No {letter} anywhere!</span>
+    </div>
+  );
+}
+
 /** Seconds left to read the category before the clocks start. */
 function ReadCountdown({ view, now }: { view: ClashView; now: () => number }) {
   useTicker(200, view.status === 'reading');
@@ -39,7 +51,7 @@ function callout(view: ClashView, people: DuelPeople, now: () => number) {
         </>
       );
     case 'running':
-      return `${turn}, name one and hit your buzzer!`;
+      return view.letter ? `${turn}, name one with no ${view.letter}!` : `${turn}, name one and hit your buzzer!`;
     case 'paused':
       return 'Paused! The Host is checking that answer…';
     default:
@@ -87,8 +99,11 @@ export const categoryClashViews: MinigameViews<ClashView> = {
             {view.answers > 0 && ` · ${view.answers} ${view.answers === 1 ? 'answer' : 'answers'}`}
           </div>
           <div className="trivia-card cc-card">{view.category.text}</div>
+          {view.letter && <ForbiddenLetter letter={view.letter} />}
           <h2 className={`trivia-call${view.status === 'paused' ? ' cc-paused' : ''}`}>{callout(view, people, now)}</h2>
-          <p className="muted">No repeats! Say it, then buzz to pass.</p>
+          <p className="muted">
+            {view.letter ? `No ${view.letter}s and no repeats!` : 'No repeats!'} Say it, then buzz to pass.
+          </p>
         </div>
         {contestant('b')}
       </div>
@@ -103,6 +118,7 @@ export const categoryClashViews: MinigameViews<ClashView> = {
         <div className="phone-center">
           <div className="phone-big">{view.winner === side ? 'You win! 🎉' : 'Out of time 😵'}</div>
           <p className="cc-phone-cat">{view.category.text}</p>
+          {view.letter && <ForbiddenLetter letter={view.letter} small />}
         </div>
       );
     }
@@ -110,6 +126,7 @@ export const categoryClashViews: MinigameViews<ClashView> = {
     return (
       <div className="phone-center">
         <p className="cc-phone-cat">{view.category.text}</p>
+        {view.letter && <ForbiddenLetter letter={view.letter} small />}
         <div className="cc-phone-clocks">
           <div>
             <small>You</small>
@@ -135,7 +152,7 @@ export const categoryClashViews: MinigameViews<ClashView> = {
             <button className={`buzzer${mine ? '' : ' cc-off'}`} disabled={!mine} onClick={() => send({ action: 'pass' })}>
               {mine ? 'PASS' : 'WAIT'}
             </button>
-            <p>{mine ? 'Say one out loud, then hit PASS!' : `${people[opp].name}'s turn. Think of your next one!`}</p>
+            <p>{mine ? `Say one out loud${view.letter ? ` (no ${view.letter}!)` : ''}, then hit PASS!` : `${people[opp].name}'s turn. Think of your next one!`}</p>
           </>
         )}
       </div>
@@ -147,6 +164,7 @@ export const categoryClashViews: MinigameViews<ClashView> = {
     return (
       <div className="phone-center">
         <p className="cc-phone-cat">{view.category.text}</p>
+        {view.letter && <ForbiddenLetter letter={view.letter} small />}
         <div className="cc-phone-clocks">
           {SIDES.map((s) => (
             <div key={s} className={view.turn === s && !over ? 'cc-turn' : ''}>
@@ -166,12 +184,20 @@ export const categoryClashViews: MinigameViews<ClashView> = {
             <button className="btn" onClick={() => send({ action: 'redraw' })}>
               New category
             </button>
+            {view.letter && (
+              <button className="btn" onClick={() => send({ action: 'newLetter' })}>
+                New letter
+              </button>
+            )}
           </>
         )}
         {view.status === 'running' && (
           <>
             <p>
-              <b>{people[view.turn].name}</b>'s turn. Not in the category, or said already? Pause it.
+              <b>{people[view.turn].name}</b>'s turn.{' '}
+              {view.letter
+                ? `Has the letter ${view.letter}, not in the category, or said already? Pause it.`
+                : 'Not in the category, or said already? Pause it.'}
             </p>
             <button className="btn btn-danger btn-huge" onClick={() => send({ action: 'pause' })}>
               Pause

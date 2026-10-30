@@ -105,12 +105,27 @@ function ChessClock() {
   );
 }
 
+/** A letter tile with a red no-entry sign across it: Forbidden Categories. */
+function ForbiddenTile() {
+  return (
+    <g strokeLinejoin="round">
+      <rect x="9" y="9" width="30" height="30" rx="4" fill="#ffd23f" stroke={INK} strokeWidth="2.5" transform="rotate(-6 24 24)" />
+      <text x="24" y="33" textAnchor="middle" fontSize="24" fontWeight="900" fill={INK} fontFamily="Arial, sans-serif" transform="rotate(-6 24 24)">
+        A
+      </text>
+      <circle cx="24" cy="24" r="19" fill="none" stroke="#e5383b" strokeWidth="5" />
+      <path d="M10.6 10.6 L37.4 37.4" stroke="#e5383b" strokeWidth="5" />
+    </g>
+  );
+}
+
 const DRAWN: Record<string, () => JSX.Element> = {
   wanted: WantedPoster,
   snap: SnapCards,
   blackjack: BlackjackCards,
   scramble: ScrambleTiles,
   'category-clash': ChessClock,
+  'forbidden-categories': ForbiddenTile,
 };
 
 /** The drawing for a game, if it has one, as SVG content on a 48×48 canvas. */

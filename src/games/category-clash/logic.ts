@@ -1,4 +1,4 @@
-import type { MinigameLogic, Outcome } from '../types';
+import type { GameInfo, MinigameLogic, Outcome } from '../types';
 import { questionId } from '../trivia/bank';
 import { drawFrom } from '../trivia/deck';
 import file from './categories.txt?raw';
@@ -37,6 +37,19 @@ export function parseCategories(text: string): Category[] {
 
 export const CATEGORIES = parseCategories(file);
 
+/** Picks the forbidden letter (Forbidden Categories), avoiding the last one. */
+export type LetterPicker = (rng: () => number, avoid: string | null) => string;
+
+/** What makes one clash game different from another. */
+export interface ClashOptions {
+  info: GameInfo;
+  /** Name the used categories are remembered under in the host's account. */
+  deck: string;
+  categories: Category[];
+  /** Set for Forbidden Categories: answers can't contain the letter it picks. */
+  pickLetter?: LetterPicker;
+}
+
 export interface ClashState {
   /**
    * reading: the category is up, no clock runs yet (the Host can draw a new one).
@@ -46,6 +59,8 @@ export interface ClashState {
    */
   status: 'reading' | 'running' | 'paused' | 'result' | 'done';
   category: Category;
+  /** Forbidden Categories: the letter no answer may contain. Null in Category Clash. */
+  letter: string | null;
   /** Which category of this duel this is (goes up when the Host draws a new one). */
   number: number;
   turn: Side;
@@ -77,10 +92,12 @@ function stopClock(s: ClashState, now: number): ClashState {
   return { ...s, left: { ...s.left, [s.turn]: timeLeft(s, s.turn, now) }, since: null };
 }
 
-function newCategory(s: ClashState | null, now: number, rng: () => number): ClashState {
+function newCategory(o: ClashOptions, s: ClashState | null, now: number, rng: () => number): ClashState {
+  const category = drawFrom(o.deck, o.categories, rng, s?.category.id);
   return {
     status: 'reading',
-    category: drawFrom(DECK, CATEGORIES, rng, s?.category.id),
+    category,
+    letter: o.pickLetter ? o.pickLetter(rng, s?.letter ?? null) : null,
     number: (s?.number ?? 0) + 1,
     // Who goes first is random, and stays the same if the Host swaps the category.
     turn: s?.turn ?? (rng() < 0.5 ? 'a' : 'b'),
@@ -94,7 +111,66 @@ function newCategory(s: ClashState | null, now: number, rng: () => number): Clas
   };
 }
 
-export const categoryClashLogic: MinigameLogic<ClashState, ClashView> = {
+/** The Category Clash rules, for Category Clash itself and its variants. */
+export function makeClashLogic(o: ClashOptions): MinigameLogic<ClashState, ClashView> {
+  return {
+    info: o.info,
+    init(now, rng) {
+      return newCategory(o, null, now, rng);
+    },
+    onInput(s, role, payload, now, rng) {
+      const action = payload?.action;
+
+      // Say an answer, then pass: your clock stops and theirs starts.
+      if (role === s.turn && action === 'pass' && s.status === 'running') {
+        const stopped = stopClock(s, now);
+        return { ...stopped, turn: other(s.turn), since: now, lastPass: s.turn, answers: s.answers + 1 };
+      }
+
+      if (role !== 'ref') return s;
+      if (action === 'redraw' && s.status === 'reading') return newCategory(o, s, now, rng);
+      // Forbidden Categories: the Host can swap just the letter if the pair looks too hard.
+      if (action === 'newLetter' && s.status === 'reading' && o.pickLetter) {
+        return { ...s, letter: o.pickLetter(rng, s.letter), readUntil: now + READ_MS };
+      }
+      if (action === 'start' && s.status === 'reading') return { ...s, status: 'running', since: now };
+      if (action === 'pause' && s.status === 'running') return { ...stopClock(s, now), status: 'paused' };
+      // The answer was fine: the same clock carries on.
+      if (action === 'play' && s.status === 'paused') return { ...s, status: 'running', since: now };
+      // The answer didn't count: the player who passed has to name another one, on their own clock.
+      if (action === 'sendBack' && s.status === 'paused' && s.lastPass !== null) {
+        return { ...s, status: 'running', turn: s.lastPass, lastPass: null, answers: s.answers - 1, since: now };
+      }
+      return s;
+    },
+    tick(s, now) {
+      if (s.status === 'reading' && now >= s.readUntil) return { ...s, status: 'running', since: s.readUntil };
+      if (s.status === 'running' && timeLeft(s, s.turn, now) <= 0) {
+        return {
+          ...s,
+          status: 'result',
+          left: { ...s.left, [s.turn]: 0 },
+          since: null,
+          winner: other(s.turn),
+          resultUntil: now + RESULT_MS,
+        };
+      }
+      if (s.status === 'result' && s.resultUntil !== null && now >= s.resultUntil) return { ...s, status: 'done' };
+      return s;
+    },
+    result(s) {
+      return s.status === 'done' ? s.winner : null;
+    },
+    project(s) {
+      const { resultUntil: _, ...view } = s;
+      return view;
+    },
+  };
+}
+
+export const categoryClashLogic = makeClashLogic({
+  deck: DECK,
+  categories: CATEGORIES,
   info: {
     id: 'category-clash',
     name: 'Category Clash',
@@ -107,50 +183,4 @@ export const categoryClashLogic: MinigameLogic<ClashState, ClashView> = {
     category: 'word',
     scoring: 'referee',
   },
-  init(now, rng) {
-    return newCategory(null, now, rng);
-  },
-  onInput(s, role, payload, now, rng) {
-    const action = payload?.action;
-
-    // Say an answer, then pass: your clock stops and theirs starts.
-    if (role === s.turn && action === 'pass' && s.status === 'running') {
-      const stopped = stopClock(s, now);
-      return { ...stopped, turn: other(s.turn), since: now, lastPass: s.turn, answers: s.answers + 1 };
-    }
-
-    if (role !== 'ref') return s;
-    if (action === 'redraw' && s.status === 'reading') return newCategory(s, now, rng);
-    if (action === 'start' && s.status === 'reading') return { ...s, status: 'running', since: now };
-    if (action === 'pause' && s.status === 'running') return { ...stopClock(s, now), status: 'paused' };
-    // The answer was fine: the same clock carries on.
-    if (action === 'play' && s.status === 'paused') return { ...s, status: 'running', since: now };
-    // The answer didn't count: the player who passed has to name another one, on their own clock.
-    if (action === 'sendBack' && s.status === 'paused' && s.lastPass !== null) {
-      return { ...s, status: 'running', turn: s.lastPass, lastPass: null, answers: s.answers - 1, since: now };
-    }
-    return s;
-  },
-  tick(s, now) {
-    if (s.status === 'reading' && now >= s.readUntil) return { ...s, status: 'running', since: s.readUntil };
-    if (s.status === 'running' && timeLeft(s, s.turn, now) <= 0) {
-      return {
-        ...s,
-        status: 'result',
-        left: { ...s.left, [s.turn]: 0 },
-        since: null,
-        winner: other(s.turn),
-        resultUntil: now + RESULT_MS,
-      };
-    }
-    if (s.status === 'result' && s.resultUntil !== null && now >= s.resultUntil) return { ...s, status: 'done' };
-    return s;
-  },
-  result(s) {
-    return s.status === 'done' ? s.winner : null;
-  },
-  project(s) {
-    const { resultUntil: _, ...view } = s;
-    return view;
-  },
-};
+});

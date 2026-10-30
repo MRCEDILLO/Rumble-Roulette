@@ -27,6 +27,8 @@ export const GAME_VIEWS: Record<string, MinigameViews> = {
   hangman: hangmanViews,
   scramble: scrambleViews,
   'category-clash': categoryClashViews,
+  // Forbidden Categories is Category Clash with a banned letter; the same screens show it.
+  'forbidden-categories': categoryClashViews,
   'stack-toe': stackToeViews,
   'memory-flip': memoryFlipViews,
   'celebrity-heads': celebrityHeadsViews,
