@@ -47,9 +47,31 @@ function SnapCards() {
   );
 }
 
+/** Three letter tiles tipped out of order, with a swap arrow over them. */
+function ScrambleTiles() {
+  const tile = (x: number, y: number, tilt: number, letter: string) => (
+    <g transform={`rotate(${tilt} ${x + 7} ${y + 7})`}>
+      <rect x={x} y={y} width="14" height="14" rx="2.5" fill="#ffd23f" stroke={INK} strokeWidth="2.2" />
+      <text x={x + 7} y={y + 11.2} textAnchor="middle" fontSize="10.5" fontWeight="900" fill={INK} fontFamily="Arial, sans-serif">
+        {letter}
+      </text>
+    </g>
+  );
+  return (
+    <g strokeLinejoin="round">
+      {tile(2.5, 25, -10, 'T')}
+      {tile(17, 28, 6, 'A')}
+      {tile(31.5, 24, -5, 'C')}
+      <path d="M10 19 C14 8 34 8 38 18" fill="none" stroke={INK} strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M33.5 17 L38.5 19.5 L40.5 14" fill="none" stroke={INK} strokeWidth="2.5" strokeLinecap="round" />
+    </g>
+  );
+}
+
 const DRAWN: Record<string, () => JSX.Element> = {
   wanted: WantedPoster,
   snap: SnapCards,
+  scramble: ScrambleTiles,
 };
 
 /** The drawing for a game, if it has one, as SVG content on a 48×48 canvas. */
