@@ -10,6 +10,7 @@ import { TRIVIA_CATEGORIES } from './trivia/bank';
 import { triviaGameId } from './trivia/logic';
 import { triviaViews } from './trivia/views';
 import type { MinigameViews } from './types';
+import { wantedViews } from './wanted/views';
 import { whatsMyNumberViews } from './whats-my-number/views';
 
 /** Every minigame's screens. Add new games here (and their logic in logic.ts). */
@@ -23,5 +24,6 @@ export const GAME_VIEWS: Record<string, MinigameViews> = {
   'memory-flip': memoryFlipViews,
   'celebrity-heads': celebrityHeadsViews,
   'whats-my-number': whatsMyNumberViews,
+  wanted: wantedViews,
   ...Object.fromEntries(TRIVIA_CATEGORIES.map((c) => [triviaGameId(c.id), triviaViews])),
 };
