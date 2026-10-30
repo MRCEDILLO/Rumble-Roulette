@@ -3215,3 +3215,257 @@ select {
   justify-content: center;
   gap: 8px;
 }
+
+/* WANTED */
+.wd-host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+}
+
+.wd-host-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 250px;
+  flex: none;
+  text-align: center;
+}
+
+.wd-host .wd-scene {
+  width: min(62vw, 82vh);
+}
+
+/* The scene keeps one shape everywhere, so every screen shows the same crowd in the same spots. */
+.wd-scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 100 / 88;
+  border: 5px solid #1b1035;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: #cfd0d4;
+}
+
+.wd-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.wd-place {
+  position: absolute;
+  left: 8px;
+  bottom: 6px;
+  z-index: 2;
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: rgba(27, 16, 53, 0.7);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.wd-crowd {
+  position: absolute;
+  left: 2.5%;
+  width: 95%;
+  top: 13.6%;
+  height: 75.9%;
+}
+
+.wd-person {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  /* Only the drawn robot takes the tap, not the empty corners of its box, so people in front don't steal taps. */
+  pointer-events: none;
+}
+
+.wd-person svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+button.wd-person svg .character-body > * {
+  pointer-events: visiblePainted;
+  cursor: pointer;
+}
+
+button.wd-person svg .character-body > ellipse {
+  pointer-events: none;
+}
+
+.wd-person.wd-miss {
+  opacity: 0.45;
+}
+
+.wd-person.wd-miss::after {
+  content: '✕';
+  position: absolute;
+  inset: 0 0 30%;
+  display: grid;
+  place-items: center;
+  color: #e5383b;
+  font-size: min(9vw, 40px);
+  font-weight: 900;
+  text-shadow: 0 0 3px #fff;
+}
+
+.wd-revealed .wd-person {
+  opacity: 0.25;
+  transition: opacity 0.4s;
+}
+
+.wd-revealed .wd-person.wd-target {
+  opacity: 1;
+  z-index: 3;
+  transform: scale(1.6);
+  transform-origin: 50% 60%;
+  filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 10px #ffd23f);
+  transition: transform 0.4s;
+}
+
+.wd-frozen .wd-crowd {
+  filter: grayscale(0.9) brightness(0.8);
+}
+
+.wd-freeze {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  background: rgba(160, 210, 255, 0.35);
+  color: #1b1035;
+  font-size: 26px;
+  font-weight: 900;
+  text-align: center;
+  text-shadow: 0 0 6px #fff;
+}
+
+.wd-poster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 12px;
+  background: #f6e3b4;
+  border: 4px solid #6b4a2b;
+  border-radius: 6px;
+  box-shadow: 4px 4px 0 #1b1035, inset 0 0 18px rgba(107, 74, 43, 0.35);
+  color: #4a2f17;
+  transform: rotate(-2deg);
+}
+
+.wd-poster-title {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+}
+
+.wd-poster-photo {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: 6px 0;
+  background: #fff7e0;
+  border: 3px solid #6b4a2b;
+}
+
+.wd-poster-look {
+  font-weight: 900;
+  font-size: 18px;
+}
+
+.wd-poster-reward {
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0.8;
+}
+
+.wd-poster.compact {
+  flex-direction: row;
+  width: auto;
+  padding: 6px 10px;
+  gap: 8px;
+  transform: rotate(-1deg);
+}
+
+.wd-poster.compact .wd-poster-title {
+  font-size: 18px;
+}
+
+.wd-poster.compact .wd-poster-photo {
+  width: auto;
+  padding: 2px 6px;
+}
+
+.wd-poster.compact .wd-poster-look {
+  font-size: 14px;
+}
+
+.wd-hunter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--panel);
+  border: 4px solid var(--line);
+  border-radius: var(--radius);
+  text-align: left;
+}
+
+.wd-hunter.won {
+  background: var(--win-bg);
+}
+
+.wd-hunter.frozen {
+  background: #d6ecff;
+  color: #1b1035;
+}
+
+.wd-hunter-name {
+  font-weight: 900;
+  font-size: 20px;
+}
+
+.wd-phone .wd-scene {
+  border-width: 4px;
+  border-radius: 14px;
+}
+
+.wd-badge {
+  background: var(--panel);
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .wd-host {
+    flex-direction: column;
+  }
+
+  .wd-host .wd-scene {
+    width: min(94vw, 70vh);
+  }
+}
+
+.wd-call {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.1;
+}
