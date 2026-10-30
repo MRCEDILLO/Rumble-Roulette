@@ -20,6 +20,8 @@ import type {
 export const START_COINS = 12;
 export const MAX_BET = 3;
 export const WIN_BONUS = 2;
+/** The duel loser drops a coin (never below 0), so nobody gains by throwing a duel. */
+export const LOSE_PENALTY = 1;
 /** Every duel needs two players and a Host, in party mode and free play alike. */
 export const MIN_PLAYERS = 3;
 export const MAX_PLAYERS = 10;
@@ -456,6 +458,12 @@ function payout(s: EngineState): EngineState {
       s.seats[winner].coins += WIN_BONUS;
       delta[winner] = WIN_BONUS;
     }
+    const lost = s.seats[loser] ? Math.min(LOSE_PENALTY, s.seats[loser].coins) : 0;
+    if (lost > 0) {
+      s.seats[loser].coins -= lost;
+      s.seats[loser].gs.biggestLoss = Math.max(s.seats[loser].gs.biggestLoss, lost);
+      delta[loser] = -lost;
+    }
     for (const [id, bet] of Object.entries(s.bets)) {
       const seat = s.seats[id];
       if (!seat) continue;
@@ -742,6 +750,16 @@ export function hostEndRounds(state: EngineState, now: number, rng: Rng): Engine
   }
   s.duel = null;
   return beginFinals(s, now, rng);
+}
+
+/** The host screen fixes a player's coins by hand (party games only, never below 0). */
+export function hostAdjustCoins(state: EngineState, id: SeatId, change: number): EngineState {
+  if (state.mode !== 'party' || state.phase === 'lobby' || state.phase === 'end' || !state.seats[id]) return state;
+  const coins = Math.max(0, state.seats[id].coins + Math.trunc(change));
+  if (coins === state.seats[id].coins) return state;
+  const s = clone(state);
+  s.seats[id].coins = coins;
+  return s;
 }
 
 export interface FreeStartOptions {

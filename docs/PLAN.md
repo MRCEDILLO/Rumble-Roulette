@@ -43,7 +43,7 @@ Source of truth for the rules: the approved [design brief](https://claude.ai/art
   twice in a duel, avoids repeating last round's pair). Referee = random among non-duelists with the fewest
   referee turns. Skipped rounds return duelists to the bag and don't count.
 - Coins and bets exactly as the brief: 12 start, bet 1–3 (never more than you have), 0 coins → gifted 1,
-  auto-bet 1 on a random duelist at the deadline, duel winner +2, bets hidden until the result.
+  auto-bet 1 on a random duelist at the deadline, duel winner +2, duel loser -1 (never below 0), bets hidden until the result.
 - Final: top two by coins; ties for a spot go to knockout tie-break duels; no betting in tie-breaks or
   the final; a draw is redone.
 

@@ -5,6 +5,7 @@ import {
   BET_MS,
   MIN_PLAYERS,
   PICK_MS,
+  hostAdjustCoins,
   hostContinue,
   hostEndRounds,
   hostFreeStart,
@@ -362,6 +363,7 @@ function ReadyScreen({ pub, onStart }: { pub: PublicState; onStart: () => void }
             <b>Host ({host.name}):</b> {info.refereeDuty}
           </p>
         )}
+        {d.kind === 'round' && <p className="muted">Winner +2 coins, loser −1 coin.</p>}
       </div>
       {host ? (
         <p className="lead ready-wait">
@@ -420,7 +422,16 @@ function ResultScreen({
       {d.kind === 'tiebreak' && <p className="lead">{winner?.name} goes through to the final.</p>}
       <div className="pick-row">
         {winner && <PlayerTag look={winner} size={190} pose="win" sub={d.kind === 'round' ? '+2 coins' : undefined} />}
-        {loser && <PlayerTag look={loser} size={120} pose="lose" flip dim />}
+        {loser && (
+          <PlayerTag
+            look={loser}
+            size={120}
+            pose="lose"
+            flip
+            dim
+            sub={d.kind === 'round' && delta[loserId] ? `${signed(delta[loserId])} coin` : undefined}
+          />
+        )}
       </div>
       {d.kind === 'round' && Object.keys(bets).length > 0 && (
         <div className="bet-results">
@@ -722,6 +733,7 @@ function HostMenu({
 }) {
   const [volume, setV] = useState(getSoundSettings().volume);
   const canEndRounds = state.mode === 'party' && !state.finals && !['lobby', 'end', 'paused'].includes(state.phase);
+  const canAdjust = state.mode === 'party' && !['lobby', 'end'].includes(state.phase);
   return (
     <div className="modal-backdrop" onClick={onCloseMenu}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -770,6 +782,7 @@ function HostMenu({
 
         <section>
           <h3>Players</h3>
+          {canAdjust && <p className="muted">Fix anyone’s coins with − and +. Phones update straight away.</p>}
           <ul className="menu-players">
             {pub.order.map((id) => {
               const s = pub.seats[id];
@@ -779,6 +792,26 @@ function HostMenu({
                   <span>
                     {s.name} {!s.connected && <small className="muted">(away)</small>}
                   </span>
+                  {canAdjust && (
+                    <div className="coin-adjust">
+                      <button
+                        className="btn btn-small"
+                        aria-label={`Take a coin from ${s.name}`}
+                        disabled={s.coins === 0}
+                        onClick={() => update((st) => hostAdjustCoins(st, id, -1))}
+                      >
+                        −
+                      </button>
+                      <b className="coins">🪙 {s.coins}</b>
+                      <button
+                        className="btn btn-small"
+                        aria-label={`Give ${s.name} a coin`}
+                        onClick={() => update((st) => hostAdjustCoins(st, id, 1))}
+                      >
+                        +
+                      </button>
+                    </div>
+                  )}
                   <button
                     className="btn btn-quiet btn-small"
                     onClick={() => confirm(`Remove ${s.name} from the game?`) && update((st) => removeSeat(st, id, now(), rng))}

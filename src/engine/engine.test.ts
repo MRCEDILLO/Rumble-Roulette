@@ -8,6 +8,7 @@ import {
   applyInput,
   changeLook,
   createState,
+  hostAdjustCoins,
   hostEndRounds,
   hostFreeStart,
   project,
@@ -115,7 +116,7 @@ describe('fair selection', () => {
 });
 
 describe('betting', () => {
-  it('pays the winner +2 and settles bets', () => {
+  it('pays the winner +2, takes 1 from the loser and settles bets', () => {
     let { s, rng } = setup(4, 10, ['rps']);
     s = startGame(s, 0, rng);
     s = toBetting(s, 0, rng);
@@ -129,7 +130,8 @@ describe('betting', () => {
     expect(s.phase).toBe('ready'); // everyone locked in, so no need to wait
     s = winDuel(s, 'a', 2, rng);
     expect(s.seats[s.duel!.a].coins).toBe(START_COINS + 2);
-    expect(s.seats[s.duel!.b].coins).toBe(START_COINS);
+    expect(s.seats[s.duel!.b].coins).toBe(START_COINS - 1);
+    expect(s.lastDelta![s.duel!.b]).toBe(-1);
     expect(s.seats[x].coins).toBe(START_COINS + 3);
     expect(s.seats[y].coins).toBe(START_COINS - 2);
     expect(project(s, [], 3).bets).not.toBeNull();
@@ -159,6 +161,30 @@ describe('betting', () => {
     s = applyInput(s, x, { t: 'bet', on: 'b', amount: 1 }, 1, rng);
     s = winDuel(s, 'a', 2, rng);
     expect(s.seats[x].coins).toBe(0);
+  });
+
+  it('leaves a broke duel loser on 0 coins', () => {
+    let { s, rng } = setup(3, 10, ['rps']);
+    s = startGame(s, 0, rng);
+    const loser = s.duel!.b;
+    s.seats[loser].coins = 0;
+    s = toBetting(s, 0, rng);
+    s = tick(s, PICK_MS + SPIN_MS + BET_MS, rng);
+    s = winDuel(s, 'a', 2, rng);
+    expect(s.seats[loser].coins).toBe(0);
+    expect(s.lastDelta![loser]).toBeUndefined();
+  });
+
+  it('lets the host screen adjust coins in a party game, never below 0', () => {
+    let { s, rng } = setup(3, 10, ['rps']);
+    expect(hostAdjustCoins(s, 'p0', 1)).toBe(s); // not in the lobby
+    s = startGame(s, 0, rng);
+    s = hostAdjustCoins(s, 'p0', 3);
+    expect(s.seats.p0.coins).toBe(START_COINS + 3);
+    s = hostAdjustCoins(s, 'p0', -100);
+    expect(s.seats.p0.coins).toBe(0);
+    expect(hostAdjustCoins(s, 'p0', -1)).toBe(s);
+    expect(project(s, [], 1).seats.p0.coins).toBe(0);
   });
 
   it('keeps bets on a redo and cancels them on a skipped game', () => {
