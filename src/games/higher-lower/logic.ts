@@ -82,7 +82,7 @@ export const higherLowerLogic: MinigameLogic<HigherLowerState, HigherLowerView> 
     };
   },
   onInput(s, role, payload, now) {
-    if (s.status !== 'guessing' || role === 'ref' || payload?.action !== 'guess') return s;
+    if (s.status !== 'guessing' || (role !== 'a' && role !== 'b') || payload?.action !== 'guess') return s;
     // Locked in means locked in: the first guess counts.
     if (s.guesses[role] !== null) return s;
     const value = typeof payload.value === 'number' ? payload.value : parseGuess(String(payload.value ?? ''));

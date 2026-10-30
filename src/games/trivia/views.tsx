@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { Character } from '../../characters/Character';
 import { play } from '../../sound';
 import type { MinigameViews } from '../types';
 import { findQuestion } from './bank';
 import type { TriviaView } from './logic';
+import { Contestant } from './Podium';
 
 export const triviaViews: MinigameViews<TriviaView> = {
   HostView({ view, people }) {
@@ -16,29 +16,15 @@ export const triviaViews: MinigameViews<TriviaView> = {
     }, [view.status, view.correct]);
 
     const buzzer = view.buzzer ? people[view.buzzer] : null;
-    const contestant = (s: 'a' | 'b') => {
-      const won = view.status === 'done' && view.winner === s;
-      const lit = view.buzzer === s;
-      return (
-        <div className={`trivia-contestant${lit ? ' lit' : ''}${won ? ' won' : ''}`}>
-          <Character
-            color={people[s].color}
-            accessory={people[s].accessory}
-            size={130}
-            flip={s === 'b'}
-            pose={won ? 'win' : view.status === 'done' ? 'lose' : 'idle'}
-          />
-          {/* The podium sits in front of the character, with a buzzer that lights up when they buzz. */}
-          <div className="podium">
-            <div className="podium-buzzer" />
-            <div className="podium-top" />
-            <div className="podium-front">
-              <span className="podium-name">{people[s].name}</span>
-            </div>
-          </div>
-        </div>
-      );
-    };
+    const contestant = (s: 'a' | 'b') => (
+      <Contestant
+        people={people}
+        side={s}
+        lit={view.buzzer === s}
+        won={view.status === 'done' && view.winner === s}
+        done={view.status === 'done'}
+      />
+    );
     return (
       <div className="trivia-host">
         {contestant('a')}

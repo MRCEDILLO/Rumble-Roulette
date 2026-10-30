@@ -1,5 +1,5 @@
 import { GAME_LOGIC } from '../games/logic';
-import type { Outcome } from '../games/types';
+import type { GameContext, Outcome } from '../games/types';
 import type {
   AllTimeStats,
   Award,
@@ -399,10 +399,20 @@ function readyUp(s: EngineState, now: number): EngineState {
 
 function startDuelGame(s: EngineState, now: number, rng: Rng): EngineState {
   const d = s.duel!;
-  d.game = GAME_LOGIC[d.gameId!].init(now, rng);
+  d.game = GAME_LOGIC[d.gameId!].init(now, rng, gameContext(s));
   d.winner = null;
   setPhase(s, 'duel', now);
   return s;
+}
+
+/** Who is in the room for the current duel, for games the Host or audience take part in. */
+export function gameContext(s: EngineState): GameContext {
+  const d = s.duel!;
+  const person = (id: SeatId) => ({ id, name: s.seats[id].name });
+  return {
+    ref: d.ref && s.seats[d.ref] ? person(d.ref) : null,
+    audience: s.order.filter((id) => id !== d.a && id !== d.b && id !== d.ref && s.seats[id].connected).map(person),
+  };
 }
 
 export function bettors(s: EngineState): SeatId[] {
@@ -656,9 +666,8 @@ export function applyInput(state: EngineState, uid: SeatId, input: PlayerInput, 
     }
     case 'game': {
       if (state.phase !== 'duel' || !d) return state;
-      const role = uid === d.a ? 'a' : uid === d.b ? 'b' : uid === d.ref ? 'ref' : null;
-      if (!role) return state;
-      const game = GAME_LOGIC[d.gameId!].onInput(d.game, role, input.payload, now, rng);
+      const role = uid === d.a ? 'a' : uid === d.b ? 'b' : uid === d.ref ? 'ref' : 'audience';
+      const game = GAME_LOGIC[d.gameId!].onInput(d.game, role, input.payload, now, rng, uid);
       if (game === d.game) return state;
       const s = clone(state);
       s.duel!.game = game;

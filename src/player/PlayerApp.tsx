@@ -528,15 +528,21 @@ function PhaseView({ pub, uid, role, send, now }: PhaseProps) {
             <RefControls pub={pub} onAction={refAct} compact />
           </>
         )}
-        {role === 'bettor' && (
-          <div className="phone-center">
-            <div className="phone-big">
-              {name(d.a)} vs {name(d.b)}
+        {role === 'bettor' &&
+          (d.view && people && Views.AudienceView ? (
+            <>
+              <Views.AudienceView view={d.view} people={people} seat={uid} now={now} send={(payload) => send({ t: 'game', payload })} />
+              <MyBet pub={pub} uid={uid} />
+            </>
+          ) : (
+            <div className="phone-center">
+              <div className="phone-big">
+                {name(d.a)} vs {name(d.b)}
+              </div>
+              <p>Watch the big screen!</p>
+              <MyBet pub={pub} uid={uid} />
             </div>
-            <p>Watch the big screen!</p>
-            <MyBet pub={pub} uid={uid} />
-          </div>
-        )}
+          ))}
       </div>
     );
   }

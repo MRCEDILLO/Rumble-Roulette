@@ -81,7 +81,7 @@ export const rpsLogic: MinigameLogic<RpsState, RpsView> = {
     };
   },
   onInput(s, role, payload, now, rng) {
-    if (s.done || s.revealUntil !== null || role === 'ref') return s;
+    if (s.done || s.revealUntil !== null || (role !== 'a' && role !== 'b')) return s;
     const pick = payload?.pick as Throw;
     if (!THROWS.includes(pick) || s.picks[role]) return s;
     const next = { ...s, picks: { ...s.picks, [role]: pick } };
