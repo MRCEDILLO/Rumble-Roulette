@@ -68,9 +68,32 @@ function ScrambleTiles() {
   );
 }
 
+/** An Ace of spades fanned over a King of hearts: blackjack. */
+function BlackjackCards() {
+  return (
+    <g strokeLinejoin="round">
+      <g transform="rotate(-14 18 30)">
+        <rect x="6" y="10" width="21" height="30" rx="3" fill="#fffdf6" stroke={INK} strokeWidth="2.5" />
+        <text x="11.5" y="19.5" textAnchor="middle" fontSize="8.5" fontWeight="900" fill="#d62839" fontFamily="Arial, sans-serif">
+          K
+        </text>
+        <path d="M16.5 34 C11 30 9.5 27 10.5 25 C11.5 23 15 23 16.5 26 C18 23 21.5 23 22.5 25 C23.5 27 22 30 16.5 34 Z" fill="#d62839" />
+      </g>
+      <g transform="rotate(10 30 30)">
+        <rect x="20" y="8" width="21" height="30" rx="3" fill="#fffdf6" stroke={INK} strokeWidth="2.5" />
+        <text x="25.5" y="17.5" textAnchor="middle" fontSize="8.5" fontWeight="900" fill={INK} fontFamily="Arial, sans-serif">
+          A
+        </text>
+        <path d="M31 17 C27 21.5 24.5 23.5 25 26 C25.5 28.5 29 28.8 30.3 27 L29 32 H33 L31.7 27 C33 28.8 36.5 28.5 37 26 C37.5 23.5 35 21.5 31 17 Z" fill={INK} />
+      </g>
+    </g>
+  );
+}
+
 const DRAWN: Record<string, () => JSX.Element> = {
   wanted: WantedPoster,
   snap: SnapCards,
+  blackjack: BlackjackCards,
   scramble: ScrambleTiles,
 };
 

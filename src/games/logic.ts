@@ -1,4 +1,5 @@
 import type { MinigameLogic } from './types';
+import { blackjackLogic } from './blackjack/logic';
 import { celebrityHeadsLogic } from './celebrity-heads/logic';
 import { firstLastLogic } from './first-last/logic';
 import { hangmanLogic } from './hangman/logic';
@@ -30,6 +31,7 @@ export const GAME_LOGIC: Record<string, MinigameLogic> = {
   [wantedLogic.info.id]: wantedLogic,
   [jinxLogic.info.id]: jinxLogic,
   [snapLogic.info.id]: snapLogic,
+  [blackjackLogic.info.id]: blackjackLogic,
   // One game per trivia category.
   ...Object.fromEntries(
     TRIVIA_CATEGORIES.map((c) => {
