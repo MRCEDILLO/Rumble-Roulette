@@ -5,6 +5,7 @@ import { higherLowerViews } from './higher-lower/views';
 import { jinxViews } from './jinx/views';
 import { memoryFlipViews } from './memory-flip/views';
 import { rpsViews } from './rps/views';
+import { scrambleViews } from './scramble/views';
 import { snapViews } from './snap/views';
 import { stackToeViews } from './stack-toe/views';
 import { timerViews } from './timer/views';
@@ -22,6 +23,7 @@ export const GAME_VIEWS: Record<string, MinigameViews> = {
   'higher-lower': higherLowerViews,
   'first-last': firstLastViews,
   hangman: hangmanViews,
+  scramble: scrambleViews,
   'stack-toe': stackToeViews,
   'memory-flip': memoryFlipViews,
   'celebrity-heads': celebrityHeadsViews,

@@ -6,6 +6,7 @@ import { higherLowerLogic } from './higher-lower/logic';
 import { jinxLogic } from './jinx/logic';
 import { memoryFlipLogic } from './memory-flip/logic';
 import { rpsLogic } from './rps/logic';
+import { scrambleLogic } from './scramble/logic';
 import { snapLogic } from './snap/logic';
 import { stackToeLogic } from './stack-toe/logic';
 import { timerLogic } from './timer/logic';
@@ -21,6 +22,7 @@ export const GAME_LOGIC: Record<string, MinigameLogic> = {
   [higherLowerLogic.info.id]: higherLowerLogic,
   [firstLastLogic.info.id]: firstLastLogic,
   [hangmanLogic.info.id]: hangmanLogic,
+  [scrambleLogic.info.id]: scrambleLogic,
   [stackToeLogic.info.id]: stackToeLogic,
   [memoryFlipLogic.info.id]: memoryFlipLogic,
   [celebrityHeadsLogic.info.id]: celebrityHeadsLogic,
