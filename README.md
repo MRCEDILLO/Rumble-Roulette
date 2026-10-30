@@ -81,8 +81,9 @@ Each minigame lives in its own folder under `src/games/` with two files:
 - `views.tsx` exports `MinigameViews`: `HostView` (the big screen, which must always show what the
   duelists are doing), `DuelistView` (each duelist's phone) and optionally `RefereeView`.
 
-Every game must declare a `category`: `trivia`, `word`, `chance`, `physical` or `misc` (Trivia, Word
-Games, Chance Games, Physical Games, Miscellaneous Games; the list lives in `src/games/categories.ts`).
+Every game must declare a `category`: `trivia`, `word`, `chance`, `puzzle`, `card`, `physical` or `misc`
+(Trivia, Word Games, Chance Games, Puzzle Games, Card Games, Physical Games, Miscellaneous; the list lives
+in `src/games/categories.ts`). A game can swap its emoji `icon` for a drawing in `src/games/GameIcon.tsx`.
 In setup the host turns whole categories on or off, and only games in the categories that are on can
 come up on the wheel.
 

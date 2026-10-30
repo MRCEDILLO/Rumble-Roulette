@@ -8,7 +8,7 @@ export const CATEGORIES: { id: GameCategory; name: string }[] = [
   { id: 'puzzle', name: 'Puzzle Games' },
   { id: 'card', name: 'Card Games' },
   { id: 'physical', name: 'Physical Games' },
-  { id: 'misc', name: 'Miscellaneous Games' },
+  { id: 'misc', name: 'Miscellaneous' },
 ];
 
 export const ALL_CATEGORY_IDS = CATEGORIES.map((c) => c.id);

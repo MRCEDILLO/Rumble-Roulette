@@ -3,6 +3,7 @@ import { Character } from '../characters/Character';
 import type { Mode, Profile } from '../engine/types';
 import { ALL_CATEGORY_IDS, CATEGORIES } from '../games/categories';
 import { CategoryIcon } from '../games/CategoryIcon';
+import { GameIcon } from '../games/GameIcon';
 import { ALL_GAME_IDS, gameInfo, matchesSearch } from '../games/logic';
 import type { GameCategory } from '../games/types';
 import type { HostUser } from '../net/types';
@@ -271,7 +272,7 @@ export function Setup({ user, profiles, error, onCreate, onSignOut, onDeleteProf
                           <label key={id} className={`game-pick${games.includes(id) ? ' on' : ''}`} title={info.rules}>
                             <input type="checkbox" checked={games.includes(id)} onChange={() => toggleGame(id)} />
                             <span className="game-icon" style={{ background: info.color }}>
-                              {info.icon}
+                              <GameIcon info={info} />
                             </span>
                             <span>
                               <b>{info.name}</b>

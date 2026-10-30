@@ -3494,3 +3494,11 @@ button.wd-person svg .character-body > ellipse {
   color: #f0a800;
   text-shadow: 0 0 1px #1b1035;
 }
+
+/* A drawn game icon sits where an emoji would, at the same size. */
+.drawn-game-icon {
+  width: 1.25em;
+  height: 1.25em;
+  vertical-align: -0.25em;
+  flex: none;
+}

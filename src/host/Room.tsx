@@ -18,6 +18,7 @@ import {
 import type { EngineState, Profile, PublicState, RefAction, SeatId } from '../engine/types';
 import { CATEGORIES } from '../games/categories';
 import { CategoryIcon } from '../games/CategoryIcon';
+import { GameIcon } from '../games/GameIcon';
 import { ALL_GAME_IDS, gameInfo, matchesSearch } from '../games/logic';
 import type { GameCategory } from '../games/types';
 import { GAME_VIEWS } from '../games/views';
@@ -184,7 +185,7 @@ function Stage({
         <div className="duel-stage">
           <div className="duel-banner" style={{ background: info.color }}>
             <span>
-              {info.icon} {info.name}
+              <GameIcon info={info} /> {info.name}
             </span>
             {people?.ref && <span className="muted-dark">Host: {people.ref.name}</span>}
           </div>
@@ -297,7 +298,7 @@ function SpinLanding({ pub }: { pub: PublicState }) {
   return (
     <div className={`spin-landing${landed ? ' show' : ''}`}>
       <h2>
-        {info.icon} {info.name}
+        <GameIcon info={info} /> {info.name}
       </h2>
       <p>{info.rules}</p>
     </div>
@@ -313,7 +314,7 @@ function BetScreen({ pub }: { pub: PublicState }) {
         <div>
           <h1 className="phase-title">Place your bets!</h1>
           <p className="lead">
-            {info.icon} <b>{info.name}</b>: {info.rules}
+            <GameIcon info={info} /> <b>{info.name}</b>: {info.rules}
           </p>
         </div>
         {pub.phaseEndsAt && <Countdown endsAt={pub.phaseEndsAt} now={now} total={BET_MS} size={120} />}
@@ -353,7 +354,7 @@ function ReadyScreen({ pub, onStart }: { pub: PublicState; onStart: () => void }
       <div className="card ready-card">
         <div className="ready-game">
           <span className="game-icon big" style={{ background: info.color }}>
-            {info.icon}
+            <GameIcon info={info} />
           </span>
           <h2>{info.name}</h2>
         </div>
@@ -553,7 +554,7 @@ function FreeMenu({ pub, update }: { pub: PublicState; update: Update }) {
             return (
               <button key={id} className={`game-tile${gameId === id ? ' on' : ''}`} onClick={() => setGameId(id)}>
                 <span className="game-icon" style={{ background: g.color }}>
-                  {g.icon}
+                  <GameIcon info={g} />
                 </span>
                 <b>{g.name}</b>
               </button>
@@ -566,7 +567,7 @@ function FreeMenu({ pub, update }: { pub: PublicState; update: Update }) {
       <section className="free-side card">
         <div className="free-picked">
           <span className="game-icon big" style={picked ? { background: picked.color } : undefined}>
-            {picked ? picked.icon : '🎡'}
+            {picked ? <GameIcon info={picked} /> : '🎡'}
           </span>
           <div>
             <b>{picked ? picked.name : 'Spin the wheel'}</b>
