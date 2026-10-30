@@ -2553,6 +2553,81 @@ select {
   cursor: default;
 }
 
+/* Forbidden Categories: the banned letter under a no-entry sign. */
+.fc-letter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 18px 0 4px;
+}
+
+.fc-sign {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 140px;
+  height: 140px;
+  border: 12px solid var(--red);
+  border-radius: 50%;
+  background: var(--panel);
+  box-shadow: var(--press);
+  overflow: hidden;
+}
+
+.fc-sign::after {
+  content: '';
+  position: absolute;
+  width: 140%;
+  height: 12px;
+  background: var(--red);
+  transform: rotate(45deg);
+}
+
+.fc-char {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 92px;
+  line-height: 1;
+  color: var(--ink);
+  -webkit-text-stroke: 3px var(--panel);
+  paint-order: stroke fill;
+}
+
+.fc-label {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.6vw, 40px);
+  color: var(--red);
+  max-width: 7em;
+  line-height: 1.05;
+  text-align: left;
+}
+
+.fc-letter.small {
+  justify-content: center;
+  gap: 10px;
+  margin: 2px 0;
+}
+
+.fc-letter.small .fc-sign {
+  width: 64px;
+  height: 64px;
+  border-width: 7px;
+  box-shadow: none;
+}
+
+.fc-letter.small .fc-sign::after {
+  height: 7px;
+}
+
+.fc-letter.small .fc-char {
+  font-size: 40px;
+}
+
+.fc-letter.small .fc-label {
+  font-size: 22px;
+}
+
 /* ------------------------------------------------------------------ small screens */
 
 @media (max-width: 900px) {

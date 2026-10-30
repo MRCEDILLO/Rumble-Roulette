@@ -2,6 +2,7 @@ import type { MinigameLogic } from './types';
 import { blackjackLogic } from './blackjack/logic';
 import { categoryClashLogic } from './category-clash/logic';
 import { celebrityHeadsLogic } from './celebrity-heads/logic';
+import { forbiddenCategoriesLogic } from './forbidden-categories/logic';
 import { firstLastLogic } from './first-last/logic';
 import { hangmanLogic } from './hangman/logic';
 import { higherLowerLogic } from './higher-lower/logic';
@@ -26,6 +27,7 @@ export const GAME_LOGIC: Record<string, MinigameLogic> = {
   [hangmanLogic.info.id]: hangmanLogic,
   [scrambleLogic.info.id]: scrambleLogic,
   [categoryClashLogic.info.id]: categoryClashLogic,
+  [forbiddenCategoriesLogic.info.id]: forbiddenCategoriesLogic,
   [stackToeLogic.info.id]: stackToeLogic,
   [memoryFlipLogic.info.id]: memoryFlipLogic,
   [celebrityHeadsLogic.info.id]: celebrityHeadsLogic,
