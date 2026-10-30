@@ -1,0 +1,311 @@
+name,type,known_for
+Taylor Swift,real,Pop singer
+Beyoncé,real,Singer
+Rihanna,real,Singer and Fenty founder
+Lady Gaga,real,Pop singer
+Adele,real,Singer
+Ed Sheeran,real,Singer-songwriter
+Justin Bieber,real,Pop singer
+Billie Eilish,real,Singer
+Ariana Grande,real,Singer
+Drake,real,Rapper
+Eminem,real,Rapper
+Snoop Dogg,real,Rapper
+Kanye West,real,Rapper
+Bruno Mars,real,Singer
+Harry Styles,real,Singer
+Dua Lipa,real,Pop singer
+Shakira,real,Singer
+Katy Perry,real,Pop singer
+Miley Cyrus,real,Singer
+Selena Gomez,real,Singer and actor
+Michael Jackson,real,King of Pop
+Elvis Presley,real,King of Rock and Roll
+Madonna,real,Queen of Pop
+Freddie Mercury,real,Queen frontman
+John Lennon,real,The Beatles
+Paul McCartney,real,The Beatles
+Bob Marley,real,Reggae singer
+Whitney Houston,real,Singer
+Dolly Parton,real,Country singer
+Elton John,real,Singer and pianist
+David Bowie,real,Rock star
+Mick Jagger,real,Rolling Stones frontman
+Kylie Minogue,real,Australian pop singer
+Mozart,real,Composer
+Beethoven,real,Composer
+Tom Cruise,real,Actor
+Tom Hanks,real,Actor
+Leonardo DiCaprio,real,Actor
+Brad Pitt,real,Actor
+Angelina Jolie,real,Actor
+Will Smith,real,Actor
+Dwayne Johnson,real,Actor and wrestler
+Keanu Reeves,real,Actor
+Johnny Depp,real,Actor
+Morgan Freeman,real,Actor
+Meryl Streep,real,Actor
+Jennifer Lawrence,real,Actor
+Scarlett Johansson,real,Actor
+Emma Watson,real,Actor
+Zendaya,real,Actor
+Ryan Reynolds,real,Actor
+Hugh Jackman,real,Australian actor
+Nicole Kidman,real,Australian actor
+Margot Robbie,real,Australian actor
+Chris Hemsworth,real,Australian actor
+Arnold Schwarzenegger,real,Actor and governor
+Jackie Chan,real,Martial arts actor
+Bruce Lee,real,Martial arts actor
+Jim Carrey,real,Comedic actor
+Robin Williams,real,Comedic actor
+Adam Sandler,real,Comedic actor
+Jack Black,real,Comedic actor
+Kevin Hart,real,Comedian and actor
+Robert Downey Jr.,real,Actor
+Tom Holland,real,Actor
+Samuel L. Jackson,real,Actor
+Denzel Washington,real,Actor
+Julia Roberts,real,Actor
+Sandra Bullock,real,Actor
+Marilyn Monroe,real,Actor
+Audrey Hepburn,real,Actor
+Charlie Chaplin,real,Silent film star
+Steven Spielberg,real,Film director
+Walt Disney,real,Founded Disney
+Oprah Winfrey,real,Talk show host
+Ellen DeGeneres,real,Talk show host
+Gordon Ramsay,real,Celebrity chef
+David Attenborough,real,Nature documentaries
+Steve Irwin,real,The Crocodile Hunter
+Kim Kardashian,real,Reality TV star
+Paris Hilton,real,Socialite
+MrBeast,real,YouTuber
+PewDiePie,real,YouTuber
+Lionel Messi,real,Footballer
+Cristiano Ronaldo,real,Footballer
+David Beckham,real,Footballer
+Pelé,real,Footballer
+Michael Jordan,real,Basketball player
+LeBron James,real,Basketball player
+Serena Williams,real,Tennis player
+Roger Federer,real,Tennis player
+Usain Bolt,real,Sprinter
+Muhammad Ali,real,Boxer
+Tiger Woods,real,Golfer
+Simone Biles,real,Gymnast
+Michael Phelps,real,Swimmer
+Tom Brady,real,American football player
+Mike Tyson,real,Boxer
+John Cena,real,Wrestler and actor
+Albert Einstein,real,Physicist
+Isaac Newton,real,Physicist
+Marie Curie,real,Scientist
+Charles Darwin,real,Evolution
+Stephen Hawking,real,Physicist
+Nikola Tesla,real,Inventor
+Thomas Edison,real,Inventor
+Leonardo da Vinci,real,Painted the Mona Lisa
+Vincent van Gogh,real,Painter
+Pablo Picasso,real,Painter
+William Shakespeare,real,Playwright
+Neil Armstrong,real,First on the Moon
+Amelia Earhart,real,Pilot
+Christopher Columbus,real,Explorer
+Steve Jobs,real,Co-founded Apple
+Bill Gates,real,Co-founded Microsoft
+Elon Musk,real,Tesla and SpaceX
+Mark Zuckerberg,real,Founded Facebook
+Jeff Bezos,real,Founded Amazon
+Abraham Lincoln,real,US president
+George Washington,real,First US president
+Barack Obama,real,US president
+Donald Trump,real,US president
+Queen Elizabeth II,real,British monarch
+King Charles III,real,British monarch
+Princess Diana,real,Princess of Wales
+Napoleon,real,French emperor
+Cleopatra,real,Egyptian queen
+Julius Caesar,real,Roman leader
+Nelson Mandela,real,South African president
+Martin Luther King Jr.,real,Civil rights leader
+Mahatma Gandhi,real,Indian independence leader
+Winston Churchill,real,British prime minister
+Mother Teresa,real,Nun and missionary
+Malala Yousafzai,real,Education activist
+Greta Thunberg,real,Climate activist
+Harry Potter,fictional,Boy wizard
+Hermione Granger,fictional,Harry Potter
+Ron Weasley,fictional,Harry Potter
+Dumbledore,fictional,Harry Potter
+Voldemort,fictional,Harry Potter
+Hagrid,fictional,Harry Potter
+Gandalf,fictional,The Lord of the Rings
+Frodo Baggins,fictional,The Lord of the Rings
+Gollum,fictional,The Lord of the Rings
+Darth Vader,fictional,Star Wars
+Luke Skywalker,fictional,Star Wars
+Princess Leia,fictional,Star Wars
+Yoda,fictional,Star Wars
+Han Solo,fictional,Star Wars
+Chewbacca,fictional,Star Wars
+R2-D2,fictional,Star Wars
+Spider-Man,fictional,Superhero
+Batman,fictional,Superhero
+Superman,fictional,Superhero
+Wonder Woman,fictional,Superhero
+Iron Man,fictional,Superhero
+Captain America,fictional,Superhero
+Thor,fictional,Superhero
+Hulk,fictional,Superhero
+Black Widow,fictional,Superhero
+Black Panther,fictional,Superhero
+Deadpool,fictional,Antihero
+Wolverine,fictional,X-Men
+The Joker,fictional,Batman villain
+Thanos,fictional,Marvel villain
+Catwoman,fictional,Batman
+Mickey Mouse,fictional,Disney
+Minnie Mouse,fictional,Disney
+Donald Duck,fictional,Disney
+Goofy,fictional,Disney
+Winnie the Pooh,fictional,Hundred Acre Wood
+Tigger,fictional,Winnie the Pooh
+Simba,fictional,The Lion King
+Mufasa,fictional,The Lion King
+Elsa,fictional,Frozen
+Anna,fictional,Frozen
+Olaf,fictional,Frozen
+Moana,fictional,Moana
+Maui,fictional,Moana
+Ariel,fictional,The Little Mermaid
+Cinderella,fictional,Fairy tale princess
+Snow White,fictional,Fairy tale princess
+Rapunzel,fictional,Fairy tale princess
+Belle,fictional,Beauty and the Beast
+Aladdin,fictional,Aladdin
+The Genie,fictional,Aladdin
+Mulan,fictional,Mulan
+Stitch,fictional,Lilo & Stitch
+Woody,fictional,Toy Story
+Buzz Lightyear,fictional,Toy Story
+Shrek,fictional,Shrek
+Donkey,fictional,Shrek
+Nemo,fictional,Finding Nemo
+Dory,fictional,Finding Nemo
+Lightning McQueen,fictional,Cars
+Mike Wazowski,fictional,Monsters Inc.
+Sulley,fictional,Monsters Inc.
+WALL-E,fictional,WALL-E
+Po,fictional,Kung Fu Panda
+Mr. Incredible,fictional,The Incredibles
+Peter Pan,fictional,Neverland
+Captain Hook,fictional,Peter Pan
+Tinker Bell,fictional,Peter Pan
+Pinocchio,fictional,Wooden boy
+Mary Poppins,fictional,Magical nanny
+Willy Wonka,fictional,Chocolate factory
+Alice,fictional,Alice in Wonderland
+The Mad Hatter,fictional,Alice in Wonderland
+Dorothy,fictional,The Wizard of Oz
+Cruella de Vil,fictional,101 Dalmatians
+Maleficent,fictional,Sleeping Beauty
+Ursula,fictional,The Little Mermaid
+Scar,fictional,The Lion King
+The Grinch,fictional,Stole Christmas
+Santa Claus,fictional,Christmas
+The Easter Bunny,fictional,Easter
+The Tooth Fairy,fictional,Collects teeth
+Bugs Bunny,fictional,Looney Tunes
+Daffy Duck,fictional,Looney Tunes
+Tweety,fictional,Looney Tunes
+Road Runner,fictional,Looney Tunes
+Tom,fictional,Tom and Jerry
+Jerry,fictional,Tom and Jerry
+Scooby-Doo,fictional,Mystery-solving dog
+Shaggy,fictional,Scooby-Doo
+Fred Flintstone,fictional,The Flintstones
+Homer Simpson,fictional,The Simpsons
+Bart Simpson,fictional,The Simpsons
+Marge Simpson,fictional,The Simpsons
+Lisa Simpson,fictional,The Simpsons
+SpongeBob SquarePants,fictional,Lives in a pineapple
+Patrick Star,fictional,SpongeBob
+Squidward,fictional,SpongeBob
+Peter Griffin,fictional,Family Guy
+Stewie Griffin,fictional,Family Guy
+Rick Sanchez,fictional,Rick and Morty
+Peppa Pig,fictional,Kids' cartoon pig
+Bluey,fictional,Australian cartoon dog
+Dora the Explorer,fictional,Kids' cartoon explorer
+Garfield,fictional,Lasagna-loving cat
+Snoopy,fictional,Peanuts
+Charlie Brown,fictional,Peanuts
+Popeye,fictional,Spinach-eating sailor
+Kermit the Frog,fictional,The Muppets
+Miss Piggy,fictional,The Muppets
+Elmo,fictional,Sesame Street
+Cookie Monster,fictional,Sesame Street
+Big Bird,fictional,Sesame Street
+Barbie,fictional,Doll
+Ken,fictional,Barbie's boyfriend
+Paddington Bear,fictional,Marmalade-loving bear
+Mr. Bean,fictional,Silent comedy character
+Sherlock Holmes,fictional,Detective
+Dracula,fictional,Vampire
+Frankenstein's Monster,fictional,Monster
+King Kong,fictional,Giant ape
+Godzilla,fictional,Giant monster
+James Bond,fictional,Spy 007
+Indiana Jones,fictional,Archaeologist adventurer
+Jack Sparrow,fictional,Pirates of the Caribbean
+Forrest Gump,fictional,Run Forrest run
+Rocky Balboa,fictional,Boxer
+The Terminator,fictional,Cyborg
+E.T.,fictional,Alien who phones home
+Katniss Everdeen,fictional,The Hunger Games
+Wednesday Addams,fictional,The Addams Family
+Eleven,fictional,Stranger Things
+Michael Scott,fictional,The Office
+Sheldon Cooper,fictional,The Big Bang Theory
+Walter White,fictional,Breaking Bad
+Jon Snow,fictional,Game of Thrones
+Ross Geller,fictional,Friends
+Rachel Green,fictional,Friends
+Joey Tribbiani,fictional,Friends
+Mario,fictional,Nintendo plumber
+Luigi,fictional,Mario's brother
+Princess Peach,fictional,Mario
+Bowser,fictional,Mario villain
+Yoshi,fictional,Mario
+Donkey Kong,fictional,Nintendo ape
+Link,fictional,The Legend of Zelda
+Pikachu,fictional,Pokémon
+Ash Ketchum,fictional,Pokémon trainer
+Sonic the Hedgehog,fictional,Sega
+Pac-Man,fictional,Arcade game
+Kirby,fictional,Nintendo
+Lara Croft,fictional,Tomb Raider
+Steve,fictional,Minecraft
+Master Chief,fictional,Halo
+Goku,fictional,Dragon Ball
+Naruto,fictional,Naruto
+Hello Kitty,fictional,Cute cat character
+Tarzan,fictional,Raised by apes
+Robin Hood,fictional,Steals from the rich
+King Arthur,fictional,Knights of the Round Table
+Merlin,fictional,Wizard
+Zeus,fictional,Greek god
+Hercules,fictional,Greek hero
+Medusa,fictional,Snake-haired gorgon
+Cupid,fictional,Arrows of love
+Little Red Riding Hood,fictional,Fairy tale
+The Big Bad Wolf,fictional,Fairy tale
+Humpty Dumpty,fictional,Nursery rhyme egg
+Ronald McDonald,fictional,McDonald's clown
+The Cat in the Hat,fictional,Dr. Seuss
+Curious George,fictional,Curious monkey
+Optimus Prime,fictional,Transformers
+Ghostface,fictional,Scream
+Chucky,fictional,Killer doll
+Hannibal Lecter,fictional,The Silence of the Lambs
