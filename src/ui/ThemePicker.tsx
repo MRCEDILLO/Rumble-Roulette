@@ -1,9 +1,9 @@
 import { THEMES } from '../themes/themes';
 
-/** Buttons to switch the look of the TV and the phones. */
+/** Buttons to switch the theme of the TV and the phones. */
 export function ThemePicker({ value, onChange }: { value: string; onChange: (id: string) => void }) {
   return (
-    <div className="toggle-row theme-picker" role="radiogroup" aria-label="Look">
+    <div className="toggle-row theme-picker" role="radiogroup" aria-label="Theme">
       {THEMES.map((t) => (
         <button
           key={t.id}
