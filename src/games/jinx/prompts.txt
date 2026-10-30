@@ -1,0 +1,325 @@
+# Jinx! prompts: one per line. Lines starting with # are ignored.
+# Good prompts have lots of popular answers, so the audience has a real chance of matching.
+Name an ice cream flavour
+Name a pizza topping
+Name a fruit
+Name a vegetable
+Name a breakfast food
+Name a type of cheese
+Name a flavour of chips
+Name a chocolate bar
+Name a lolly or sweet
+Name a cereal
+Name a sandwich filling
+Name something you put on toast
+Name a soft drink
+Name a hot drink
+Name a type of pasta
+Name a fast food restaurant
+Name a dessert
+Name a type of cake
+Name a food you eat with your hands
+Name a spicy food
+Name a food that is yellow
+Name a food that is red
+Name a food that is green
+Name a type of nut
+Name a type of bread
+Name a soup
+Name a sauce or condiment
+Name a herb or spice
+Name something you eat at a birthday party
+Name something you put on a hot dog
+Name a pie filling
+Name a kind of seafood
+Name a type of meat
+Name something you eat at the cinema
+Name something you buy at a bakery
+Name a type of berry
+Name a cocktail
+Name a smoothie ingredient
+Name a pizza chain
+Name a coffee order
+Name a type of tea
+Name something you eat with a spoon
+Name a food that comes in a can
+Name a Christmas food
+Name a barbecue food
+Name a farm animal
+Name a pet
+Name a dog breed
+Name a cat breed
+Name a wild animal
+Name a bird
+Name a sea creature
+Name an insect
+Name a reptile
+Name an animal with stripes
+Name an animal with spots
+Name an animal that lives in Australia
+Name an animal that lives in Africa
+Name an animal at the zoo
+Name a big cat
+Name an animal that can fly
+Name an animal that hops
+Name a dinosaur
+Name a mythical creature
+Name a fish
+Name an animal that is green
+Name a nocturnal animal
+Name an animal with a long neck or long tail
+Name a sport
+Name a ball sport
+Name a water sport
+Name a winter sport
+Name an Olympic sport
+Name a famous athlete
+Name a football team
+Name a board game
+Name a card game
+Name a video game
+Name a video game character
+Name a playground game
+Name a toy
+Name a hobby
+Name a musical instrument
+Name a type of dance
+Name a gym exercise
+Name something you do at the beach
+Name a camping item
+Name a party game
+Name a superhero
+Name a villain
+Name a Disney movie
+Name a Pixar movie
+Name a Disney princess
+Name a cartoon character
+Name a TV show
+Name a reality TV show
+Name a movie franchise
+Name a horror movie
+Name a Christmas movie
+Name a famous wizard or witch
+Name a Harry Potter character
+Name a Star Wars character
+Name a Marvel character
+Name a Simpsons character
+Name a Pokémon
+Name a fairy tale
+Name a nursery rhyme
+Name a famous singer
+Name a famous band
+Name a music genre
+Name a famous actor
+Name a famous actress
+Name a famous rapper
+Name a streaming service
+Name a social media app
+Name a famous comedian
+Name a famous chef
+Name a famous scientist
+Name a famous artist or painter
+Name a famous author
+Name a famous duo
+Name a country
+Name a country in Europe
+Name a country in Asia
+Name a country in Africa
+Name a country in South America
+Name a capital city
+Name a city in the USA
+Name a city in Australia
+Name a city in Europe
+Name a state of Australia or the USA
+Name a famous landmark
+Name a holiday destination
+Name an island
+Name a language
+Name an ocean or sea
+Name a river
+Name a mountain
+Name a desert
+Name a planet
+Name something in space
+Name a weather type
+Name a natural disaster
+Name a month of the year
+Name a holiday or celebration
+Name a colour
+Name a shape
+Name a number between one and ten
+Name a body part
+Name a bone in the body
+Name an organ in the body
+Name something in your mouth
+Name a piece of clothing
+Name something you wear on your feet
+Name something you wear on your head
+Name a piece of jewellery
+Name an accessory
+Name a fabric
+Name a clothing brand
+Name a shoe brand
+Name a car brand
+Name a type of vehicle
+Name something with wheels
+Name something with wings
+Name something that flies
+Name something that floats
+Name something that is cold
+Name something that is hot
+Name something that is soft
+Name something that is sharp
+Name something that is sticky
+Name something that is round
+Name something that is square
+Name something that smells good
+Name something that smells bad
+Name something that is loud
+Name something that glows
+Name something that is fluffy
+Name something that is slimy
+Name something that bounces
+Name something that melts
+Name something that has a lot of buttons
+Name something that has keys
+Name something that rings
+Name something that is usually white
+Name something that is usually black
+Name something that is pink
+Name something that is purple
+Name something that is orange but isn't food
+Name something with a tail
+Name something with a shell
+Name something you find in a kitchen
+Name something you find in a bathroom
+Name something you find in a bedroom
+Name something you find in a garden
+Name something you find in a classroom
+Name something you find in a hospital
+Name something you find in an office
+Name something you find at the beach
+Name something you find in a park
+Name something you find in a toolbox
+Name something you find in a handbag or backpack
+Name something you find in a fridge
+Name something you find at a supermarket
+Name something you find in a forest
+Name something you find at a circus
+Name something you find at a wedding
+Name something you find in a castle
+Name something you find on a farm
+Name something you find in a car
+Name something you find on a pirate ship
+Name a kitchen appliance
+Name a piece of furniture
+Name a room in a house
+Name a tool
+Name a gardening tool
+Name a school subject
+Name something in a pencil case
+Name a job
+Name a job that wears a uniform
+Name a job that helps people
+Name a dream job
+Name a shop you find at a shopping centre
+Name a supermarket
+Name something you buy at a chemist
+Name a type of building
+Name a type of shop
+Name a household chore
+Name something you do before bed
+Name something you do in the morning
+Name something you do on the weekend
+Name something you take on holiday
+Name something you pack for a picnic
+Name something you do at a sleepover
+Name something you do on your phone
+Name something people are scared of
+Name something that makes people happy
+Name something that makes people cry
+Name something people collect
+Name something people lose all the time
+Name something people forget
+Name something people do when they are bored
+Name a reason to be late
+Name something you say when you answer the phone
+Name a word that rhymes with cat
+Name a word that rhymes with day
+Name a girl's name
+Name a boy's name
+Name a famous Taylor
+Name a famous Chris
+Name a famous Michael
+Name something with a lid
+Name something with a screen
+Name something that runs on batteries
+Name a piece of technology
+Name a computer or phone brand
+Name an app on your phone
+Name a website
+Name an emoji
+Name a famous logo
+Name a fast car
+Name a gemstone
+Name a metal
+Name a flower
+Name a tree
+Name a plant
+Name a zodiac sign
+Name a fairy tale character
+Name a famous ship or boat
+Name a famous queen or king
+Name a famous president or prime minister
+Name a famous inventor
+Name a famous explorer
+Name something in a first aid kit
+Name a type of pastry
+Name a type of potato dish
+Name a theme park ride
+Name a circus act
+Name a cooking method
+Name a toy brand
+Name something at a carnival or fair
+Name a type of hat
+Name a type of bag
+Name a type of shoe
+Name something that comes in pairs
+Name something that comes in a box
+Name something you blow
+Name something you open
+Name something you plug in
+Name something you can fold
+Name something you can climb
+Name something you can ride
+Name something you can throw
+Name something you can kick
+Name something you can pop
+Name something you can build
+Name a famous detective
+Name a famous pirate
+Name a famous robot
+Name a famous dog from TV or film
+Name a famous cat from TV or film
+Name a famous mouse or rat
+Name a famous bear
+Name a famous duck
+Name a famous princess or prince
+Name a Halloween costume
+Name something you see at Halloween
+Name something you see at Christmas
+Name something you see at Easter
+Name a birthday present
+Name something on a pizza menu
+Name a flavour of lollipop or jelly bean
+Name a type of sandwich
+Name a salad ingredient
+Name a burger topping
+Name something you dip
+Name something you can spread
+Name a food you eat with chopsticks
+Name a food from Italy
+Name a food from Mexico
+Name a food from Japan
+Name a food from China
+Name a food from India

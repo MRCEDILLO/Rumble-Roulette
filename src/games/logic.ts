@@ -3,6 +3,7 @@ import { celebrityHeadsLogic } from './celebrity-heads/logic';
 import { firstLastLogic } from './first-last/logic';
 import { hangmanLogic } from './hangman/logic';
 import { higherLowerLogic } from './higher-lower/logic';
+import { jinxLogic } from './jinx/logic';
 import { memoryFlipLogic } from './memory-flip/logic';
 import { rpsLogic } from './rps/logic';
 import { stackToeLogic } from './stack-toe/logic';
@@ -24,6 +25,7 @@ export const GAME_LOGIC: Record<string, MinigameLogic> = {
   [celebrityHeadsLogic.info.id]: celebrityHeadsLogic,
   [whatsMyNumberLogic.info.id]: whatsMyNumberLogic,
   [wantedLogic.info.id]: wantedLogic,
+  [jinxLogic.info.id]: jinxLogic,
   // One game per trivia category.
   ...Object.fromEntries(
     TRIVIA_CATEGORIES.map((c) => {
