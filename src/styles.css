@@ -1388,6 +1388,17 @@ select {
   flex: 1;
 }
 
+.coin-adjust {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.coin-adjust .coins {
+  min-width: 3.2em;
+  text-align: center;
+}
+
 .ref-controls {
   display: flex;
   flex-wrap: wrap;

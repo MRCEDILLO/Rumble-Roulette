@@ -2,10 +2,12 @@
 
 An in-person party game for 3 to 10 players. One computer is the big screen; everyone else plays on
 their phone. Each round two players duel in a random minigame picked by a spin wheel, a third player
-is the round's Host, and everyone else bets coins on the winner. After the last round the two richest players
+is the round's Host, and everyone else bets coins on the winner. The duel winner gets +2 coins and the loser
+drops 1 (never below 0). After the last round the two richest players
 meet in the final.
 
-- **Party mode:** coins, betting, a Host each round, tie-breaks, the final, awards and all-time stats.
+- **Party mode:** coins, betting, a Host each round, tie-breaks, the final, awards and all-time stats. The big
+  screen's Menu can fix anyone's coins with − and +.
 - **Free play:** pick any minigame (or spin) and play it with no coins. Handy for testing new games.
 
 Rules and design decisions: [design brief](https://claude.ai/artifact/SXf8WEs9f2zxdzjgHRqiiA) ·
