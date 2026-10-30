@@ -3469,3 +3469,28 @@ button.wd-person svg .character-body > ellipse {
   font-size: 30px;
   line-height: 1.1;
 }
+
+.wd-round {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px 10px;
+  font-size: 20px;
+}
+
+.wd-round-score {
+  display: flex;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.wd-stars {
+  color: rgba(27, 16, 53, 0.2);
+  letter-spacing: 0.05em;
+}
+
+.wd-stars .on {
+  color: #f0a800;
+  text-shadow: 0 0 1px #1b1035;
+}

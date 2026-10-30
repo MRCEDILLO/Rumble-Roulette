@@ -5,7 +5,7 @@ import { play } from '../../sound';
 import { Countdown } from '../../ui/common';
 import { useTicker } from '../../ui/hooks';
 import type { DuelPeople, MinigameViews } from '../types';
-import { COLS, LOCKOUT_MS, SCENE_NAME, TIME_MS, otherSide, type Look, type Person, type Scene, type WantedView } from './logic';
+import { COLS, LOCKOUT_MS, SCENE_NAME, TIME_MS, WINS_NEEDED, otherSide, type Look, type Person, type Scene, type WantedView } from './logic';
 
 type Side = 'a' | 'b';
 
@@ -160,13 +160,47 @@ function Poster({ wanted, compact }: { wanted: Look; compact?: boolean }) {
   );
 }
 
-const ended = (view: WantedView) => view.status !== 'playing';
+/** Word joiners keep "2–1" from breaking across lines. */
+const score = (view: WantedView) => `${Math.max(view.wins.a, view.wins.b)}\u2060–\u2060${Math.min(view.wins.a, view.wins.b)}`;
 
 function resultLine(view: WantedView, people: DuelPeople, side?: Side) {
-  if (view.winner === 'draw') return 'Time’s up! Nobody found them. Play again!';
-  const w = view.winner as Side;
-  if (side) return w === side ? 'You found them! 🎉' : `${people[w].name} found them first 😵`;
-  return `${people[w].name} found them! 🤠`;
+  const w = view.roundWinner;
+  if (!w) return 'Time’s up! Nobody found them. Same round again!';
+  if (view.winner) {
+    if (side) return w === side ? `You win ${score(view)}! 🎉` : `${people[w].name} wins ${score(view)} 😵`;
+    return `${people[w].name} wins ${score(view)}! 🤠`;
+  }
+  if (side) return w === side ? `You got round ${view.round}! 🎯` : `${people[w].name} got round ${view.round} 😬`;
+  return `${people[w].name} got round ${view.round}!`;
+}
+
+/** "Round 2 · first to 2" with a star per round won. */
+function RoundLine({ view, people }: { view: WantedView; people: DuelPeople }) {
+  return (
+    <div className="wd-round">
+      <b>Round {view.round}</b>
+      <span className="muted">first to {WINS_NEEDED}</span>
+      <span className="wd-round-score">
+        {(['a', 'b'] as Side[]).map((s) => (
+          <span key={s} className="st-badge wd-badge">
+            {people[s].name} <Stars won={view.wins[s]} />
+          </span>
+        ))}
+      </span>
+    </div>
+  );
+}
+
+function Stars({ won }: { won: number }) {
+  return (
+    <span className="wd-stars" aria-label={`${won} of ${WINS_NEEDED}`}>
+      {Array.from({ length: WINS_NEEDED }, (_, i) => (
+        <span key={i} className={i < won ? 'on' : undefined}>
+          ★
+        </span>
+      ))}
+    </span>
+  );
 }
 
 /** Re-renders while a phone is frozen, and says how long is left. */
@@ -180,15 +214,18 @@ function useFrozen(view: WantedView, side: Side, now: () => number) {
 function HostSide({ view, people, side, now }: { view: WantedView; people: DuelPeople; side: Side; now: () => number }) {
   const p = people[side];
   const frozen = useFrozen(view, side, now);
-  const won = ended(view) && view.winner === side;
-  const lost = ended(view) && view.winner === otherSide(side);
+  const got = view.status !== 'playing' && view.roundWinner === side;
+  const won = view.winner === side;
+  const lost = view.winner === otherSide(side);
   return (
-    <div className={`wd-hunter${won ? ' won' : ''}${frozen ? ' frozen' : ''}`}>
-      <Character color={p.color} accessory={p.accessory} size={54} pose={won ? 'win' : lost ? 'lose' : 'idle'} />
+    <div className={`wd-hunter${got ? ' won' : ''}${frozen ? ' frozen' : ''}`}>
+      <Character color={p.color} accessory={p.accessory} size={54} pose={won || got ? 'win' : lost ? 'lose' : 'idle'} />
       <div>
-        <div className="wd-hunter-name">{p.name}</div>
+        <div className="wd-hunter-name">
+          {p.name} <Stars won={view.wins[side]} />
+        </div>
         <div className="muted">
-          {frozen ? `Wrong one! Frozen ${frozen}s` : won ? 'Got them!' : `${view.misses[side].length} wrong`}
+          {frozen ? `Wrong one! Frozen ${frozen}s` : got ? 'Got them!' : `${view.misses[side].length} wrong`}
         </div>
       </div>
     </div>
@@ -204,9 +241,9 @@ function useHostSounds(view: WantedView) {
     lastWrongs.current = wrongs;
   }, [wrongs]);
   useEffect(() => {
-    if (view.status === 'reveal' && last.current === 'playing') play(view.winner === 'draw' ? 'lose' : 'fanfare');
+    if (view.status === 'found' && last.current === 'playing') play(!view.roundWinner ? 'lose' : view.winner ? 'fanfare' : 'coin');
     last.current = view.status;
-  }, [view.status, view.winner]);
+  }, [view.status, view.roundWinner, view.winner]);
 }
 
 export const wantedViews: MinigameViews<WantedView> = {
@@ -216,6 +253,10 @@ export const wantedViews: MinigameViews<WantedView> = {
       <div className="wd-host">
         <div className="wd-host-side">
           <Poster wanted={view.wanted} />
+          <div className="wd-round">
+            <b>Round {view.round}</b>
+            <span className="muted">first to {WINS_NEEDED}</span>
+          </div>
           {view.status === 'playing' ? (
             <Countdown key={view.endsAt} endsAt={view.endsAt} now={now} total={TIME_MS} size={72} />
           ) : (
@@ -238,6 +279,7 @@ export const wantedViews: MinigameViews<WantedView> = {
           <Poster wanted={view.wanted} compact />
           {playing && <Countdown key={view.endsAt} endsAt={view.endsAt} now={now} total={TIME_MS} size={52} />}
         </div>
+        <RoundLine view={view} people={people} />
         {!playing && <div className="phone-big">{resultLine(view, people, side)}</div>}
         <Crowd
           view={view}
@@ -258,6 +300,7 @@ export const wantedViews: MinigameViews<WantedView> = {
           <Poster wanted={view.wanted} compact />
           {playing && <Countdown key={view.endsAt} endsAt={view.endsAt} now={now} total={TIME_MS} size={52} />}
         </div>
+        <RoundLine view={view} people={people} />
         {!playing && <div className="phone-big">{resultLine(view, people)}</div>}
         <Crowd view={view} />
         <div className="mf-scores">
