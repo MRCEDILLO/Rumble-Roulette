@@ -1932,6 +1932,74 @@ select {
   border-radius: var(--radius);
 }
 
+/* What's my Number: reuses the Celebrity Heads cards, plus the subjective-questions rule. */
+.ch-card b.wmn-number {
+  font-size: clamp(80px, 9vw, 140px);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.ch-card.small b.wmn-number {
+  font-size: 44px;
+}
+
+.ch-card.ch-you b.wmn-number {
+  font-size: 96px;
+}
+
+.ch-card b.wmn-number.long {
+  font-size: clamp(40px, 4.2vw, 62px);
+}
+
+.ch-card b.wmn-number.xlong {
+  font-size: clamp(32px, 3.3vw, 50px);
+}
+
+.ch-card.small b.wmn-number.long {
+  font-size: 30px;
+}
+
+.ch-card.small b.wmn-number.xlong {
+  font-size: 22px;
+}
+
+.ch-card.ch-you b.wmn-number.long {
+  font-size: 52px;
+}
+
+.ch-card.ch-you b.wmn-number.xlong {
+  font-size: 42px;
+}
+
+.wmn-rule {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 720px;
+  padding: 12px 20px;
+  text-align: center;
+  background: var(--panel);
+  color: var(--ink);
+  border: 4px dashed var(--line);
+  border-radius: var(--radius);
+  font-size: 20px;
+}
+
+.wmn-rule b {
+  font-family: var(--font-display);
+  font-size: 26px;
+}
+
+.wmn-rule.small {
+  padding: 8px 12px;
+  border-width: 3px;
+  font-size: 14px;
+}
+
+.wmn-rule.small b {
+  font-size: 18px;
+}
+
 .fl-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
