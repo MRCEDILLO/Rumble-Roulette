@@ -3634,3 +3634,380 @@ button.wd-person svg .character-body > ellipse {
   vertical-align: -0.25em;
   flex: none;
 }
+
+/* Snap! */
+.sn-host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.sn-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 76px;
+}
+
+/* One fixed shape, so the table, dealer and duelists always line up. */
+.sn-stage {
+  position: relative;
+  width: min(94vw, 1080px, calc((100vh - 290px) * 1.95));
+  aspect-ratio: 16 / 8.2;
+  border: 5px solid #1b1035;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: linear-gradient(#3a2a5c 0 60%, #2b1f45 60% 61.5%, #6b4a3a 61.5% 100%);
+}
+
+.sn-stage.sn-sudden {
+  background: linear-gradient(#5c2a3a 0 60%, #451f2b 60% 61.5%, #6b4a3a 61.5% 100%);
+}
+
+.sn-lamp {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 70%;
+  height: 100%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 236, 170, 0.35), transparent 65%);
+  pointer-events: none;
+}
+
+.sn-dealer {
+  position: absolute;
+  left: 50%;
+  bottom: 44%;
+  width: 15%;
+  transform: translateX(-50%);
+  animation: sn-bob 0.35s ease-out;
+}
+
+.sn-dealer svg,
+.sn-body svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.sn-dealer.shuffling {
+  animation: sn-shuffle 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes sn-bob {
+  40% {
+    transform: translateX(-50%) translateY(-6%) rotate(-3deg);
+  }
+}
+
+@keyframes sn-shuffle {
+  from {
+    transform: translateX(-50%) rotate(-4deg);
+  }
+  to {
+    transform: translateX(-50%) rotate(4deg);
+  }
+}
+
+.sn-table {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  bottom: 2%;
+  width: 72%;
+  height: 52%;
+}
+
+.sn-deck {
+  position: absolute;
+  left: 33%;
+  bottom: 44%;
+  width: 5%;
+}
+
+.sn-deck .sn-back {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  transform: rotate(90deg) scaleX(0.55);
+  transform-origin: center;
+}
+
+.sn-deck .sn-back:nth-child(2) {
+  bottom: 3px;
+}
+
+.sn-deck .sn-back:nth-child(3) {
+  bottom: 6px;
+}
+
+.sn-cards {
+  position: absolute;
+  left: 50%;
+  bottom: 21%;
+  width: 28%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 6%;
+}
+
+.sn-slot {
+  width: 44%;
+  aspect-ratio: 100 / 140;
+}
+
+.sn-slot .sn-card {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.35));
+}
+
+.sn-empty {
+  border: 4px dashed rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+}
+
+.sn-left {
+  animation: sn-deal-left 0.28s ease-out;
+}
+
+.sn-right {
+  animation: sn-deal-right 0.28s ease-out;
+}
+
+@keyframes sn-deal-left {
+  from {
+    transform: translate(40%, -70%) rotate(25deg) scale(0.5);
+    opacity: 0.4;
+  }
+}
+
+@keyframes sn-deal-right {
+  from {
+    transform: translate(-40%, -70%) rotate(-25deg) scale(0.5);
+    opacity: 0.4;
+  }
+}
+
+.sn-cards.claimed .sn-card {
+  filter: drop-shadow(0 0 10px #ffe27a) drop-shadow(0 6px 0 rgba(0, 0, 0, 0.35));
+}
+
+.sn-cards.wrong .sn-slot {
+  animation: sn-shake 0.35s;
+}
+
+@keyframes sn-shake {
+  25% {
+    transform: translateX(-6%);
+  }
+  75% {
+    transform: translateX(6%);
+  }
+}
+
+.sn-burst,
+.sn-nope {
+  position: absolute;
+  left: 50%;
+  top: -12%;
+  transform: translate(-50%, -50%) rotate(-6deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 26px 8px;
+  border: 5px solid #1b1035;
+  border-radius: 18px;
+  font-family: var(--font-display);
+  white-space: nowrap;
+  box-shadow: 0 6px 0 #1b1035;
+  animation: sn-burst 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
+  pointer-events: none;
+}
+
+.sn-burst {
+  font-size: clamp(34px, 5vw, 64px);
+  background: #ffd23f;
+  color: #1b1035;
+  outline: 6px solid var(--me, #ffd23f);
+}
+
+.sn-nope {
+  font-size: clamp(22px, 2.8vw, 36px);
+  background: #ff5a3c;
+  color: #fff;
+}
+
+.sn-burst small,
+.sn-nope small {
+  font-size: 0.42em;
+}
+
+@keyframes sn-burst {
+  from {
+    transform: translate(-50%, -50%) rotate(-6deg) scale(0.3);
+  }
+}
+
+.sn-player {
+  position: absolute;
+  bottom: 4%;
+  width: 13%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sn-player-a {
+  left: 2%;
+}
+
+.sn-player-b {
+  right: 2%;
+}
+
+.sn-body {
+  width: 100%;
+}
+
+.sn-player.won .sn-body {
+  animation: sn-hop 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes sn-hop {
+  to {
+    transform: translateY(-8%);
+  }
+}
+
+.sn-score {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 90%;
+  margin-bottom: 8%;
+  padding: 4px 10px 6px;
+  background: #fff;
+  color: #1b1035;
+  border: 4px solid #1b1035;
+  border-bottom-width: 8px;
+  border-bottom-color: var(--me);
+  border-radius: 14px;
+  line-height: 1;
+}
+
+.sn-score b {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 56px);
+}
+
+.sn-name {
+  font-weight: 800;
+  font-size: clamp(12px, 1.3vw, 18px);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sn-player.won .sn-score {
+  background: #ffe27a;
+}
+
+.sn-pop {
+  position: absolute;
+  top: -12px;
+  right: -18px;
+  padding: 2px 10px;
+  border: 3px solid #1b1035;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: clamp(16px, 2vw, 26px);
+  white-space: nowrap;
+  animation: sn-rise 1.4s ease-out forwards;
+}
+
+.sn-pop-snap {
+  background: #3fcf6e;
+  color: #1b1035;
+}
+
+.sn-pop-wrong {
+  background: #ff5a3c;
+  color: #fff;
+}
+
+.sn-pop-late {
+  background: #fff;
+  color: #1b1035;
+  font-size: clamp(12px, 1.3vw, 16px);
+}
+
+@keyframes sn-rise {
+  from {
+    transform: translateY(8px) scale(0.6);
+  }
+  20% {
+    transform: translateY(0) scale(1.1);
+  }
+  80% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-14px);
+    opacity: 0;
+  }
+}
+
+.sn-phone .sn-badge {
+  background: var(--panel);
+  color: var(--ink);
+  border-width: 4px;
+}
+
+.sn-feedback {
+  min-height: 1.3em;
+  font-family: var(--font-display);
+  font-size: 26px;
+}
+
+.sn-feedback.good {
+  color: var(--good-text);
+}
+
+.sn-feedback.bad {
+  color: var(--bad-text);
+}
+
+.sn-buzzer {
+  font-size: 48px;
+}
+
+.sn-buzzer:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.sn-phone-cards {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  min-height: 160px;
+  align-items: center;
+}
+
+.sn-phone-cards .sn-card {
+  width: 110px;
+  height: auto;
+}

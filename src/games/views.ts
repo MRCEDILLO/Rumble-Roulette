@@ -5,6 +5,7 @@ import { higherLowerViews } from './higher-lower/views';
 import { jinxViews } from './jinx/views';
 import { memoryFlipViews } from './memory-flip/views';
 import { rpsViews } from './rps/views';
+import { snapViews } from './snap/views';
 import { stackToeViews } from './stack-toe/views';
 import { timerViews } from './timer/views';
 import { TRIVIA_CATEGORIES } from './trivia/bank';
@@ -27,5 +28,6 @@ export const GAME_VIEWS: Record<string, MinigameViews> = {
   'whats-my-number': whatsMyNumberViews,
   wanted: wantedViews,
   jinx: jinxViews,
+  snap: snapViews,
   ...Object.fromEntries(TRIVIA_CATEGORIES.map((c) => [triviaGameId(c.id), triviaViews])),
 };

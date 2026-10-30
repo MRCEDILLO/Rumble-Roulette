@@ -24,8 +24,32 @@ function WantedPoster() {
   );
 }
 
+/** Two matching cards slapped down side by side, with a snap spark between them. */
+function SnapCards() {
+  const star = (cx: number, cy: number) =>
+    Array.from({ length: 10 }, (_, i) => {
+      const r = i % 2 ? 2.6 : 6;
+      const a = (Math.PI / 5) * i - Math.PI / 2;
+      return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`;
+    }).join(' ');
+  return (
+    <g strokeLinejoin="round">
+      <g transform="rotate(-12 15 28)">
+        <rect x="5" y="14" width="19" height="27" rx="3" fill="#fffdf6" stroke={INK} strokeWidth="2.5" />
+        <polygon points={star(14.5, 27.5)} fill="#e5383b" stroke="#e5383b" strokeWidth="1" />
+      </g>
+      <g transform="rotate(12 33 28)">
+        <rect x="24" y="14" width="19" height="27" rx="3" fill="#fffdf6" stroke={INK} strokeWidth="2.5" />
+        <polygon points={star(33.5, 27.5)} fill="#e5383b" stroke="#e5383b" strokeWidth="1" />
+      </g>
+      <path d="M24 3 V9 M16 5 L19 10 M32 5 L29 10" stroke="#ffc21a" strokeWidth="3" strokeLinecap="round" />
+    </g>
+  );
+}
+
 const DRAWN: Record<string, () => JSX.Element> = {
   wanted: WantedPoster,
+  snap: SnapCards,
 };
 
 /** The drawing for a game, if it has one, as SVG content on a 48×48 canvas. */
