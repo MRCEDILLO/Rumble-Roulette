@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react';
 
-/** Who an input comes from inside a duel. */
-export type Role = 'a' | 'b' | 'ref';
+/** Who an input comes from inside a duel. 'audience' is anyone else in the room. */
+export type Role = 'a' | 'b' | 'ref' | 'audience';
 export type Outcome = 'a' | 'b' | 'draw';
 
 /** Which group a game belongs to. The host turns whole categories on or off in setup. */
@@ -22,14 +22,28 @@ export interface GameInfo {
   scoring: 'auto' | 'referee';
 }
 
+/** Someone in the room, as a game sees them. */
+export interface GamePerson {
+  id: string;
+  name: string;
+}
+
+/** Who is in the room for this duel, for games that involve more than the two duelists. */
+export interface GameContext {
+  ref: GamePerson | null;
+  /** Everyone else who is here: not a duelist and not the Host. */
+  audience: GamePerson[];
+}
+
 /**
  * The game logic half of a minigame. Runs only on the host.
  * All functions are pure: they return a new state instead of mutating.
  */
 export interface MinigameLogic<S = any, P = any> {
   info: GameInfo;
-  init(now: number, rng: () => number): S;
-  onInput(state: S, role: Role, payload: any, now: number, rng: () => number): S;
+  init(now: number, rng: () => number, ctx?: GameContext): S;
+  /** `seat` is who sent it, so games can tell audience members apart. */
+  onInput(state: S, role: Role, payload: any, now: number, rng: () => number, seat?: string): S;
   tick?(state: S, now: number, rng: () => number): S;
   /** null while the game is still going. */
   result(state: S): Outcome | null;
@@ -63,4 +77,6 @@ export interface MinigameViews<P = any> {
   HostView: ComponentType<ViewProps<P>>;
   DuelistView: ComponentType<DuelistViewProps<P>>;
   RefereeView?: ComponentType<PhoneViewProps<P>>;
+  /** Shown to everyone else's phone during the duel, for games the audience takes part in. */
+  AudienceView?: ComponentType<PhoneViewProps<P> & { seat: string }>;
 }

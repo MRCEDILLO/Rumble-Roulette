@@ -1,4 +1,5 @@
 import type { MinigameLogic } from './types';
+import { firstLastLogic } from './first-last/logic';
 import { higherLowerLogic } from './higher-lower/logic';
 import { rpsLogic } from './rps/logic';
 import { timerLogic } from './timer/logic';
@@ -10,6 +11,7 @@ export const GAME_LOGIC: Record<string, MinigameLogic> = {
   [rpsLogic.info.id]: rpsLogic,
   [timerLogic.info.id]: timerLogic,
   [higherLowerLogic.info.id]: higherLowerLogic,
+  [firstLastLogic.info.id]: firstLastLogic,
   // One game per trivia category.
   ...Object.fromEntries(
     TRIVIA_CATEGORIES.map((c) => {

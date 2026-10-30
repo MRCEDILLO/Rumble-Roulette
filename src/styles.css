@@ -1746,6 +1746,93 @@ select {
   margin: 0;
 }
 
+/* First and Last: two big letter tiles, "F … T". */
+.fl-letters {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(28px, 6vw, 90px);
+}
+
+.fl-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  text-transform: capitalize;
+  color: var(--ink-dim);
+}
+
+.fl-slot b {
+  color: var(--ink);
+  text-transform: none;
+}
+
+.fl-tile {
+  display: grid;
+  place-items: center;
+  width: clamp(110px, 13vw, 190px);
+  aspect-ratio: 1;
+  font-family: var(--font-display);
+  font-size: clamp(70px, 9vw, 130px);
+  line-height: 1;
+  background: var(--panel);
+  color: var(--ink-dim);
+  border: 5px dashed var(--faint);
+  border-radius: var(--radius);
+}
+
+.fl-tile.picked {
+  color: var(--ink);
+  border-style: solid;
+  border-color: var(--line);
+}
+
+.fl-tile.shown {
+  background: var(--gold);
+  color: var(--line);
+  border: 5px solid var(--line);
+  box-shadow: var(--press);
+  animation: pop-in 0.3s ease-out;
+}
+
+.fl-letters.small {
+  gap: 24px;
+}
+
+.fl-letters.small .fl-slot {
+  font-size: 13px;
+  gap: 4px;
+}
+
+.fl-letters.small .fl-tile {
+  width: 76px;
+  font-size: 50px;
+  border-width: 4px;
+  box-shadow: none;
+}
+
+.fl-redraw {
+  margin: 0;
+  color: var(--ink-dim);
+  font-size: 20px;
+}
+
+.fl-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  width: 100%;
+}
+
+.fl-key {
+  justify-content: center;
+  padding: 10px 0;
+  font-size: 24px;
+}
+
 /* ------------------------------------------------------------------ phone */
 
 .phone {
