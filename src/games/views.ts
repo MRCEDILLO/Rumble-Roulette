@@ -6,6 +6,7 @@ import { hangmanViews } from './hangman/views';
 import { higherLowerViews } from './higher-lower/views';
 import { jinxViews } from './jinx/views';
 import { memoryFlipViews } from './memory-flip/views';
+import { patternRecallViews } from './pattern-recall/views';
 import { rpsViews } from './rps/views';
 import { scrambleViews } from './scramble/views';
 import { snapViews } from './snap/views';
@@ -34,6 +35,7 @@ export const GAME_VIEWS: Record<string, MinigameViews> = {
   'celebrity-heads': celebrityHeadsViews,
   'whats-my-number': whatsMyNumberViews,
   wanted: wantedViews,
+  'pattern-recall': patternRecallViews,
   jinx: jinxViews,
   snap: snapViews,
   blackjack: blackjackViews,

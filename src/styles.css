@@ -4547,3 +4547,245 @@ button.wd-person svg .character-body > ellipse {
   border-color: var(--bad-text);
   animation: sn-shake 0.35s;
 }
+
+/* ---------- Pattern Recall ---------- */
+
+.pr-host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  width: 100%;
+}
+
+.pr-host-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 280px;
+  flex: none;
+  text-align: center;
+}
+
+.pr-host-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.pr-phase {
+  margin: 0;
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+}
+
+.pr-call {
+  margin: 0;
+}
+
+.pr-round {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 20px;
+}
+
+.pr-board {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: min(78vw, 300px);
+  aspect-ratio: 1;
+  padding: 12px;
+  border: 5px solid #1b1035;
+  border-radius: 28px;
+  background: #2a2140;
+  box-shadow: var(--shadow);
+}
+
+.pr-host .pr-board.big {
+  width: min(48vw, 62vh);
+  gap: 20px;
+  padding: 20px;
+  border-radius: 40px;
+}
+
+.pr-pad {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: 4px solid #1b1035;
+  border-radius: 18px;
+  background: var(--pad);
+  transition: transform 0.08s, box-shadow 0.08s;
+  padding: 0;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Unlit pads sit under a dark veil; lighting one lifts the veil and makes it glow. */
+.pr-pad::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: rgba(20, 12, 40, 0.55);
+  transition: opacity 0.08s;
+  pointer-events: none;
+}
+
+.pr-board.live .pr-pad {
+  cursor: pointer;
+}
+
+.pr-board.live .pr-pad::after {
+  opacity: 0.25;
+}
+
+.pr-pad.lit {
+  transform: scale(1.05);
+  box-shadow:
+    0 0 0 5px #fff,
+    0 0 44px 14px var(--pad);
+  z-index: 1;
+}
+
+.pr-pad.lit::after,
+.pr-board.live .pr-pad.lit::after {
+  opacity: 0;
+}
+
+.pr-board.dim .pr-pad::after {
+  background: rgba(20, 12, 40, 0.7);
+}
+
+.pr-shape {
+  width: 42%;
+  height: 42%;
+}
+
+.pr-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+}
+
+.pr-dots span {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border: 2.5px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.pr-dots span.on {
+  background: var(--pad, var(--line));
+}
+
+.pr-dots span.slip {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+}
+
+.pr-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  max-width: 100%;
+}
+
+.pr-chip {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 3px solid #1b1035;
+  border-radius: 10px;
+  background: var(--pad);
+}
+
+.pr-host .pr-chip {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+}
+
+.pr-chip .pr-shape {
+  width: 60%;
+  height: 60%;
+}
+
+.pr-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 12px;
+  border: 3px solid var(--line);
+  border-radius: 18px;
+  background: var(--panel);
+  text-align: left;
+}
+
+.pr-player.done {
+  background: var(--win-bg);
+}
+
+.pr-player.out {
+  opacity: 0.6;
+}
+
+.pr-player.won {
+  opacity: 1;
+  background: var(--win-bg);
+}
+
+.pr-player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.pr-player-info .pr-dots {
+  justify-content: flex-start;
+}
+
+.pr-player-name {
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.pr-phone .phone-big {
+  min-height: 1.2em;
+}
+
+.pr-phone-result {
+  font-size: 24px;
+}
+
+.pr-phone .pr-chip {
+  width: 30px;
+  height: 30px;
+  border-width: 2.5px;
+  border-radius: 8px;
+}
+
+.pr-ref-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
