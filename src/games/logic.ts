@@ -8,6 +8,7 @@ import { hangmanLogic } from './hangman/logic';
 import { higherLowerLogic } from './higher-lower/logic';
 import { jinxLogic } from './jinx/logic';
 import { memoryFlipLogic } from './memory-flip/logic';
+import { patternRecallLogic } from './pattern-recall/logic';
 import { rpsLogic } from './rps/logic';
 import { scrambleLogic } from './scramble/logic';
 import { snapLogic } from './snap/logic';
@@ -33,6 +34,7 @@ export const GAME_LOGIC: Record<string, MinigameLogic> = {
   [celebrityHeadsLogic.info.id]: celebrityHeadsLogic,
   [whatsMyNumberLogic.info.id]: whatsMyNumberLogic,
   [wantedLogic.info.id]: wantedLogic,
+  [patternRecallLogic.info.id]: patternRecallLogic,
   [jinxLogic.info.id]: jinxLogic,
   [snapLogic.info.id]: snapLogic,
   [blackjackLogic.info.id]: blackjackLogic,

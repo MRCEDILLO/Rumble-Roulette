@@ -90,6 +90,15 @@ function noise(start: number, dur: number, gain = 0.2) {
   src.start(ctx.currentTime + start);
 }
 
+/** One pad's note in Pattern Recall (0 to 3, low to high), so the pattern can be heard as well as seen. */
+export function playNote(pad: number, dur = 0.3) {
+  try {
+    tone([330, 415, 494, 659][pad] ?? 440, 0, dur, 'triangle', 0.22);
+  } catch {
+    /* audio not available */
+  }
+}
+
 export function play(sfx: Sfx) {
   try {
     switch (sfx) {

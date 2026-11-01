@@ -119,6 +119,20 @@ function ForbiddenTile() {
   );
 }
 
+/** Four colour pads in a square, the green one lit up mid-pattern. */
+function PatternPads() {
+  const pad = (x: number, y: number, fill: string) => <rect x={x} y={y} width="18" height="18" rx="4.5" fill={fill} stroke={INK} strokeWidth="2.5" />;
+  return (
+    <g strokeLinejoin="round" strokeLinecap="round">
+      {pad(4.5, 4.5, '#b52a2d')}
+      {pad(25.5, 4.5, '#2a64c0')}
+      {pad(4.5, 25.5, '#4ee070')}
+      {pad(25.5, 25.5, '#c99512')}
+      <path d="M8.5 30 Q8.5 29.5 12 29.5" fill="none" stroke="#fffdf6" strokeWidth="2.2" />
+    </g>
+  );
+}
+
 const DRAWN: Record<string, () => JSX.Element> = {
   wanted: WantedPoster,
   snap: SnapCards,
@@ -126,6 +140,7 @@ const DRAWN: Record<string, () => JSX.Element> = {
   scramble: ScrambleTiles,
   'category-clash': ChessClock,
   'forbidden-categories': ForbiddenTile,
+  'pattern-recall': PatternPads,
 };
 
 /** The drawing for a game, if it has one, as SVG content on a 48×48 canvas. */
