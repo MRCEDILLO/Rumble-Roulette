@@ -133,6 +133,22 @@ function PatternPads() {
   );
 }
 
+/** A speech bubble with a fact's blank in it, and crossed fingers beside it: a fib. */
+function FibBubble() {
+  return (
+    <g strokeLinejoin="round" strokeLinecap="round">
+      <path d="M3 6 H30 Q34 6 34 10 V26 Q34 30 30 30 H17 L9 37 L10.5 30 H7 Q3 30 3 26 V10 Q3 6 7 6 Z" fill="#fffdf6" stroke={INK} strokeWidth="2.5" />
+      <path d="M8 13 H29 M8 23 H11" stroke="#b9b4c9" strokeWidth="2.5" />
+      <rect x="14" y="19" width="15" height="7" rx="2" fill="#ff9a3c" stroke={INK} strokeWidth="2" />
+      <g transform="translate(33 14)">
+        <rect x="0.5" y="0" width="5" height="20" rx="2.5" fill="#ffcf9e" stroke={INK} strokeWidth="2" transform="rotate(22 3 18)" />
+        <rect x="6.5" y="0" width="5" height="20" rx="2.5" fill="#ffcf9e" stroke={INK} strokeWidth="2" transform="rotate(-22 9 18)" />
+        <rect x="-0.5" y="17" width="13" height="14" rx="4" fill="#ffcf9e" stroke={INK} strokeWidth="2.2" />
+      </g>
+    </g>
+  );
+}
+
 const DRAWN: Record<string, () => JSX.Element> = {
   wanted: WantedPoster,
   snap: SnapCards,
@@ -141,6 +157,7 @@ const DRAWN: Record<string, () => JSX.Element> = {
   'category-clash': ChessClock,
   'forbidden-categories': ForbiddenTile,
   'pattern-recall': PatternPads,
+  fibber: FibBubble,
 };
 
 /** The drawing for a game, if it has one, as SVG content on a 48×48 canvas. */

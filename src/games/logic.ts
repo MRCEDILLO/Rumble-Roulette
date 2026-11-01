@@ -2,6 +2,7 @@ import type { MinigameLogic } from './types';
 import { blackjackLogic } from './blackjack/logic';
 import { categoryClashLogic } from './category-clash/logic';
 import { celebrityHeadsLogic } from './celebrity-heads/logic';
+import { fibberLogic } from './fibber/logic';
 import { forbiddenCategoriesLogic } from './forbidden-categories/logic';
 import { firstLastLogic } from './first-last/logic';
 import { hangmanLogic } from './hangman/logic';
@@ -36,6 +37,7 @@ export const GAME_LOGIC: Record<string, MinigameLogic> = {
   [wantedLogic.info.id]: wantedLogic,
   [patternRecallLogic.info.id]: patternRecallLogic,
   [jinxLogic.info.id]: jinxLogic,
+  [fibberLogic.info.id]: fibberLogic,
   [snapLogic.info.id]: snapLogic,
   [blackjackLogic.info.id]: blackjackLogic,
   // One game per trivia category.

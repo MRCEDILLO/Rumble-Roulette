@@ -1,6 +1,7 @@
 import { blackjackViews } from './blackjack/views';
 import { categoryClashViews } from './category-clash/views';
 import { celebrityHeadsViews } from './celebrity-heads/views';
+import { fibberViews } from './fibber/views';
 import { firstLastViews } from './first-last/views';
 import { hangmanViews } from './hangman/views';
 import { higherLowerViews } from './higher-lower/views';
@@ -37,6 +38,7 @@ export const GAME_VIEWS: Record<string, MinigameViews> = {
   wanted: wantedViews,
   'pattern-recall': patternRecallViews,
   jinx: jinxViews,
+  fibber: fibberViews,
   snap: snapViews,
   blackjack: blackjackViews,
   ...Object.fromEntries(TRIVIA_CATEGORIES.map((c) => [triviaGameId(c.id), triviaViews])),
